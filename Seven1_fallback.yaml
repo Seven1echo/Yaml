@@ -1,0 +1,246 @@
+# 名称：Seven1_fallback
+# 日期：2025年7月8日
+# 地址：https://github.com/Seven1echo
+
+# 注意规则在满足自己需求情况下，尽量做到精简，不要过度复杂，以免影响性能。
+# ========================
+# 机场节点订阅
+PProviders: &PProviders {type: http, interval: 86400, proxy: DIRECT, health-check: {enable: true, url: 'https://www.gstatic.com/generate_204', interval: 300, timeout: 3000}}
+
+# 填写订阅,名称不能重复  “机场1、机场2、机场3可以改成机场名称，有多少个机场就复制多少行，多余的行可删除”
+proxy-providers:
+  机场1: {<<: *PProviders, url: '订阅链接1', override: {additional-prefix: '[机场1] '}}
+  机场2: {<<: *PProviders, url: '订阅链接2', override: {additional-prefix: '[机场2] '}}
+  机场3: {<<: *PProviders, url: '订阅链接3', override: {additional-prefix: '[机场3] '}}
+
+# ========================
+# 节点信息
+proxies:
+  - {name: 直连, type: direct}
+  - {name: 拒绝, type: reject}
+  
+# ========================
+# 主要端口设置
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7895
+
+allow-lan: true
+mode: rule
+log-level: info
+
+# ========================
+# 控制面板
+external-controller: 0.0.0.0:9090
+external-ui: ui
+external-ui-name: zashboard
+external-ui-url: https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip
+secret: ""
+
+# ========================
+# DNS 设置
+dns:
+  enable: true
+  listen: 0.0.0.0:7874
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.20.0.1/16
+ 
+# nameserver请修改成自己的运营商DNS
+  nameserver:
+    - 210.21.196.6
+    - 221.5.88.88
+    - 116.116.116.116
+
+  fake-ip-filter:
+    - +.lan
+    - +.local
+    - geosite:cn
+
+ipv6: true
+
+# ========================
+# TUN 模块
+tun:
+  enable: true
+  stack: gvisor
+  device: utun
+  endpoint-independent-nat: true
+  auto-route: false
+  auto-detect-interface: false
+  auto-redirect: false
+  strict-route: false
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+# ========================
+# 出站策略
+pr: &pr {type: select, proxies: [🚀 默认代理, 🔯 香港故转, 🔯 日本故转, 🔯 新加坡故转, 🔯 美国故转, ♻️ 香港自动, ♻️ 日本自动, ♻️ 新加坡自动, ♻️ 美国自动, 🇭🇰 香港手动, 🇯🇵 日本手动, 🇸🇬 新加坡手动, 🇺🇲 美国手动, 🌐 其他手动, 直连, 拒绝]}
+
+# ========================
+# 区域组模板（分解为独立锚点）
+x-fallback-template: &fallback-template {type: fallback, interval: 300, lazy: false}
+x-select-template: &select-template {type: select, include-all: true}
+x-url-test-template: &url-test-template {type: url-test, include-all: true, tolerance: 50, interval: 300}
+
+# ========================
+# 区域过滤器定义
+x-filters:
+  hk: &hk-filter "(?=.*(广港|香港|HK|Hong Kong|🇭🇰|HongKong)).*$"
+  jp: &jp-filter "(?=.*(广日|日本|JP|川日|东京|大阪|泉日|埼玉|沪日|深日|🇯🇵|Japan)).*$"
+  sg: &sg-filter "(?=.*(广新|新加坡|SG|坡|狮城|🇸🇬|Singapore)).*$"
+  us: &us-filter "(?=.*(广美|美|US|纽约|波特兰|达拉斯|俄勒|凤凰城|费利蒙|拉斯|洛杉|圣何塞|圣克拉|西雅|芝加|🇺🇸|United States)).*$"
+  other: &other-filter "^((?!(直连|拒绝|广港|香港|HK|Hong Kong|🇭🇰|HongKong|广日|日本|JP|川日|东京|大阪|泉日|埼玉|沪日|深日|🇯🇵|Japan|广新|新加坡|SG|坡|狮城|🇸🇬|Singapore|广美|美|US|纽约|波特兰|达拉斯|俄勒|凤凰城|费利蒙|拉斯|洛杉|圣何塞|圣克拉|西雅|芝加|🇺🇸|United States)).)*$"
+
+proxy-groups:
+  - name: 🚀 默认代理
+    type: select
+    proxies: [🔯 香港故转, 🔯 日本故转, 🔯 新加坡故转, 🔯 美国故转, ♻️ 香港自动, ♻️ 日本自动, ♻️ 新加坡自动, ♻️ 美国自动, 🇭🇰 香港手动, 🇯🇵 日本手动, 🇸🇬 新加坡手动, 🇺🇲 美国手动, 🌐 其他手动, 直连, 拒绝]
+  - {name: 📹 YouTube, <<: *pr}
+  - {name: 🍀 Google, <<: *pr}
+  - {name: 🤖 ChatGPT, <<: *pr}
+  - {name: 👨🏿‍💻 GitHub, <<: *pr}
+  - {name: 🐬 OneDrive, <<: *pr}
+  - {name: 🪟 Microsoft, <<: *pr}
+  - {name: 🎵 TikTok, <<: *pr}
+  - {name: 📲 Telegram, <<: *pr}
+  - {name: 🎥 NETFLIX, <<: *pr}
+  - {name: ✈️ Speedtest, <<: *pr}
+  - {name: 🍎 Apple, type: select, proxies: [直连, 🚀 默认代理]}
+  - {name: 🎯 直连, type: select, proxies: [直连, 🚀 默认代理]}
+  - {name: 🐟 漏网之鱼, <<: *pr}
+
+# ========================
+# 区域代理组 (手动创建)
+  
+# 香港组
+  - name: 🔯 香港故转
+    <<: *fallback-template
+    proxies: [🇭🇰 香港手动, ♻️ 香港自动]
+  
+  - name: 🇭🇰 香港手动
+    <<: *select-template
+    filter: *hk-filter
+  
+  - name: ♻️ 香港自动
+    <<: *url-test-template
+    filter: *hk-filter
+
+# 日本组
+  - name: 🔯 日本故转
+    <<: *fallback-template
+    proxies: [🇯🇵 日本手动, ♻️ 日本自动]
+  
+  - name: 🇯🇵 日本手动
+    <<: *select-template
+    filter: *jp-filter
+  
+  - name: ♻️ 日本自动
+    <<: *url-test-template
+    filter: *jp-filter
+
+# 新加坡组
+  - name: 🔯 新加坡故转
+    <<: *fallback-template
+    proxies: [🇸🇬 新加坡手动, ♻️ 新加坡自动]
+  
+  - name: 🇸🇬 新加坡手动
+    <<: *select-template
+    filter: *sg-filter
+  
+  - name: ♻️ 新加坡自动
+    <<: *url-test-template
+    filter: *sg-filter
+
+# 美国组
+  - name: 🔯 美国故转
+    <<: *fallback-template
+    proxies: [🇺🇲 美国手动, ♻️ 美国自动]
+  
+  - name: 🇺🇲 美国手动
+    <<: *select-template
+    filter: *us-filter
+  
+  - name: ♻️ 美国自动
+    <<: *url-test-template
+    filter: *us-filter
+
+# 其他组
+  - name: 🌐 其他手动
+    <<: *select-template
+    filter: *other-filter
+
+# ========================
+# 规则匹配
+rules:
+# 局域网10.0.0.11-10.0.0.254走直连
+  - SRC-IP-CIDR,10.0.0.11/32,DIRECT
+  - SRC-IP-CIDR,10.0.0.12/30,DIRECT
+  - SRC-IP-CIDR,10.0.0.16/28,DIRECT
+  - SRC-IP-CIDR,10.0.0.32/27,DIRECT
+  - SRC-IP-CIDR,10.0.0.64/26,DIRECT
+  - SRC-IP-CIDR,10.0.0.128/26,DIRECT
+  - SRC-IP-CIDR,10.0.0.192/27,DIRECT
+  - SRC-IP-CIDR,10.0.0.224/28,DIRECT
+  - SRC-IP-CIDR,10.0.0.240/29,DIRECT
+  - SRC-IP-CIDR,10.0.0.248/30,DIRECT
+  - SRC-IP-CIDR,10.0.0.252/31,DIRECT
+  - SRC-IP-CIDR,10.0.0.254/32,DIRECT
+  - DOMAIN,ipv6.ddnspod.com,DIRECT
+  - DOMAIN,speed.neu6.edu.cn,DIRECT
+  - DOMAIN,6.ipw.cn,DIRECT
+
+  - RULE-SET,private_domain,直连
+  - RULE-SET,apple_domain,🍎 Apple
+  - RULE-SET,proxylite,🚀 默认代理
+  - RULE-SET,ai,🤖 ChatGPT
+  - RULE-SET,github_domain,👨🏿‍💻 GitHub
+  - RULE-SET,youtube_domain,📹 YouTube
+  - RULE-SET,google_domain,🍀 Google
+  - RULE-SET,onedrive_domain,🐬 OneDrive
+  - RULE-SET,microsoft_domain,🪟 Microsoft
+  - RULE-SET,tiktok_domain,🎵 TikTok
+  - RULE-SET,speedtest_domain,✈️ Speedtest
+  - RULE-SET,telegram_domain,📲 Telegram
+  - RULE-SET,netflix_domain,🎥 NETFLIX
+  - RULE-SET,gfw_domain,🚀 默认代理
+  - RULE-SET,geolocation-!cn,🚀 默认代理
+  - RULE-SET,cn_domain,🎯 直连
+  - RULE-SET,google_ip,🍀 Google,no-resolve
+  - RULE-SET,netflix_ip,🎥 NETFLIX,no-resolve
+  - RULE-SET,telegram_ip,📲 Telegram,no-resolve
+  - RULE-SET,cn_ip,🎯 直连
+  - MATCH,🐟 漏网之鱼
+
+# ========================
+# 规则集
+rule-anchor:
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
+  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
+  class: &class {type: http, interval: 86400, behavior: classical, format: text}
+rule-providers: 
+  private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
+  proxylite: { <<: *class, url: "https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/proxy.list"}
+  ai: {  <<: *domain, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs" }
+  youtube_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
+  google_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
+  github_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
+  telegram_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
+  netflix_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}
+  onedrive_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"}
+  microsoft_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
+  apple_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}
+  speedtest_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}
+  tiktok_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}
+  gfw_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
+  geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
+  cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
+  
+  cn_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
+  google_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
+  telegram_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
+  netflix_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"}
