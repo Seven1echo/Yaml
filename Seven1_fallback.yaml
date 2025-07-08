@@ -190,7 +190,6 @@ rules:
   - SRC-IP-CIDR,10.0.0.248/30,DIRECT
   - SRC-IP-CIDR,10.0.0.252/31,DIRECT
   - SRC-IP-CIDR,10.0.0.254/32,DIRECT
-  - DOMAIN-SUFFIX,seven1.top,DIRECT
   - DOMAIN,ipv6.ddnspod.com,DIRECT
   - DOMAIN,speed.neu6.edu.cn,DIRECT
   - DOMAIN,6.ipw.cn,DIRECT
