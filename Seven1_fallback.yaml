@@ -194,9 +194,7 @@ rules:
   - SRC-IP-CIDR,10.0.0.254/32,DIRECT
 
   # 特定域名走直连
-  - DOMAIN,ipv6.ddnspod.com,DIRECT
-  - DOMAIN,speed.neu6.edu.cn,DIRECT
-  - DOMAIN,6.ipw.cn,DIRECT
+  #  - DOMAIN,ipv6.ddnspod.com,DIRECT
 
   # 场景分流
   - RULE-SET,private_domain,直连
