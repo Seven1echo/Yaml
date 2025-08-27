@@ -17,13 +17,13 @@ proxy-providers:
 
 # 节点信息
 proxies:
-  #- name: Home
-    #type: ss
-    #server: ****.top                   # 确认域名/IP有效
-    #port: ****                         # 确认端口开放
-    #cipher: aes-256-gcm                # 确认服务端支持此加密
-    #password: "****"                   # 特殊字符时建议加引号
-    #udp: true                          # 如需UDP转发可添加
+#  - name: 主页
+#    type: ss
+#    server: ****.top                   # 确认域名/IP有效
+#    port: ****                         # 确认端口开放
+#    cipher: aes-256-gcm                # 确认服务端支持此加密
+#    password: "****"                   # 特殊字符时建议加引号
+#    udp: true                          # 如需UDP转发可添加
  
 
 # ==================== 核心配置 ===================
@@ -46,8 +46,8 @@ keep-alive-interval: 15                 # TCP保持活动
 keep-alive-idle: 600                    # 保持连接空闲时间
 
 # 认证配置
-authentication:                         # 用户名/密码
-  - nikki:seven1
+authentication:                         
+#  - nikki:seven1                       # 用户名:密码 需要使用请取消注释
 skip-auth-prefixes:                     # 跳过认证的前缀/网段
   - 192.168.1.0/24
   - 192.168.31.0/24
@@ -71,7 +71,7 @@ external-ui-url: https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pa
 external-ui-name: zashboard
 external-ui: ui
 external-controller: 0.0.0.0:9090
-secret: seven1
+secret: ""
 
 # 配置存储
 profile:
