@@ -1,2 +1,3 @@
-纯自用（勾选仅核心）
-<img width="727" height="547" alt="image" src="https://github.com/user-attachments/assets/26f9a607-3da3-4d07-9d42-8144ac0e77b5" />
+纯自用，欢迎体验。
+
+在各位大佬的成果基础上，结合自己的实际需求做了些调整优化，算是站在“大佬们的肩膀上”做了点适配工作。
