@@ -6,13 +6,13 @@
 
 
 # ==================== 节点订阅 ===================
-# 订阅锚点：统一订阅参数（1天更新、直连更新、300s国内地址健康检测）
+# 订阅锚点：统一订阅参数（24h直连更新、300s健康检测）
 PProviders: &PProviders {type: http, interval: 86400, proxy: DIRECT, health-check: {enable: true, url: 'https://www.gstatic.com/generate_204', interval: 300, timeout: 3000}}
 
 # 订阅设置：【需替换】订阅链接*、机场*为实际机场信息；机场*是区分机场的给每个节点添加固定的前缀；订阅条数多余可删除，需多条可新增
 proxy-providers:
-#  订阅1: {<<: *PProviders, url: '订阅链接1', override: {additional-prefix: '[机场1] '}}
-#  订阅2: {<<: *PProviders, url: '订阅链接2', override: {additional-prefix: '[机场2] '}}
+  订阅1: {<<: *PProviders, url: '订阅链接1', override: {additional-prefix: '[机场1] '}}
+  订阅2: {<<: *PProviders, url: '订阅链接2', override: {additional-prefix: '[机场2] '}}
 
 # 自建节点信息
 proxies:
