@@ -1,7 +1,5 @@
- * 来源：https://raw.githubusercontent.com/Keywos/rule/main/rename.js
-
-
 /**
+ * 来源：https://raw.githubusercontent.com/Keywos/rule/main/rename.js
  * 更新日期：2024-04-05 15:30:15
  * 用法：Sub-Store 脚本操作添加
  * rename.js 以下是此脚本支持的参数，必须以 # 为开头多个参数使用"&"连接，参考上述地址为例使用参数。 禁用缓存url#noCache
