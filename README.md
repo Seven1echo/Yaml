@@ -13,4 +13,6 @@
   <p>   2.使用前需补充完整 “订阅链接” 与 “机场名”，并将 “nameserver” 修改为运营商提供的 DNS 地址。</p>
 </div>
 
-<img width="1656" height="2476" alt="FireShot Capture 003 - zashboard - 代理 -  10 0 0 1" src="https://github.com/user-attachments/assets/83883e55-9914-4d79-b0ff-1f50c80f9d59" />
+
+ZASHBOARD界面：
+<img width="1080" height="1615" alt="FireShot Capture 003 - zashboard - 代理 -  10 0 0 1" src="https://github.com/user-attachments/assets/83883e55-9914-4d79-b0ff-1f50c80f9d59" />
