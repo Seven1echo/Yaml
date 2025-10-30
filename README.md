@@ -1,7 +1,10 @@
 ### Hi there 👋 I'm Seven1
-<!-- 个人简介：保持居中，保留视觉焦点 -->
+<!-- 个人简介：补充关键参数，修复动态效果 -->
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com/?lines=嗨~ 欢迎浏览我的仓库  ">
+  <img 
+    src="https://readme-typing-svg.herokuapp.com/?lines=嗨~ 欢迎浏览我的仓库&size=27&duration=2000&pause=1000&center=true" 
+    alt="动态欢迎语"
+  >
 </div>
 
 <!-- 核心说明：继续居中，与靠左的使用说明形成区分 -->
