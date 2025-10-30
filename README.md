@@ -1,19 +1,16 @@
 ### Hi there 👋 I'm Seven1
-<!-- 个人简介：补充关键参数，修复动态效果 -->
-<div align="center">
-  <img 
-    src="https://readme-typing-svg.herokuapp.com/?lines=嗨~ 欢迎浏览我的仓库&size=27&duration=2000&pause=1000&center=true" 
-    alt="动态欢迎语"
-  >
+<!-- 个人简介：替换为静态居中文字，删除动态SVG -->
+<div align="center" style="font-size: 24px; margin: 10px 0;">
+  嗨~ 欢迎浏览我的仓库
 </div>
 
-<!-- 核心说明：继续居中，与靠左的使用说明形成区分 -->
+<!-- 核心说明：保持居中，与靠左的使用说明形成区分 -->
 <div align="center" style="margin: 20px 0; line-height: 1.8; max-width: 600px; margin-left: auto; margin-right: auto;">
   <p>纯自用，欢迎体验。</p>
   <p>在各位大佬的成果基础上，结合自己的实际需求做了些调整优化，算是站在“大佬们的肩膀上”做了点适配工作。</p>
 </div>
 
-<!-- 使用说明及后续文字：改为靠左对齐，优化容器边距 -->
+<!-- 使用说明及后续文字：保持靠左对齐，优化容器边距 -->
 <div style="max-width: 600px; margin: 0 10px 20px; line-height: 1.6;">
   <p style="font-weight: 600; margin-bottom: 8px;">使用说明：</p>
   <ol style="padding-left: 20px;">
