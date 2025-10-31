@@ -1,37 +1,7 @@
 # 域名后缀匹配
 
-# 360 主域名及其子域名
-DOMAIN-SUFFIX,360.cn
-DOMAIN-SUFFIX,qihoo.com
-  
-# 360 搜索服务
-DOMAIN-SUFFIX,so.com
-DOMAIN-SUFFIX,sou.com
-DOMAIN-SUFFIX,haosou.com
-  
-# 360 安全软件与服务
-DOMAIN-SUFFIX,360safe.com
-DOMAIN-SUFFIX,360totalsecurity.com
-  
-# 360 智能硬件与网络服务
-DOMAIN-SUFFIX,360dns.net
-DOMAIN-SUFFIX,360router.com
-DOMAIN-SUFFIX,ihome.360.cn
-DOMAIN-SUFFIX,luyou.360.cn
-  
-# 360 云服务与存储
-DOMAIN-SUFFIX,yunpan.360.cn
-DOMAIN-SUFFIX,360yun.com
-  
-# 360 AI 与搜索服务
-DOMAIN-SUFFIX,n.cn
-DOMAIN-SUFFIX,ai.360.cn
-  
-# 360 其他产品与服务
-DOMAIN-SUFFIX,360doc.com
-DOMAIN-SUFFIX,360shouji.com
-  
 # 360 广告、CDN 与技术服务
 DOMAIN-SUFFIX,qhimg.com
 DOMAIN-SUFFIX,qihu-cdn.com
 DOMAIN-SUFFIX,360tpcdn.com
+
