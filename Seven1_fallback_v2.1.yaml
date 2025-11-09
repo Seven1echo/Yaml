@@ -1,0 +1,249 @@
+# 名称： Seven1_fallback
+# 版本： V2.1
+# 日期： 2025年11月09日
+# 频道： https://t.me/Seven1gogogo
+# 地址： https://github.com/Seven1echo/Yaml
+# 说明： ①本文件适用于 Clash/Nikki 插件（支持仅内核使用）； ②使用前需补充完整 “订阅链接” 与 “机场名”，并将 “nameserver” 修改为运营商提供的 DNS 地址。
+
+
+# ※※※※※※※※※※※※※ 锚点区域 ※※※※※※※※※※※※※
+# ①订阅锚点
+Anchor_PR: &Anchor_PR {type: http, interval: 86400, proxy: DIRECT, health-check: {enable: true, url: 'https://www.gstatic.com/generate_204', interval: 300}}
+# ②出站锚点
+Anchor_OB: &Anchor_OB {type: select, proxies: [🚀 一键代理, 🔯 香港故转, 🔯 台湾故转, 🔯 日本故转, 🔯 新加坡故转, 🔯 美国故转, 🔯 欧洲故转, ♻️ 香港自动, ♻️ 台湾自动, ♻️ 日本自动, ♻️ 新加坡自动, ♻️ 美国自动, ♻️ 欧洲自动, 🇭🇰 香港手动, 🇹🇼 台湾手动, 🇯🇵 日本手动, 🇸🇬 新加坡手动, 🇺🇸 美国手动, 🇪🇺 欧洲手动, 🌐 其他手动, DIRECT, REJECT]}
+# ③策略锚点
+Anchor_HS: &Anchor_HS {type: select, interval: 300, include-all: true, url: 'https://www.gstatic.com/generate_204'}
+Anchor_FB: &Anchor_FB {type: fallback, interval: 300, lazy: true, url: 'https://www.gstatic.com/generate_204', hidden: true}
+Anchor_UT: &Anchor_UT {type: url-test, include-all: true, tolerance: 50, interval: 300, timeout: 5000, url: 'https://www.gstatic.com/generate_204', hidden: true}
+# ④节点锚点
+Anchor_HK: &Anchor_HK "(?i)^(?=.*(?:香港|🇭🇰|\bHK\b|Hong|HKG)).*$"
+Anchor_TW: &Anchor_TW "(?i)^(?=.*(?:台湾|臺|🇹🇼|\bTW\b|tai|TPE|TSA|KHH)).*$"
+Anchor_JP: &Anchor_JP "(?i)^(?=.*(?:日本|🇯🇵|\bJP\b|Japan|NRT|HND|KIX|CTS|FUK)).*$"
+Anchor_SG: &Anchor_SG "(?i)^(?=.*(?:新加坡|🇸🇬|\bSG\b|Sing|SIN|XSP)).*$"
+Anchor_US: &Anchor_US "(?i)^(?=.*(?:美国|纽约|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|🇺🇸|\bUS\b|\bUSA\b|SJC|JFK|LAX|ORD|ATL|DFW|SFO|MIA|SEA|IAD)).*$"
+Anchor_EU: &Anchor_EU "(?i)^(?=.*(?:奥地利|比利时|保加利亚|克罗地亚|塞尔维亚|捷克|丹麦|爱沙尼亚|芬兰|法国|德国|希腊|匈牙利|爱尔兰|意大利|拉脱维亚|立陶宛|卢森堡|马耳他|荷兰|波兰|葡萄牙|罗马尼亚|斯洛伐克|斯洛文尼亚|西班牙|瑞典|英国|🇧🇪|🇨🇿|🇩🇰|🇫🇮|🇫🇷|🇩🇪|🇮🇪|🇮🇹|🇱🇹|🇱🇺|🇳🇱|🇵🇱|🇸🇪|🇬🇧|CDG|FRA|AMS|MAD|BCN|FCO|MUC|BRU)).*$"
+Anchor_OT: &Anchor_OT "(?i)^(?!.*(?:DIRECT|REJECT|直连|拒绝|香港|🇭🇰|\bHK\b|Hong|HKG|台湾|臺|🇹🇼|\bTW\b|tai|TPE|TSA|KHH|日本|🇯🇵|\bJP\b|Japan|NRT|HND|KIX|CTS|FUK|新加坡|🇸🇬|\bSG\b|Sing|SIN|XSP|美国|纽约|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|🇺🇸|\bUS\b|\bUSA\b|SJC|JFK|LAX|ORD|ATL|DFW|SFO|MIA|SEA|IAD|奥地利|比利时|保加利亚|克罗地亚|塞尔维亚|捷克|丹麦|爱沙尼亚|芬兰|法国|德国|希腊|匈牙利|爱尔兰|意大利|拉脱维亚|立陶宛|卢森堡|马耳他|荷兰|波兰|葡萄牙|罗马尼亚|斯洛伐克|斯洛文尼亚|西班牙|瑞典|英国|🇧🇪|🇨🇿|🇩🇰|🇫🇮|🇫🇷|🇩🇪|🇮🇪|🇮🇹|🇱🇹|🇱🇺|🇳🇱|🇵🇱|🇸🇪|🇬🇧|CDG|FRA|AMS|MAD|BCN|FCO|MUC|BRU)).*$"
+# ⑤规则锚点
+Anchor_IP: &Anchor_IP {type: http, interval: 86400, behavior: ipcidr, format: mrs}     # 规则模板  IP
+Anchor_DN: &Anchor_DN {type: http, interval: 86400, behavior: domain, format: mrs}     # 规则模板  域名
+Anchor_CL: &Anchor_CL {type: http, interval: 86400, behavior: classical, format: text} # 规则模板  文本
+
+
+# ※※※※※※※※※※※※※ 节点订阅 ※※※※※※※※※※※※※
+# 将 “订阅链接” 与 “机场名” 替换为所用机场信息； 订阅条数不够可新增，注意开头缩进，不同条数前方 “机场名” 不能重复； 末尾的 “机场名” 作用为每个节点添加机场名称前缀，可自定义。
+proxy-providers:
+  机场名: {<<: *Anchor_PR, url: '订阅链接', override: {additional-prefix: '[机场名] '}}
+
+# 自建节点信息
+proxies:
+#  - name: Home
+#    type: ss
+#    server: ****.top                                                                  # 域名/IP
+#    port: ****                                                                        # 开放端口
+#    cipher: aes-256-gcm                                                               # 加密方式
+#    password: "****"                                                                  # 链接密码
+#    udp: true                                                                         # UDP支持
+
+
+# ※※※※※※※※※※※※※ 核心配置 ※※※※※※※※※※※※※
+# 基础配置
+port: 7890                                                                             # 代理端口  HTTP 
+socks-port: 7891                                                                       # 代理端口  SOCKS5
+redir-port: 7892                                                                       # 代理端口  透明代理
+mixed-port: 7893                                                                       # 代理端口  混合端口
+tproxy-port: 7895                                                                      # 代理端口  TPROXY
+mode: rule                                                                             # 规则模式  规则分流
+ipv6: true                                                                             # 网络协议  IPV6协议
+allow-lan: true                                                                        # 设备连接  允许局域网
+log-level: warning                                                                     # 日志级别  debug=调试, info=普通信息, warning=仅警告, error=仅错误
+bind-address: '*'                                                                      # 网络接口  局域网设所有备
+unified-delay: true                                                                    # 统一延迟  减少波动
+tcp-concurrent: true                                                                   # 并发连接  提升多任务性能
+find-process-mode: 'off'                                                               # 查找进程  always=始终 off=关闭
+global-client-fingerprint: chrome                                                      # 指纹识别  客户端伪装浏览器的特征
+keep-alive-interval: 30                                                                # 保活间隔  防止连接断开
+keep-alive-idle: 600                                                                   # 空闲超时  释放闲置连接）
+
+# 认证配置
+authentication:
+  - ""                                                                                 # 认证密码  启用时填写，格式：“用户名:密码”）
+skip-auth-prefixes:                                                                    # 免认网段  家庭局域网
+  - 127.0.0.1/8                                                                        # 本地回环
+  - 10.0.0.0/8                                                                         # A类内网
+  - 172.16.0.0/12                                                                      # B类内网
+  - 192.168.0.0/16                                                                     # C类内网  覆盖所有192.168.x.0网段
+
+# 地理数据配置
+geodata-mode: false                                                                    # 加载模式  true=使用DAT格式，false=使用MMDB格式
+geodata-loader: standard                                                               # 标准加载  兼容大多数环境）
+geo-auto-update: true                                                                  # 自动更新  启用
+geo-update-interval: 48                                                                # 更新间隔  48小时
+geox-url:                                                                              # 地理数据  下载链接
+#  geosite: "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+#  geoip:   "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
+  mmdb:    "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.metadb"
+  asn:     "https://gh-proxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+
+# 管理面板
+external-ui-url: https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip
+external-ui-name: zashboard                                                            # 面板名称
+external-ui: ui                                                                        # 面板目录
+external-controller: 0.0.0.0:9090                                                      # 控制地址  局域网可访
+secret: ""                                                                             # 面板密码  启用时填写，格式："密码"
+
+# 配置存储
+profile:
+  store-selected: true                                                                 # 保存选择  选择的节点/策略组
+  store-fake-ip: true                                                                  # 保存映射  提升DNS解析速度
+
+# 流量嗅探
+sniffer:
+  enable: true                                                                         # 启用嗅探  提升分流准确性
+  override-destination: false                                                          # 保留地址  不覆盖目标地址，避免流量异常
+  force-dns-mapping: true                                                              # 强制映射  Fake-IP模式必备
+  parse-pure-ip: true                                                                  # 解析流量  识别纯IP直连的服务
+
+# TUN配置
+tun:
+  enable: true                                                                         # 启用TUN  
+  stack: mixed                                                                         # 协议堆栈  混合协议（gVisor+内核，兼容更多场景）
+  dns-hijack:                                                                          # 劫持流量  避免DNS泄漏
+    - "any:53"                                                                         # 劫持流量  劫持UDP 53端口
+    - "tcp://any:53"                                                                   # 劫持流量  劫持TCP 53端口
+  auto-route: true                                                                     # 添加路由  自动添加，无需手动配置路由表
+  auto-redirect: true                                                                  # 重定流量  自动重定向流量到TUN
+  auto-detect-interface: true                                                          # 检测出口  自动检测网卡（适配多网卡环境）
+
+# DNS设置
+dns:
+  enable: true                                                                         # 内置DNS
+  listen: 0.0.0.0:7874                                                                 # 监听端口
+  cache: true                                                                          # DNS缓存
+  cache-max-ttl: 3600                                                                  # 缓存期限
+  cache-min-ttl: 60                                                                    # 最短缓存
+  ipv6: true                                                                           # IPv6解析
+  enhanced-mode: fake-ip                                                               # 增强模式  Fake-IP模式（核心：本地解析+无泄漏）
+  fake-ip-range: 198.18.0.1/16                                                         # 虚拟地址  Fake-IP地址池（默认范围）
+  fake-ip-filter-mode: blacklist                                                       # 过滤模式  黑名列表
+  fake-ip-filter:                                                                      # 排除解析  Fake-IP的域名（直连解析，如本地服务）
+    - "rule-set:private_domain,cn_domain"                                              # 国内域名  引用私有域名和国内域名规则集，这些域名走真实IP解析
+    - "+.msftconnecttest.com"                                                          # 连接检测  Windows网络连接检测域名，避免系统误判网络状态
+    - "+.msftncsi.com"                                                                 # 状态检测  Windows网络状态指示器域名，确保NCSI检测正常
+    - "time.*.com"                                                                     # 时间同步  常见的网络时间同步(NTP)服务器域名，保证时间校准准确
+  nameserver:                                                                          # 解析服务  使用用运营商提供的DNS
+    - 116.116.116.116
+    - 221.5.88.88
+
+
+# ※※※※※※※※※※※※※ 代理策略组 ※※※※※※※※※※※※※
+# 策略组（按服务分组）
+proxy-groups:
+  - {name: 🚀 一键代理, type: select, proxies: [🔯 香港故转, 🔯 台湾故转, 🔯 日本故转, 🔯 新加坡故转, 🔯 美国故转, 🔯 欧洲故转, ♻️ 香港自动, ♻️ 台湾自动, ♻️ 日本自动, ♻️ 新加坡自动, ♻️ 美国自动, ♻️ 欧洲自动, 🇭🇰 香港手动, 🇹🇼 台湾手动, 🇯🇵 日本手动, 🇸🇬 新加坡手动, 🇺🇸 美国手动, 🇪🇺 欧洲手动, 🌐 其他手动, DIRECT, REJECT]}
+  - {name: 📹 YouTube, <<: *Anchor_OB}
+  - {name: 🍀 Google, <<: *Anchor_OB}
+  - {name: 🤖 ChatGPT, <<: *Anchor_OB}
+  - {name: 👨🏿‍💻 GitHub, <<: *Anchor_OB}
+  - {name: 🐬 OneDrive, <<: *Anchor_OB}
+  - {name: 🪟 Microsoft, <<: *Anchor_OB}
+  - {name: 🎵 TikTok, <<: *Anchor_OB}
+  - {name: 📲 Telegram, <<: *Anchor_OB}
+  - {name: 🎥 NETFLIX, <<: *Anchor_OB}
+  - {name: 💶 PayPal, <<: *Anchor_OB}
+  - {name: ✈️ Speedtest, <<: *Anchor_OB}
+  - {name: 🐟 漏网之鱼, <<: *Anchor_OB}
+
+# 策略组（按区域分组）
+  # 香港组
+  - {name: 🔯 香港故转, <<: *Anchor_FB, proxies: [🇭🇰 香港手动, ♻️ 香港自动]}
+  - {name: 🇭🇰 香港手动, <<: *Anchor_HS, filter: *Anchor_HK}
+  - {name: ♻️ 香港自动, <<: *Anchor_UT, filter: *Anchor_HK}
+
+  # 台湾组
+  - {name: 🔯 台湾故转, <<: *Anchor_FB, proxies: [🇹🇼 台湾手动, ♻️ 台湾自动]}
+  - {name: 🇹🇼 台湾手动, <<: *Anchor_HS, filter: *Anchor_TW}
+  - {name: ♻️ 台湾自动, <<: *Anchor_UT, filter: *Anchor_TW}
+
+  # 日本组
+  - {name: 🔯 日本故转, <<: *Anchor_FB, proxies: [🇯🇵 日本手动, ♻️ 日本自动]}
+  - {name: 🇯🇵 日本手动, <<: *Anchor_HS, filter: *Anchor_JP}
+  - {name: ♻️ 日本自动, <<: *Anchor_UT, filter: *Anchor_JP}
+
+  # 新加坡组
+  - {name: 🔯 新加坡故转, <<: *Anchor_FB, proxies: [🇸🇬 新加坡手动, ♻️ 新加坡自动]}
+  - {name: 🇸🇬 新加坡手动, <<: *Anchor_HS, filter: *Anchor_SG}
+  - {name: ♻️ 新加坡自动, <<: *Anchor_UT, filter: *Anchor_SG}
+
+  # 美国组
+  - {name: 🔯 美国故转, <<: *Anchor_FB, proxies: [🇺🇸 美国手动, ♻️ 美国自动]}
+  - {name: 🇺🇸 美国手动, <<: *Anchor_HS, filter: *Anchor_US}
+  - {name: ♻️ 美国自动, <<: *Anchor_UT, filter: *Anchor_US}
+
+  # 欧洲组
+  - {name: 🔯 欧洲故转, <<: *Anchor_FB, proxies: [🇪🇺 欧洲手动, ♻️ 欧洲自动]}
+  - {name: 🇪🇺 欧洲手动, <<: *Anchor_HS, filter: *Anchor_EU}
+  - {name: ♻️ 欧洲自动, <<: *Anchor_UT, filter: *Anchor_EU}
+
+  # 其他组
+  - {name: 🌐 其他手动, <<: *Anchor_HS, filter: *Anchor_OT}
+
+
+# ※※※※※※※※※※※※※ 规则匹配 ※※※※※※※※※※※※※
+rules:
+  # 个人补充
+  - RULE-SET,Seven1_direct,DIRECT
+  - RULE-SET,Seven1_reject,REJECT
+  
+  # 场景分流
+  - RULE-SET,private_ip,DIRECT,no-resolve
+  - RULE-SET,private_domain,DIRECT
+  - RULE-SET,speedtest_domain,✈️ Speedtest
+  - RULE-SET,ai,🤖 ChatGPT
+  - RULE-SET,github_domain,👨🏿‍💻 GitHub
+  - RULE-SET,youtube_domain,📹 YouTube
+  - RULE-SET,google_domain,🍀 Google
+  - RULE-SET,onedrive_domain,🐬 OneDrive
+  - RULE-SET,microsoft_domain,🪟 Microsoft
+  - RULE-SET,tiktok_domain,🎵 TikTok
+  - RULE-SET,telegram_domain,📲 Telegram
+  - RULE-SET,netflix_domain,🎥 NETFLIX
+  - RULE-SET,paypal_domain,💶 PayPal
+  - RULE-SET,google_ip,🍀 Google,no-resolve
+  - RULE-SET,netflix_ip,🎥 NETFLIX,no-resolve
+  - RULE-SET,telegram_ip,📲 Telegram,no-resolve
+  - RULE-SET,geolocation-!cn,🚀 一键代理
+  - RULE-SET,cn_domain,DIRECT
+  - RULE-SET,cn_ip,DIRECT
+  - MATCH,🐟 漏网之鱼
+
+
+# 规则来源
+rule-providers: 
+  # 文本规则
+  Seven1_direct:     { <<: *Anchor_CL, url: "https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/list/direct.list"}
+  Seven1_reject:     { <<: *Anchor_CL, url: "https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/list/reject.list"}
+
+  # 域名规则
+  private_domain:    { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
+  speedtest_domain:  { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}
+  ai:                { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs" }
+  github_domain:     { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
+  youtube_domain:    { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
+  google_domain:     { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
+  onedrive_domain:   { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"}
+  microsoft_domain:  { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
+  tiktok_domain:     { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}
+  telegram_domain:   { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
+  netflix_domain:    { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}
+  paypal_domain:     { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"}
+  geolocation-!cn:   { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
+  cn_domain:         { <<: *Anchor_DN, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
+
+  # IP规则
+  private_ip:        { <<: *Anchor_IP, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs"}
+  google_ip:         { <<: *Anchor_IP, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
+  telegram_ip:       { <<: *Anchor_IP, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
+  netflix_ip:        { <<: *Anchor_IP, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"}
+  cn_ip:             { <<: *Anchor_IP, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
+
+
+# ※※※※※※※※※※※※※ 配置结束 ※※※※※※※※※※※※※
