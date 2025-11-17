@@ -1,10 +1,3 @@
-# 域名后缀匹配
-# POLYUN
-DOMAIN-SUFFIX,apple-bing.sbs
-
-# 域名关键字匹配
-#DOMAIN-KEYWORD,apple-bing
-
 # 根据数据包的源 IPv4 地址（10.0.0.11~254）
 SRC-IP-CIDR,10.0.0.11/32
 SRC-IP-CIDR,10.0.0.12/30
@@ -18,3 +11,38 @@ SRC-IP-CIDR,10.0.0.240/29
 SRC-IP-CIDR,10.0.0.248/30
 SRC-IP-CIDR,10.0.0.252/31
 SRC-IP-CIDR,10.0.0.254/32
+
+
+# 域名后缀匹配
+DOMAIN-SUFFIX,apple-bing.sbs
+DOMAIN-SUFFIX,qq.com
+DOMAIN-SUFFIX,weixin.qq.com
+DOMAIN-SUFFIX,taobao.com
+DOMAIN-SUFFIX,alicdn.com
+DOMAIN-SUFFIX,jd.com
+DOMAIN-SUFFIX,bilibili.com
+DOMAIN-SUFFIX,weibo.com
+DOMAIN-SUFFIX,zhihu.com
+DOMAIN-SUFFIX,douyin.com
+DOMAIN-SUFFIX,kuaishou.com
+DOMAIN-SUFFIX,xiaohongshu.com
+DOMAIN-SUFFIX,163.com
+DOMAIN-SUFFIX,baidu.com
+DOMAIN-SUFFIX,tmall.com
+DOMAIN-SUFFIX,pdd.com
+DOMAIN-SUFFIX,vipshop.com
+DOMAIN-SUFFIX,iqiyi.com
+DOMAIN-SUFFIX,youku.com
+DOMAIN-SUFFIX,mgtv.com
+DOMAIN-SUFFIX,meituan.com
+DOMAIN-SUFFIX,ele.me
+DOMAIN-SUFFIX,alipay.com
+DOMAIN-SUFFIX,wxpay.com
+DOMAIN-SUFFIX,amap.com
+DOMAIN-SUFFIX,youdao.com
+DOMAIN-SUFFIX,sina.com
+DOMAIN-SUFFIX,xunlei.com
+DOMAIN-SUFFIX,shimo.im
+
+# 域名关键字匹配
+#DOMAIN-KEYWORD,apple-bing
