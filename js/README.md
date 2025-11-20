@@ -1,5 +1,5 @@
 
-## 一、一键开启 SSH 服务（Debian/Ubuntu 适用）
+## 一、一键开启 SSH 服务
 
 用于快速配置 Debian 系系统的 SSH 服务，自动安装、启用 root 登录和密码认证，并开放防火墙端口。
 ```markdown
@@ -8,7 +8,7 @@ bash -c "$(echo 'OS_TYPE=$([ -f /etc/os-release ] && . /etc/os-release && echo $
 
 ---
 
-## 二、Debian 系统（Debian 10+）的 Docker 一键安装命令
+## 二、一键安装 Docker 服务
 
 以下是适用于 Debian 系统（Debian 10+）的 Docker 一键安装命令，整合了官方推荐的安装流程，可直接复制执行：。
 
@@ -76,7 +76,7 @@ echo "Docker 一键安装脚本执行完成！"
 
 ---
 
-## 三、Docker 图形化管理工具（Portainer-CE 汉化版）
+## 三、一键安装 Docker 图形化管理工具（Portainer-CE 汉化版）
 
 Portainer 是一款轻量级的 Docker 可视化管理工具，支持容器、镜像、网络、数据卷等全方位管理。
 
@@ -86,7 +86,7 @@ docker run -d --restart=always --name="portainer" -p 9000:9000 -v /var/run/docke
 
 ---
 
-## 四、Docker 部署 Sub-Store（订阅管理工具）
+## 四、一键安装部署 Sub-Store（订阅管理工具）
 
 Sub-Store 是一款用于管理和转换网络订阅的工具，支持定时更新、多格式转换等功能。
 
