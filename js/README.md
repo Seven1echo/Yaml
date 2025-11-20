@@ -100,6 +100,6 @@ docker run -it -d --restart=always \
   xream/sub-store:latest
 ```
 
-**说明：**
+说明：
 - 访问地址：`http://<主机IP>:3008/?api=http://<主机IP>:3008/T3B9dgzBzdRbBF8Aqx7P`（替换 `<主机IP>` 为实际 IP）
 ```
