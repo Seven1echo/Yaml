@@ -13,65 +13,18 @@ bash -c "$(echo 'OS_TYPE=$([ -f /etc/os-release ] && . /etc/os-release && echo $
 以下是适用于 Debian 系统（Debian 10+）的 Docker 一键安装命令，整合了官方推荐的安装流程，可直接复制执行：。
 
 ```bash
-#!/bin/bash
-set -e
+apt-get update 
+apt-get upgrade -y 
+apt-get install  htop apt-transport-https ca-certificates curl software-properties-common -y
 
-# 检查是否为 root 用户
-if [ "$(id -u)" -ne 0 ]; then
-    echo "请使用 root 权限运行此脚本" >&2
-    exit 1
-fi
+curl -fsSL https://get.docker.com -o get-docker.sh 
+sh get-docker.sh
+usermod -aG docker $USER
+rm get-docker.sh
+curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
 
-# 更新系统包索引
-echo "正在更新系统包索引..."
-apt update -y
-
-# 安装必要的依赖包，用于通过 HTTPS 访问仓库
-echo "安装依赖包..."
-apt install -y apt-transport-https ca-certificates curl software-properties-common
-
-# 添加 Docker 官方 GPG 密钥
-echo "添加 Docker 官方 GPG 密钥..."
-curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-# 设置 Docker 稳定版仓库
-echo "设置 Docker 仓库..."
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
-  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-# 再次更新包索引，使 Docker 仓库生效
-echo "再次更新系统包索引..."
-apt update -y
-
-# 安装 Docker Engine、containerd 和 Docker Compose
-echo "安装 Docker Engine..."
-apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
-# 启动 Docker 服务并设置开机自启
-echo "启动 Docker 服务并设置开机自启..."
-systemctl start docker
-systemctl enable docker
-
-# 验证 Docker 安装是否成功
-echo "验证 Docker 安装..."
-if command -v docker &> /dev/null && docker --version &> /dev/null; then
-    echo "Docker 安装成功！版本：$(docker --version)"
-    echo "Docker Compose 版本：$(docker compose version)"
-else
-    echo "Docker 安装失败！" >&2
-    exit 1
-fi
-
-# 可选：将当前用户添加到 docker 组（避免每次使用 docker 都需要 sudo）
-read -p "是否将当前用户添加到 docker 组？(y/n，默认 n): " add_user
-if [ "$add_user" = "y" ] || [ "$add_user" = "Y" ]; then
-    current_user=$(logname)
-    usermod -aG docker "$current_user"
-    echo "已将用户 $current_user 添加到 docker 组，请注销并重新登录后生效！"
-fi
-
-echo "Docker 一键安装脚本执行完成！"
+docker --version
+docker-compose --version
 ```
 
 ---
