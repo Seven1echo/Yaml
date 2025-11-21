@@ -3,20 +3,24 @@
 在SSH终端，执行如下命令，全程交互式执行，安装docker全家桶。
 
 ```
+apt-get install -y curl
 bash <(curl -sSL https://linuxmirrors.cn/docker.sh)
 ```
 关于报错：https://linuxmirrors.cn/use/#%E5%85%B3%E4%BA%8E%E6%8A%A5%E9%94%99-command-not-found
 
 ---
 
-## 二、一键安装 Docker 图形化管理工具（1panel）
+## 二、一键安装 Docker 图形化管理工具（DPanel）
 
 执行以下安装脚本，根据命令行提示完成安装。
 
 ```
-bash -c "$(curl -sSL https://resource.fit2cloud.com/1panel/package/v2/quick_start.sh)"
+docker run -d --name dpanel --restart=always \
+ -p 8807:8080 -e APP_NAME=dpanel \
+ -v /var/run/docker.sock:/var/run/docker.sock -v dpanel:/dpanel \
+ dpanel/dpanel:lite
 ```
-关于报错：https://1panel.cn/docs/v2/installation/online_installation/#1
+发布地：https://github.com/donknap/dpanel
 
 ---
 
