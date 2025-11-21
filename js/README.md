@@ -9,13 +9,14 @@ bash <(curl -sSL https://linuxmirrors.cn/docker.sh)
 
 ---
 
-## 二、一键安装 Docker 图形化管理工具（Portainer-CE 汉化版）
+## 二、一键安装 Docker 图形化管理工具（1panel）
 
-Portainer 是一款轻量级的 Docker 可视化管理工具，支持容器、镜像、网络、数据卷等全方位管理。
+执行以下安装脚本，根据命令行提示完成安装。
 
 ```
-docker run -d --restart=always --name="portainer" -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data 6053537/portainer-ce
+bash -c "$(curl -sSL https://resource.fit2cloud.com/1panel/package/v2/quick_start.sh)"
 ```
+关于报错：https://1panel.cn/docs/v2/installation/online_installation/#1
 
 ---
 
