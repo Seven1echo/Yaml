@@ -1,5 +1,5 @@
 // 名称： Seven1_fallback_FlClash
-// 版本： V0.1
+// 版本： v0.1
 // 日期： 2025年12月22日
 // 频道： https://t.me/Seven1gogogo
 // 地址： https://github.com/Seven1echo/Yaml
@@ -442,4 +442,5 @@ function main(config) {
   ];
   return config;
 }
+
 
