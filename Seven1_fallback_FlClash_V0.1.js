@@ -1,4 +1,4 @@
-// 名称： Seven1_fallback_FlClash覆写脚本
+// 名称： Seven1_fallback_FlClash
 // 版本： V0.1
 // 日期： 2025年12月22日
 // 频道： https://t.me/Seven1gogogo
@@ -442,3 +442,4 @@ function main(config) {
   ];
   return config;
 }
+
