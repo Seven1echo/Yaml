@@ -15,5 +15,5 @@
 
 
 **ZASHBOARD界面：**
-<img width="1080" height="1620" alt="image" src="https://github.com/user-attachments/assets/71105700-9f57-44bb-b9ef-fd9b516be8c1" />
+<img width="1080" height="1135" alt="FireShot Capture 007 - zashboard - 代理 -  10 0 0 1" src="https://github.com/user-attachments/assets/213424e1-8895-4b36-8050-d3b0f9fc598f" />
 
