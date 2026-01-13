@@ -17,6 +17,7 @@
 
 **ZASHBOARD界面：**
 
-<img width="550" height="2000" alt="1" src="https://github.com/user-attachments/assets/65169264-aa42-4b5c-82ab-6db691fd11a4" />
+<img width="1163" height="1790" alt="zashboard" src="https://github.com/user-attachments/assets/ce6dfa15-a733-4723-9df7-be8a4181ea32" />
+
 
 
