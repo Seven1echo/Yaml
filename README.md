@@ -11,13 +11,13 @@
   <p> • 使用说明：</p>
   <p>   1.本文件适用于 Clash/Nikki 插件。</p>
   <p>   2.“故障转移”、“延迟自选”这两个策略组默认隐藏，使用时手动选取对应地区节点即可</p>
-  <p>   3.使用前需补充完整 “订阅链接” 与 “机场名”，并将 “nameserver” 修改为运营商提供的 DNS 地址。</p>
+  <p>   3.使用前需补充完整 “订阅链接” 与 “机场名”。</p>
 </div>
 
 
 **ZASHBOARD界面：**
 
-<img width="1163" height="1790" alt="zashboard" src="https://github.com/user-attachments/assets/ce6dfa15-a733-4723-9df7-be8a4181ea32" />
+<img width="1348" height="1750" alt="策略组" src="https://github.com/user-attachments/assets/b1254805-9283-4220-ab6e-23b4fb7fcab7" />
 
 
 
