@@ -17,7 +17,8 @@
 
 **ZASHBOARD界面：**
 
-<img width="1348" height="1750" alt="策略组" src="https://github.com/user-attachments/assets/b1254805-9283-4220-ab6e-23b4fb7fcab7" />
+<img width="1156" height="1750" alt="zashboard" src="https://github.com/user-attachments/assets/c6535370-0fd5-43d5-ad60-c1b5bfa6d802" />
+
 
 
 
