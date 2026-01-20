@@ -1,0 +1,216 @@
+# 名称： Seven1_fallback_Geo_Clashmi_Overwrite
+# 版本： V2026.1.18
+# 日期： 2026年1月18日
+# 频道： https://t.me/Seven1gogogo
+# 地址： https://github.com/Seven1echo/Yaml
+# 说明： ①本文件适用于Clashmi覆写； ②已隐藏“故障转移”、“延迟自选”这两个策略组，使用时手动选取对应地区节点即可。
+
+
+
+# ※※※※※※※※※※※※※※※ 锚点区域 ※※※※※※※※※※※※※※※
+# ① 订阅锚点
+Anchor_PR: &Anchor_PR {type: http, interval: 86400, proxy: DIRECT, health-check: {enable: true, url: 'https://www.g.cn/generate_204', interval: 300}, filter: "^(?!.*(到期|过期|剩余|网址|官网|邮箱|订阅|套餐|流量|说明|重置)).*$"}
+# ② 出站锚点
+Anchor_OB: &Anchor_OB {type: select, proxies: [一键代理, 香港故转, 台湾故转, 日本故转, 韩国故转, 新加坡故转, 美国故转, 欧洲故转, 香港自动, 台湾自动, 日本自动, 韩国自动, 新加坡自动, 美国自动, 欧洲自动, 香港手动, 台湾手动, 日本手动, 韩国手动, 新加坡手动, 美国手动, 欧洲手动, 其他手动, DIRECT, REJECT]}
+# ③ 策略锚点
+Anchor_HS: &Anchor_HS {type: select, url: 'https://www.g.cn/generate_204', include-all: true}
+Anchor_FB: &Anchor_FB {type: fallback, url: 'https://www.g.cn/generate_204', interval: 300, lazy: true, timeout: 2000, max-failed-times: 3, hidden: true, include-all: true}
+Anchor_UT: &Anchor_UT {type: url-test, url: 'https://www.g.cn/generate_204', interval: 300, lazy: true, tolerance: 50, timeout: 2000, max-failed-times: 3, hidden: true, include-all: true}
+# ④ 区域锚点
+Anchor_HK: &Anchor_HK '^(?i)(?=.*(香港|🇭🇰|\bHK\b|Hong(?:\s?Kong)?|HKG)).*$'
+Anchor_TW: &Anchor_TW '^(?i)(?=.*(台湾|台灣|🇹🇼|\bTW\b|\bTPE\b|\bTSA\b|\bKHH\b|taiwan|TPE|TSA|KHH)).*$'
+Anchor_JP: &Anchor_JP '^(?i)(?=.*(日本|🇯🇵|\bJP\b|Japan|NRT|HND|KIX|CTS|FUK)).*$'
+Anchor_KR: &Anchor_KR '^(?i)(?=.*(韩国|韓國|🇰🇷|首尔|首爾|\bKR\b|\bKOR\b|Korea|Seoul|South)).*$'
+Anchor_SG: &Anchor_SG '^(?i)(?=.*(新加坡|🇸🇬|\bSG\b|Singapore|SIN|XSP)).*$'
+Anchor_US: &Anchor_US '^(?i)(?=.*(美国|美國|🇺🇸|\bUS\b|\bUSA\b|SJC|JFK|LAX|ORD|ATL|DFW|SFO|MIA|SEA|IAD)).*$'
+Anchor_EU: &Anchor_EU '^(?i)(?=.*(奥地利|奥地利共和国|比利时|保加利亚|克罗地亚|塞浦路斯|捷克|丹麦|爱沙尼亚|芬兰|法国|德国|希腊|匈牙利|爱尔兰|意大利|拉脱维亚|立陶宛|卢森堡|荷兰|波兰|葡萄牙|罗马尼亚|斯洛伐克|斯洛文尼亚|西班牙|瑞典|英国|🇧🇪|🇨🇿|🇩🇰|🇫🇮|🇫🇷|🇩🇪|🇮🇪|🇮🇹|🇱🇹|🇱🇺|🇳🇱|🇵🇱|🇸🇪|🇬🇧|CDG|FRA|AMS|MAD|BCN|FCO|MUC|BRU)).*$'
+Anchor_OT: &Anchor_OT '^(?!.*(DIRECT|直接连接|香港|台湾|台灣|日本|韩国|韓國|新加坡|美国|美國|奥地利|比利时|保加利亚|克罗地亚|塞浦路斯|捷克|丹麦|爱沙尼亚|芬兰|法国|德国|希腊|匈牙利|爱尔兰|意大利|拉脱维亚|立陶宛|卢森堡|荷兰|波兰|葡萄牙|罗马尼亚|斯洛伐克|斯洛文尼亚|西班牙|瑞典|英国|🇭🇰|🇹🇼|🇸🇬|🇯🇵|🇰🇷|🇺🇸|🇬🇧|HK|TW|SG|JP|KR|US|GB|CDG|FRA|AMS|MAD|BCN|FCO|MUC|BRU|HKG|TPE|TSA|KHH|SIN|XSP|NRT|HND|KIX|CTS|FUK|JFK|LAX|ORD|ATL|DFW|SFO|MIA|SEA|IAD|LHR|LGW)).*$'
+
+
+
+# ※※※※※※※※※※※※※※※ 核心配置 ※※※※※※※※※※※※※※※
+# 基础配置
+mixed-port: 7893                                                        # 监听端口  HTTP + SOCKS5 混合代理端口
+mode: rule                                                              # 工作模式  rule（规则模式）/ global（全局模式）/ direct（直连模式）
+allow-lan: true                                                         # 局域连接  是否允许局域网设备连接
+bind-address: "*"                                                       # 监听接口  监听的网络接口（* 表示所有接口）
+tcp-concurrent: true                                                    # 并发连接  提升多任务性能
+unified-delay: true                                                     # 统一延迟  减少节点延迟抖动
+log-level: info                                                         # 日志级别  silent（静默）/ error（错误）/ warning（警告）/ info（信息）/ debug（调试）
+ipv6: true                                                              # 网络协议  是否启用 IPv6 支持
+profile:
+  store-selected: true                                                  # 保存选择  记住上次选择的节点和策略组
+  store-fake-ip: true                                                   # 保存映射  Fake-IP 映射以加快 DNS 命中
+
+# 地理数据
+geo-auto-update: true                                                   # 自动更新  geodata
+geo-update-interval: 24                                                 # 更新间隔  单位：小时
+geodata-mode: true                                                      # 数据分流  使用数据集进行规则与分流匹配
+geox-url:
+  mmdb: https://testingcf.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/Country.mmdb
+  geoip: https://testingcf.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat
+  geosite: https://testingcf.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat
+  asn: https://testingcf.jsdelivr.net/gh/xishang0128/geoip@release/GeoLite2-ASN.mmdb
+
+# 管理面板
+external-ui-name: zashboard                                             # 面板名称
+external-ui: ui                                                         # 面板目录
+external-controller: 0.0.0.0:9090                                       # 面板地址
+secret: ""                                                              # 面板密码 （留空表示不启用）
+external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist-no-fonts.zip
+
+# TUN配置
+tun:
+  enable: true                                                          # 网卡模式  是否启用 TUN 虚拟网卡模式  
+  stack: system                                                         # 协议类型  网络栈：system（系统栈）/ gvisor（内置用户态栈）/ mixed（混合）
+  dns-hijack: [0.0.0.0:53]                                              # 劫持请求  劫持所有 UDP/TCP 53 端口的 DNS 请求
+  auto-detect-interface: true                                           # 自动出口  自动识别默认出口网络接口 （仅内核模式有效）
+  auto-route: true                                                      # 自动路由  自动添加系统路由表      （仅内核模式有效）
+  auto-redirect: true                                                   # 自动定向  自动将流量重定向至 TUN  （仅内核模式有效）
+  strict-route: false                                                   # 路由模式  严格路由模式
+  endpoint-independent-nat: true                                        # 端点无关  NAT（提高 NAT 类型兼容性，适用于 P2P 和游戏）
+
+# 嗅探功能
+sniffer:
+  enable: true                                                          # 启用嗅探  提升分流准确性
+  override-destination: true                                            # 成功解析  使用嗅探到的域名覆盖原始目标地址
+  parse-pure-ip: true                                                   # 反向解析  解析纯 IP 连接（尝试反向解析获得域名）
+  force-dns-mapping: true                                               # 强制映射  DNS 映射（对纯 IP 连接尝试 DNS 映射）
+  sniff:
+    QUIC:
+      ports: [443]                                                      # 嗅探参数  QUIC 协议流量（HTTP/3 常用端口）
+    TLS:
+      ports: [443, 8443]                                                # 嗅探参数  HTTPS（TLS）常用及备用端口
+    HTTP:
+      ports: [80, 8080-8880]                                            # 嗅探参数  HTTP 及常见 Web / 代理端口段
+      override-destination: true                                        # 嗅探成功  HTTP 嗅探成功后覆盖目标地址
+  force-domain:
+    - "+.netflix.com"                                                   # 强制嗅探  Netflix 主域名
+    - "+.nflxvideo.net"                                                 # 强制嗅探  Netflix CDN
+    - "+.amazonaws.com"                                                 # 强制嗅探  AWS 云服务
+    - "+.media.dssott.com"                                              # 强制嗅探  Disney+ 流媒体
+  skip-domain:
+    - "+.apple.com"                                                     # 跳过嗅探  苹果服务
+    - Mijia Cloud                                                       # 跳过嗅探  米家云服务
+    - dlg.io.mi.com                                                     # 跳过嗅探  小米设备通信
+    - "+.oray.com"                                                      # 跳过嗅探  花生壳服务
+    - "+.sunlogin.net"                                                  # 跳过嗅探  向日葵远程控制
+    - "+.push.apple.com"                                                # 跳过嗅探  苹果推送服务
+
+# DNS 设置
+dns:
+  enable: true                                                         # 解析服务  启用 Clash 内置 DNS 服务
+  listen: 0.0.0.0:7874                                                 # 监听服务  DNS 服务监听地址与端口
+  ipv6: true                                                           # 网络协议  启用 IPv6 DNS 解析支持
+  enhanced-mode: fake-ip                                               # 增强模式  FDNS 增强模式（Fake-IP，用于防止 DNS 泄露）
+  fake-ip-range: 198.18.0.1/16                                         # 虚拟地址  Fake-IP 虚拟地址池范围
+  fake-ip-filter-mode: blacklist                                       # 过滤模式  Fake-IP 过滤模式（命中规则则返回真实 IP）
+  respect-rules: false                                                 # 遵循规则  不强制遵循规则顺序
+  fake-ip-filter:
+    - '*.lan'                                                          # 真实解析  常见局域网域名后缀
+    - geosite:cn                                                       # 真实解析  大陆域 GeoSite 数据
+  default-nameserver:
+    - 114.114.114.114                                                  # 公共 DNS  114 
+    - tls://223.5.5.5:853                                              # 公共 DNS  阿里云 DoT
+  nameserver:
+    - https://doh.pub/dns-query                                        # 公共 DNS  腾讯 DoH
+    - https://dns.alidns.com/dns-query                                 # 公共 DNS  阿里云 DoH
+
+
+
+# ※※※※※※※※※※※※※※※ 代理策略组 ※※※※※※※※※※※※※※※
+# 策略组（按服务分组）
+proxy-groups:
+  - {name: 一键代理, type: select, proxies: [香港故转, 台湾故转, 日本故转, 韩国故转, 新加坡故转, 美国故转, 欧洲故转, 香港自动, 台湾自动, 日本自动, 韩国自动, 新加坡自动, 美国自动, 欧洲自动, 香港手动, 台湾手动, 日本手动, 韩国手动, 新加坡手动, 美国手动, 欧洲手动, 其他手动, DIRECT, REJECT], icon: https://github.com/Seven1echo/Yaml/raw/main/icons/Rocket.png}
+  - {name: YouTube,   <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/YouTube.png}
+  - {name: Google,    <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/Google.png}
+  - {name: ChatGPT,   <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/ChatGPT.png}
+  - {name: GitHub,    <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/GitHub.png}
+  - {name: OneDrive,  <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/OneDrive.png}
+  - {name: Microsoft, <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/Microsoft.png}
+  - {name: AppleTV,   <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/AppleTV.png}
+  - {name: Apple,     <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/Apple.png}
+  - {name: TikTok,    <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/TikTok.png}
+  - {name: Twitter,   <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/Twitter.png}
+  - {name: Telegram,  <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/Telegram.png}
+  - {name: Netflix,   <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/Netflix.png}
+  - {name: Disney,    <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/Disney.png}
+  - {name: Spotify,   <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/Spotify.png} 
+  - {name: PayPal,    <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/PayPal.png}
+  - {name: Speedtest, <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/Speedtest.png}
+  - {name: 漏网之鱼,   <<: *Anchor_OB, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/MATCH.png}
+
+# 策略组（按区域分组）
+  # 香港组
+  - {name: 香港故转,   <<: *Anchor_FB, proxies: [香港手动, 香港自动], icon: https://github.com/Seven1echo/Yaml/raw/main/icons/HK.png}
+  - {name: 香港手动,   <<: *Anchor_HS, filter: *Anchor_HK, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/HK.png}
+  - {name: 香港自动,   <<: *Anchor_UT, filter: *Anchor_HK, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/HK.png}
+
+  # 台湾组
+  - {name: 台湾故转,   <<: *Anchor_FB, proxies: [台湾手动, 台湾自动], icon: https://github.com/Seven1echo/Yaml/raw/main/icons/TW.png}
+  - {name: 台湾手动,   <<: *Anchor_HS, filter: *Anchor_TW, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/TW.png}
+  - {name: 台湾自动,   <<: *Anchor_UT, filter: *Anchor_TW, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/TW.png}
+
+  # 日本组
+  - {name: 日本故转,   <<: *Anchor_FB, proxies: [日本手动, 日本自动], icon: https://github.com/Seven1echo/Yaml/raw/main/icons/JP.png}
+  - {name: 日本手动,   <<: *Anchor_HS, filter: *Anchor_JP, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/JP.png}
+  - {name: 日本自动,   <<: *Anchor_UT, filter: *Anchor_JP, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/JP.png}
+
+  # 韩国组
+  - {name: 韩国故转,   <<: *Anchor_FB, proxies: [韩国手动, 韩国自动], icon: https://github.com/Seven1echo/Yaml/raw/main/icons/KR.png}
+  - {name: 韩国手动,   <<: *Anchor_HS, filter: *Anchor_KR, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/KR.png}
+  - {name: 韩国自动,   <<: *Anchor_UT, filter: *Anchor_KR, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/KR.png}
+
+  # 新加坡组
+  - {name: 新加坡故转, <<: *Anchor_FB, proxies: [新加坡手动, 新加坡自动], icon: https://github.com/Seven1echo/Yaml/raw/main/icons/SG.png}
+  - {name: 新加坡手动, <<: *Anchor_HS, filter: *Anchor_SG, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/SG.png}
+  - {name: 新加坡自动, <<: *Anchor_UT, filter: *Anchor_SG, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/SG.png}
+
+  # 美国组
+  - {name: 美国故转,   <<: *Anchor_FB, proxies: [美国手动, 美国自动], icon: https://github.com/Seven1echo/Yaml/raw/main/icons/US.png}
+  - {name: 美国手动,   <<: *Anchor_HS, filter: *Anchor_US, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/US.png}
+  - {name: 美国自动,   <<: *Anchor_UT, filter: *Anchor_US, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/US.png}
+
+  # 欧洲组
+  - {name: 欧洲故转,   <<: *Anchor_FB, proxies: [欧洲手动, 欧洲自动], icon: https://github.com/Seven1echo/Yaml/raw/main/icons/EU.png}
+  - {name: 欧洲手动,   <<: *Anchor_HS, filter: *Anchor_EU, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/EU.png}
+  - {name: 欧洲自动,   <<: *Anchor_UT, filter: *Anchor_EU, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/EU.png}
+
+  # 其他组
+  - {name: 其他手动,   <<: *Anchor_HS, filter: *Anchor_OT, icon: https://github.com/Seven1echo/Yaml/raw/main/icons/OT.png}
+
+
+
+# ※※※※※※※※※※※※※※※ 规则匹配 ※※※※※※※※※※※※※※※
+rules:
+   # 服务分流
+  - "GEOSITE,private,DIRECT"                                            # Private
+  - "GEOIP,private,DIRECT,no-resolve"                                   # Private
+  - "GEOSITE,category-speedtest,Speedtest"                              # Speedtest
+  - "GEOSITE,openai,ChatGPT"                                            # ChatGPT
+  - "GEOSITE,github,GitHub"                                             # GitHub
+  - "GEOSITE,youtube,YouTube"                                           # YouTube
+  - "GEOSITE,google,Google"                                             # Google
+  - "GEOSITE,onedrive,OneDrive"                                         # OneDrive
+  - "GEOSITE,microsoft,Microsoft"                                       # 微软服务
+  - "GEOSITE,apple-tvplus,AppleTV"                                      # Apple TV+
+  - "GEOSITE,apple,Apple"                                               # 苹果服务
+  - "GEOSITE,telegram,Telegram"                                         # Telegram
+  - "GEOSITE,tiktok,TikTok"                                             # TikTok
+  - "GEOSITE,twitter,Twitter"                                           # Twitter
+  - "GEOSITE,netflix,Netflix"                                           # Netflix
+  - "GEOSITE,disney,Disney"                                             # Disney+
+  - "GEOSITE,spotify,Spotify"                                           # Spotify
+  - "GEOSITE,paypal,PayPal"                                             # PayPal
+  - "GEOSITE,gfw,一键代理"                                               # GFW
+  - "GEOIP,google,Google,no-resolve"                                    # Google
+  - "GEOIP,telegram,Telegram,no-resolve"                                # Telegram
+  - "GEOIP,twitter,Twitter,no-resolve"                                  # Twitter
+  - "GEOIP,netflix,Netflix,no-resolve"                                  # Netflix
+  - "GEOSITE,cn,DIRECT"                                                 # 中国域名
+  - "GEOIP,cn,DIRECT,no-resolve"                                        # 中国IP
+  - "MATCH,漏网之鱼"                                                     # 兜底规则
+
+
+
+# ※※※※※※※※※※※※※※※ 配置结束 ※※※※※※※※※※※※※※※
