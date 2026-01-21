@@ -1,24 +1,40 @@
 ### Hi there 👋 I'm Seven1
 
-<!--介绍 -->
-<div style="max-width: 600px; margin: 0 10px 20px; line-height: 1.5;">
-  <p> • 本项目以纯自用为主，也欢迎大家体验。</p>
-  <p> • 基于各位前辈大佬的成果开发，我结合自身实际需求做了部分调整优化，算是站在 “巨人肩膀” 上，补充了些贴合自己场景的适配。</p>
+
+<!-- 项目介绍 -->
+<div align="left">
+
+### 📌 项目介绍
+
+- 本项目以**纯自用**为主，也欢迎大家体验。
+- 基于多位前辈大佬的成果并结合自身实际需求做了部分调整与优化，在 **「巨人肩膀」** 之上补充了更贴合个人使用的场景。
+
 </div>
 
-<!-- 使用说明-->
-<div style="max-width: 600px; margin: 0 10px 20px; line-height: 1.5;">
-  <p> • 使用说明：</p>
-  <p>   1.本文件适用于 Clash/Nikki 插件。</p>
-  <p>   2.“故障转移”、“延迟自选”这两个策略组默认隐藏，使用时手动选取对应地区节点即可</p>
-  <p>   3.使用前需补充完整 “订阅链接” 与 “机场名”。</p>
+---
+
+<!-- 使用说明 -->
+<div align="left">
+
+### 📖 使用说明
+
+1. 本文件适用于 **Mihomo 核心** 的工具，如：**Openwrt (Clash/Nikki 插件)、Clashmi、Flclash、Clash Meta、Clash Verge ......**。
+2. 「故障转移」「延迟自选」两个策略组**默认隐藏**，使用时请手动选择对应地区节点即可。
+3. 使用前需补充完整 **订阅链接** 与 **机场名**。
+
 </div>
 
+---
 
-**ZASHBOARD界面：**
+<!-- Zashboard 界面 -->
+<div align="left">
 
-<img width="1156" height="1750" alt="zashboard" src="https://github.com/user-attachments/assets/c6535370-0fd5-43d5-ad60-c1b5bfa6d802" />
+### 🖥️ Zashboard 界面
 
+<img
+  src="https://github.com/user-attachments/assets/c6535370-0fd5-43d5-ad60-c1b5bfa6d802"
+  alt="Zashboard 界面预览"
+  width="1156"
+/>
 
-
-
+</div>
