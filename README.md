@@ -18,7 +18,7 @@
 
 ### 📖 使用说明
 
-1. 本文件适用于 **Mihomo 核心** 的工具，如：**Openwrt (Clash/Nikki 插件)、Clashmi、Flclash、Clash Meta、Clash Verge ......**。
+1. 本文件适用于 **Mihomo 核心** 的工具，如：**Openwrt (Clash/Nikki 插件)、Clashmi、Flclash、Clash Meta ......**。
 2. 「故障转移」「延迟自选」两个策略组**默认隐藏**，使用时请手动选择对应地区节点即可。
 3. 使用前需补充完整 **订阅链接** 与 **机场名**。
 
