@@ -19,8 +19,8 @@
 
 | 类型 | 说明 | 内存 | DNS 泄露 | 推荐平台 |
 |:--:|:--:|:--:|:--:|:--:|
-| **Geo** | 使用 **GeoSite / GeoIP** 数据库分流 | 高 | ✅ | ✅Openwrt ✅Windows ✅Android ✅Mac ❌IOS ✅Linux |
-| **Rule-Set** | 使用 **Rule-Set** 规则集分流 | 低 | ✅ | ✅Openwrt ✅Windows ✅Android ✅Mac ✅IOS ✅Linux |
+| **Geo** | **GeoSite / GeoIP** 数据库分流 | 高 | ✅ | ✅Openwrt ✅Windows ✅Android ✅Mac ❌IOS ✅Linux |
+| **Rule-Set** | **Rule-Set** 规则集分流 | 低 | ✅ | ✅Openwrt ✅Windows ✅Android ✅Mac ✅IOS ✅Linux |
 | **Overwrite** | 覆写文件，用于自定义覆盖使用 | - | ✅ | - |
 
 </div>
