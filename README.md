@@ -6,6 +6,17 @@
 - 本项目以 **自用** 为主，也欢迎大家体验
 - 基于多位前辈大佬的成果并结合自身实际需求做了部分调整与优化，算是在 **「巨人肩膀」** 之上补充了更贴合个人使用的场景
 
+<!-- 官方徽标 -->
+<p>
+  <a href="https://t.me/Seven1gogogo" target="_blank">
+    <img src="https://img.shields.io/badge/Telegram-Channel-26A5E4?logo=telegram&logoColor=white" />
+  </a>
+  &nbsp;
+  <a href="https://youtube.com/@seven1echo?si=jcyS94OnTAqYKuiy" target="_blank">
+    <img src="https://img.shields.io/badge/YouTube-@seven1echo-FF0000?logo=youtube&logoColor=white" />
+  </a>
+</p>
+
 </div>
 
 ---
