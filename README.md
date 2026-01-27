@@ -72,6 +72,8 @@
 - 日常使用建议以 **「故障转移」** 作为主入口  
 - 当需要指定线路或进行问题排查时，可切换至 **手动 / 自动** 子策略组进行调整  
 
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/3acbba42-0211-4f58-b28b-8d9297a7a7b2" />
+
 </div>
 
 ---
