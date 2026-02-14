@@ -8,7 +8,7 @@
 |:--:|:--:|:--:|:--:|
 | Windows | >= 10 | [点击下载](https://dot.clashmi.app/client.html?tag=windows-installer-stable) | [点击下载](https://dot.clashmi.app/client.html?tag=windows-installer-beta) |
 | Android | >= 8 | [点击下载](https://dot.clashmi.app/client.html?tag=android-stable) | [点击下载](https://dot.clashmi.app/client.html?tag=android-beta) |
-| Mac | >= 12 | [点击下载](https://dot.clashmi.app/client.html?tag=macos-stable) | [点击下载](https://dot.clashmi.app/client.html?tag=macos-beta) |
+| MacOS | >= 12 | [点击下载](https://dot.clashmi.app/client.html?tag=macos-stable) | [点击下载](https://dot.clashmi.app/client.html?tag=macos-beta) |
 | IOS | >= 15 | [点击下载](https://apps.apple.com/us/app/clash-mi/id6744321968) | [点击下载](https://testflight.apple.com/join/bjHXktB3) |
 | Linux_deb | amd64 | [点击下载](https://dot.clashmi.app/client.html?tag=linux-deb-stable) | [点击下载](https://dot.clashmi.app/client.html?tag=linux-deb-beta) |
 | Linux_rpm | amd64 | [点击下载](https://dot.clashmi.app/client.html?tag=linux-rpm-stable) | [点击下载](https://dot.clashmi.app/client.html?tag=linux-rpm-beta)|
