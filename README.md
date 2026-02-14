@@ -17,27 +17,17 @@
 ### 💭 配置随笔
 - 本项目以 **自用** 为主，同时也欢迎大家体验。  
 - 本项目的配置文件适用于 **Mihomo 核心** 的工具使用，如：**OpenWrt（Clash / Nikki 插件）、Clashmi、FlClash、Clash Meta ……**。
-
-### 📖 使用说明
-1. 建议将故障转移策略组作为出站使用，操作时只需在 **🚀一键代理** 中，手动选择对应地区的 **「故障转移」及「节点」** 即可。（故障转移、延迟自选策略组默认隐藏，其余服务策略组可根据需求灵活配置使用）
-2. 使用前需补充完整 **订阅链接** 与 **机场名**。  **⚠️ OpenWrt**用户可删除 `default-nameserver` 参数，将 `nameserver` 改为运营商 DNS，以提升解析速度。
+- 使用请完善 **订阅链接** 与 **机场名**。 **⚠️OpenWrt**用户可删除 `default-nameserver` ，将 `nameserver` 改为运营商分配的DNS，以提升解析速度。
 
 ### 🗂️ 配置区分
 
 | 类型 | 说明 | 内存 | DNS 泄露 | 推荐平台 |
 |:--:|:--:|:--:|:--:|:--:|
-| **Geo** | **GeoSite / GeoIP** 数据库分流 | 高 | ✅ | ✅Openwrt ✅Windows ✅Android ✅Mac ❌IOS ✅Linux |
-| **Rule-Set** | **Rule-Set** 规则集分流 | 低 | ✅ | ✅Openwrt ✅Windows ✅Android ✅Mac ✅IOS ✅Linux |
+| **Geo** | **GeoSite / GeoIP** 数据库分流 | 高 | ✅ | ✅Openwrt ✅Windows ✅Android ✅MacOS ❌IOS ✅Linux |
+| **Rule-Set** | **Rule-Set** 规则集分流 | 低 | ✅ | ✅Openwrt ✅Windows ✅Android ✅MacOS ✅IOS ✅Linux |
 | **Overwrite** | 覆写文件 | - | ✅ | 用于指定软件自定义覆写使用 |
 
 </div>
-
----
-
-<!-- 使用说明 -->
-<div align="left">
-
-
 
 ---
 
