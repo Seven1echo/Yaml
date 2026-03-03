@@ -20,18 +20,37 @@
 - 使用请完善 **订阅链接** 与 **机场名**。 **⚠️OpenWrt**用户可删除 `default-nameserver` ，将 `nameserver` 改为运营商分配的DNS，以提升解析速度。
 
 ### 🗂️ 配置区分
-
 | 类型 | **Geo** | **Rule-Set** | **Overwrite** |
 |:--:|:--:|:--:|:--:|
 | 说明 | 使用**GeoSite / GeoIP** 数据库分流 | 使用**Rule-Set** 规则集分流 | 指定软件覆写配置文件 |
 
 ### 🎬 视频教程
-
-- ▶️ [OpenWrt 使用教程_Nikki插件 | Yaml配置 | Zashboard分流面板](https://youtu.be/5yD_q382YSQ)
-
-- ▶️ [Clash Mi 使用教程_YAML文件 | 多端同步](https://youtu.be/qINXLkfVJck)
-
-- ▶️ [Clash Mi 使用教程_自定义覆写小技巧](https://youtu.be/YLYXv1xryA0)
+<!-- 缩略图 + 精简标题（横向展示） -->
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://youtu.be/5yD_q382YSQ" target="_blank" rel="noopener">
+        <img src="https://img.youtube.com/vi/5yD_q382YSQ/hqdefault.jpg" width="200" />
+      </a>
+      <br/>
+      <sub><b>OpenWrt · Nikki 插件配置</b></sub>
+    </td>
+    <td align="center">
+      <a href="https://youtu.be/qINXLkfVJck" target="_blank" rel="noopener">
+        <img src="https://img.youtube.com/vi/qINXLkfVJck/hqdefault.jpg" width="200" />
+      </a>
+      <br/>
+      <sub><b>Clash Mi · YAML文件&多端同步</b></sub>
+    </td>
+    <td align="center">
+      <a href="https://youtu.be/YLYXv1xryA0" target="_blank" rel="noopener">
+        <img src="https://img.youtube.com/vi/YLYXv1xryA0/hqdefault.jpg" width="200" />
+      </a>
+      <br/>
+      <sub><b>Clash Mi · 自定义覆写技巧</b></sub>
+    </td>
+  </tr>
+</table>
 
 </div>
 
