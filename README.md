@@ -1,7 +1,7 @@
 <!-- 项目介绍 -->
 <div align="left">
 
-# 📌 项目介绍
+## 一、项目介绍
 
 <!-- 官方徽标 -->
 <p>
@@ -21,11 +21,17 @@
 
 ### 🗂️ 配置区分
 
-| 类型 | 说明 | 内存 | DNS 泄露 | 推荐平台 |
-|:--:|:--:|:--:|:--:|:--:|
-| **Geo** | **GeoSite / GeoIP** 数据库分流 | 高 | ✅ | ✅Openwrt ✅Windows ✅Android ✅MacOS ❌IOS ✅Linux |
-| **Rule-Set** | **Rule-Set** 规则集分流 | 低 | ✅ | ✅Openwrt ✅Windows ✅Android ✅MacOS ✅IOS ✅Linux |
-| **Overwrite** | 覆写文件 | - | ✅ | 用于指定软件自定义覆写使用 |
+| 类型 | **Geo** | **Rule-Set** | **Overwrite** |
+|:--:|:--:|:--:|:--:|
+| 说明 | 使用**GeoSite / GeoIP** 数据库分流 | 使用**Rule-Set** 规则集分流 | 指定软件覆写配置文件 |
+
+### 🎬 视频教程
+
+- ▶️ [OpenWrt 使用教程_Nikki插件 | Yaml配置 | Zashboard分流面板](https://youtu.be/5yD_q382YSQ)
+
+- ▶️ [Clash Mi 使用教程_YAML文件 | 多端同步](https://youtu.be/qINXLkfVJck)
+
+- ▶️ [Clash Mi 使用教程_自定义覆写小技巧](https://youtu.be/YLYXv1xryA0)
 
 </div>
 
@@ -34,7 +40,7 @@
 <!-- 策略模式 -->
 <div align="left">
 
-# 🔁 策略模式
+## 二、运行模式
 
 本项目中的配置文件统一采用 **故障转移（Fallback）** 运行模式，其核心理念为 **「稳定优先」**：  
 当前节点可用时继续使用；当节点不可用或连接失败时，系统将 **自动切换至同一策略组内的下一个可用节点**，在保证网络**持续性**的同时，避免出现 **“跳区”** 问题。
@@ -61,7 +67,7 @@
 <!-- Zashboard 界面 -->
 <div align="left">
 
-# 🖥️ Zashboard 界面
+## 三、Zashboard 界面
 
 <img
   src="https://github.com/user-attachments/assets/c6535370-0fd5-43d5-ad60-c1b5bfa6d802"
