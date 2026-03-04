@@ -1,6 +1,3 @@
-<!-- 项目介绍 -->
-<div align="left">
-
 ## 一、项目介绍
 
 <!-- 官方徽标 -->
@@ -15,14 +12,15 @@
 </p>
 
 ### 💭 配置随笔
-- 本项目以 **自用** 为主，同时也欢迎大家体验。  
+- 本项目 **自用** 为主，同时也欢迎大家体验。  
 - 本项目的配置文件适用于 **Mihomo 核心** 的工具使用，如：**OpenWrt（Clash / Nikki 插件）、Clashmi、FlClash、Clash Meta ……**。
-- 使用请完善 **订阅链接** 与 **机场名**。 **⚠️OpenWrt**用户可删除 `default-nameserver` ，将 `nameserver` 改为运营商分配的DNS，以提升解析速度。
+- 使用需完善 **订阅链接** 与 **机场名**。 **【OpenWrt用户可删除 `default-nameserver` ，将 `nameserver` 改为运营商DNS，以提升解析速度。】**
 
 ### 🗂️ 配置区分
 | 类型 | **Geo** | **Rule-Set** | **Overwrite** |
 |:--:|:--:|:--:|:--:|
-| 说明 | 使用**GeoSite / GeoIP** 数据库分流 | 使用**Rule-Set** 规则集分流 | 指定软件覆写配置文件 |
+| 说明 | 使用**GeoSite / GeoIP** 数据库分流 | 使用**Rule-Set** 规则集分流 | 软件覆写文件 |
+| 文件 | Seven1_fallback_Geo.yaml | Seven1_fallback_Rule-Set.yaml | ***_Clashmi_Overwrite.yaml |
 
 ### 🎬 视频教程
 <!-- 缩略图 + 精简标题（横向展示） -->
@@ -30,21 +28,21 @@
   <tr>
     <td align="center">
       <a href="https://youtu.be/5yD_q382YSQ" target="_blank" rel="noopener">
-        <img src="https://img.youtube.com/vi/5yD_q382YSQ/hqdefault.jpg" width="200" />
+        <img src="https://img.youtube.com/vi/5yD_q382YSQ/hqdefault.jpg" width="235" />
       </a>
       <br/>
       <sub><b>OpenWrt · Nikki 插件配置</b></sub>
     </td>
     <td align="center">
       <a href="https://youtu.be/qINXLkfVJck" target="_blank" rel="noopener">
-        <img src="https://img.youtube.com/vi/qINXLkfVJck/hqdefault.jpg" width="200" />
+        <img src="https://img.youtube.com/vi/qINXLkfVJck/hqdefault.jpg" width="235" />
       </a>
       <br/>
       <sub><b>Clash Mi · YAML文件&多端同步</b></sub>
     </td>
     <td align="center">
       <a href="https://youtu.be/YLYXv1xryA0" target="_blank" rel="noopener">
-        <img src="https://img.youtube.com/vi/YLYXv1xryA0/hqdefault.jpg" width="200" />
+        <img src="https://img.youtube.com/vi/YLYXv1xryA0/hqdefault.jpg" width="235" />
       </a>
       <br/>
       <sub><b>Clash Mi · 自定义覆写技巧</b></sub>
@@ -56,35 +54,25 @@
 
 ---
 
-<!-- 策略模式 -->
-<div align="left">
-
 ## 二、运行模式
 
-本项目中的配置文件统一采用 **故障转移（Fallback）** 运行模式，其核心理念为 **「稳定优先」**：  
-当前节点可用时继续使用；当节点不可用或连接失败时，系统将 **自动切换至同一策略组内的下一个可用节点**，在保证网络**持续性**的同时，避免出现 **“跳区”** 问题。
+日常使用建议以 **「故障转移」** 作为主要出站，其核心理念为 **「稳定优先」**：  
+当前区域节点可用时继续使用；当节点不可用或连接失败时，系统将 **自动切换至同一策略组内的下一个可用节点**，在保证网络**持续性**的同时，避免出现 **“跳区”** 问题。
 
 ### ✅ 故障转移的优势
 - **稳定性高**：节点异常时自动切换，最大程度减少人工干预。
 - **容错性强**：单个节点失效不会影响整体网络连接的可用性。
 
 ### 🧭 策略组示例说明
-以「**日本 · 故障转移**」为例，其下方通常包含两个子策略组：
+以「**日本故转**」为例，其下方通常包含两个子策略组：
 - **日本手动**：用于手动指定日本地区的具体节点。
 - **日本自动**：由系统根据延迟自动选择最优节点。
-
-在实际使用中：
-- 日常使用建议以 **「故障转移」** 作为主要出站。
-- 当需要指定线路或进行问题排查时，可切换至 **手动 / 自动** 子策略组进行调整。
 
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/3acbba42-0211-4f58-b28b-8d9297a7a7b2" />
 
 </div>
 
 ---
-
-<!-- Zashboard 界面 -->
-<div align="left">
 
 ## 三、Zashboard 界面
 
