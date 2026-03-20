@@ -1,4 +1,4 @@
-Seven1_Direct_Domain v2026.3.18 
+Seven1_Direct_Domain v2026.3.20 
 ==========================
 
 Source Rules: 118535
