@@ -1,9 +1,9 @@
 # 名称： Seven1_fallback_Rule-Set
-# 版本： V2026.3.15
-# 日期： 2026年3月15日
+# 版本： V2026.3.31
+# 日期： 2026年3月31日
 # 频道： https://t.me/Seven1gogogo
 # 地址： https://github.com/Seven1echo/Yaml
-# 说明： ①本文件适用于Mihomo核心的工具使用，如：OpenWrt（Clash/Nikki 插件）、Clashmi、FlClash、Clash Meta ……（支持仅内核使用）； ②使用前需补充完整 “订阅链接” 与 “机场名”; ③已隐藏“故障转移”、“延迟自选”这两个策略组，使用时手动选取对应地区节点即可。
+# 说明： ①本文件适用于Mihomo核心的工具使用，如：OpenWrt（Clash/Nikki 插件）、Clashmi、FlClash、Clash Meta ……（支持仅内核使用）； ②使用前需补充完整 “订阅链接” 与 “机场名”，并将 “nameserver” 修改为运营商提供的 DNS 地址; ③已隐藏“故障转移”、“延迟自选”这两个策略组，使用时手动选取对应地区节点即可。
 
 
 
@@ -99,7 +99,7 @@ sniffer:
     - "+.sunlogin.net"                                                  # 跳过嗅探  向日葵远程控制
     - "+.push.apple.com"                                                # 跳过嗅探  苹果推送服务
 
-# DNS 设置 (提示：OpenWrt用户可删除 default-nameserver ，将 nameserver 改为运营商DNS，以提升解析速度)
+# DNS配置
 dns:
   enable: true                                                          # 解析服务  启用 Clash 内置 DNS 服务
   listen: 0.0.0.0:7874                                                  # 监听服务  DNS 服务监听地址与端口
@@ -110,13 +110,11 @@ dns:
   respect-rules: false                                                  # 遵循规则  不强制遵循规则顺序
   fake-ip-filter:
     - '*.lan'                                                           # 真实解析  常见局域网域名后缀
+    - "rule-set:add_direct_domain"                                      # 真实解析  大陆冷门域名
     - "rule-set:cn_domain"                                              # 真实解析  大陆域名数据
-  default-nameserver:
-    - 114.114.114.114                                                   # 公共 DNS  114 
-    - tls://223.5.5.5:853                                               # 公共 DNS  阿里云 DoT
-  nameserver:
-    - https://doh.pub/dns-query                                         # 公共 DNS  腾讯 DoH
-    - https://dns.alidns.com/dns-query                                  # 公共 DNS  阿里云 DoH
+  nameserver:                                                           # 解析服务  请使用运营商提供的 DNS
+    - 116.116.116.116
+    - 221.5.88.88
 
 
 
