@@ -14,7 +14,7 @@
 ### 📝 配置随笔
 - 本项目 **自用** 为主，同时也欢迎大家体验。  
 - 本项目的配置文件适用于 **Mihomo 核心** 的工具使用，如：**OpenWrt（Clash / Nikki 插件）、Clashmi、FlClash、Clash Meta ……**。
-- 使用需完善 **订阅链接** 与 **机场名**。 *OpenWrt用户可删除 `default-nameserver` ，将 `nameserver` 改为运营商DNS，以提升解析速度。*
+- 使用需完善 **订阅链接** 与 **机场名**，并将 **nameserver** 修改为运营商提供的 DNS 地址，以提升解析速度。
 
 ### 🗂️ 配置区分
 | 类型 | **Geo** | **Rule-Set** | **Overwrite** |
