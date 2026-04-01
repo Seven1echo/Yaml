@@ -51,10 +51,10 @@ geo-auto-update: true                                                   # 自动
 geo-update-interval: 24                                                 # 更新间隔  单位：小时
 geodata-mode: true                                                      # 数据分流  使用数据集进行规则与分流匹配
 geox-url:
-  geosite: https://testingcf.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat
-  geoip:   https://testingcf.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat
-  mmdb:    https://testingcf.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/Country.mmdb
-  asn:     https://testingcf.jsdelivr.net/gh/xishang0128/geoip@release/GeoLite2-ASN.mmdb
+  geosite: https://github.com/MetaCubeX/meta-rules-dat/releases/latest/download/geosite.dat
+  geoip:   https://github.com/MetaCubeX/meta-rules-dat/releases/latest/download/geoip.dat
+  mmdb:    https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb
+  asn:     https://github.com/MetaCubeX/meta-rules-dat/releases/latest/download/GeoLite2-ASN.mmdb
 
 # 管理面板
 external-controller: 0.0.0.0:9090                                       # 面板地址
