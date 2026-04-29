@@ -1,7 +1,6 @@
 # 🚀 Clashmi_Overwrite 使用教程
-<!-- 官方徽标 -->
-
-<p>
+<!-- 官方徽标（居中显示） -->
+<p align="center">
   <a href="https://t.me/Seven1gogogo" target="_blank">
     <img src="https://img.shields.io/badge/Telegram-Channel-26A5E4?logo=telegram&logoColor=white" />
   </a>
