@@ -1,4 +1,4 @@
-## 一、项目介绍
+# 🚀 使用教程
 
 <!-- 官方徽标 -->
 <p align="center">
@@ -14,6 +14,8 @@
     <img src="https://img.shields.io/badge/GitHub-Yaml-181717?logo=github&logoColor=white" />
   </a>
 </p>
+
+## 一、项目介绍
 
 ### 📝 配置随笔
 - 本项目的配置文件适用于 **Mihomo 核心** 的工具使用，如：**OpenWrt（Clash / Nikki 插件）、Clashmi、FlClash、Clash Meta ……**。
