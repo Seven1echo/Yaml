@@ -1,5 +1,19 @@
 # 🚀 Clashmi_Yaml 使用教程
+<!-- 官方徽标 -->
 
+<p>
+  <a href="https://t.me/Seven1gogogo" target="_blank">
+    <img src="https://img.shields.io/badge/Telegram-Channel-26A5E4?logo=telegram&logoColor=white" />
+  </a>
+  &nbsp;
+  <a href="https://youtube.com/@seven1echo?si=jcyS94OnTAqYKuiy" target="_blank">
+    <img src="https://img.shields.io/badge/YouTube-@seven1echo-FF0000?logo=youtube&logoColor=white" />
+  </a>
+  &nbsp;
+  <a href="https://github.com/Seven1echo/Yaml" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-Yaml-181717?logo=github&logoColor=white" />
+  </a>
+</p>
 
 
 ## 📦 一、下载安装
