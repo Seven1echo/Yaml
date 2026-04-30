@@ -52,10 +52,10 @@
 ### 📥 下载模板
 
 * 【数据库】分流方案（内存占用较“**高**”）
-  👉 [Geo【数据库分流】](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallback_Geo.yaml)
+  👉 [Geo【数据库分流】](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Geo.yaml)
 
 * 【规则集】分流方案（内存占用较“**低**”）
-  👉 [Rule-Set【规则集分流】](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallback_Rule-Set.yaml)
+  👉 [Rule-Set【规则集分流】](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set.yaml)
 
 
 ### ✏️ 修改内容
