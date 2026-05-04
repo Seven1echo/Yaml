@@ -30,7 +30,7 @@
 | 类型 | **Geo** | **Rule-Set** | **Overwrite** |
 |:--:|:--:|:--:|:--:|
 | 说明 | 使用**GeoSite / GeoIP** 数据库分流 | 使用**Rule-Set** 规则集分流 | 软件覆写文件 |
-| 文件 | Seven1_fallback_Geo.yaml | Seven1_fallback_Rule-Set.yaml | ***_Clashmi_Overwrite.yaml |
+| 文件 | [Seven1_fallback_Geo.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Geo.yaml) | [Seven1_fallback_Rule-Set.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set.yaml) | ***_Clashmi_Overwrite.yaml |
 
 ### 📚 图文教程
 <p>
