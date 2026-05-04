@@ -1,4 +1,3 @@
-# 🚀 使用教程
 
 <!-- 官方徽标 -->
 <p align="center">
@@ -15,6 +14,8 @@
   </a>
 </p>
 
+---
+
 ## 一、项目介绍
 
 ### 📝 配置随笔
@@ -30,6 +31,15 @@
 |:--:|:--:|:--:|:--:|
 | 说明 | 使用**GeoSite / GeoIP** 数据库分流 | 使用**Rule-Set** 规则集分流 | 软件覆写文件 |
 | 文件 | Seven1_fallback_Geo.yaml | Seven1_fallback_Rule-Set.yaml | ***_Clashmi_Overwrite.yaml |
+
+### 📚 图文教程
+<p>
+  👉 <a href="https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/Nikki_Yaml.md">Nikki_Yaml 使用教程</a>
+  &nbsp;&nbsp;&nbsp;｜&nbsp;&nbsp;&nbsp;
+  👉 <a href="https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/Clashmi_Yaml.md">Clashmi_Yaml 使用教程</a>
+  &nbsp;&nbsp;&nbsp;｜&nbsp;&nbsp;&nbsp;
+  👉 <a href="https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/Clashmi_Overwrite.md">Clashmi_Overwrite 使用教程</a>
+</p>
 
 ### 🎬 视频教程
 <!-- 缩略图 + 精简标题（横向展示） -->
@@ -59,36 +69,37 @@
   </tr>
 </table>
 
-</div>
-
 ---
 
 ## 二、运行模式
 
-日常使用建议以 **「故障转移」** 作为主要出站，其核心理念为 **「稳定优先」**：  
-当前区域节点可用时继续使用；当节点不可用或连接失败时，系统将 **自动切换至同一策略组内的下一个可用节点**，在保证网络**持续性**的同时，避免出现 **“跳区”** 问题。
+### 📌 出站策略建议
+日常使用建议优先选择 **「故障转移」**，其核心原则为：**稳定优先**。  
+在当前区域节点可用时保持连接；当节点不可用或连接失败时，系统会自动切换至同一策略组内的其他可用节点，在保证连接连续性的同时，避免跨区域切换（跳区）。
 
-### 🏆 故障转移的优势
-- **稳定性高**：节点异常时自动切换，最大程度减少人工干预。
-- **容错性强**：单个节点失效不会影响整体网络连接的可用性。
+### 🔁 故障转移机制说明
+故障转移策略通常由「手动」与「自动」两类节点构成：
+- **手动节点**：用户手动指定的优先节点（最高优先级）  
+- **自动节点**：系统基于延迟自动筛选的最优节点（作为备用）  
 
-### 🌟 策略组示例说明
-以「**日本故转**」为例，其下方通常包含两个子策略组：
-- **日本手动**：用于手动指定日本地区的具体节点。
-- **日本自动**：由系统根据延迟自动选择最优节点。
+### 🌟 示例：日本故障转移（日本故转）
+以「日本故转」为例，其结构如下：
+- 日本手动  
+- 日本自动  
+
+### 🚀 **实际运行逻辑：**
+- 默认使用 **「日本手动」** 中的节点  
+- 当该节点不可用时，自动切换至 **「日本自动」** 中延迟最低的节点  
+
+### ✅ 优势
+- **高稳定性**：节点异常时自动切换，减少人工干预  
+- **高可用性**：单节点失效不影响整体连接  
+- **避免跳区**：始终在同一地区内进行节点切换  
 
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/3acbba42-0211-4f58-b28b-8d9297a7a7b2" />
-
-</div>
 
 ---
 
 ## 三、Zashboard 界面
+<img width="1536" height="1720" alt="zashboard" src="https://github.com/user-attachments/assets/cd5c4d3a-92e5-4253-a8f1-0eae41e0dca7" />
 
-<img
-  src="https://github.com/user-attachments/assets/c6535370-0fd5-43d5-ad60-c1b5bfa6d802"
-  alt="Zashboard 界面预览"
-  width="1156"
-/>
-
-</div>
