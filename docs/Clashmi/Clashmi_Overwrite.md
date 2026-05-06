@@ -54,7 +54,7 @@ https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallbac
 ```
 【规则集】分流方案（内存占用较“**低**”）
 ```bash
-https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallback_Rule-Set%20_Clashmi_Overwrite.yaml
+https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallback_Rule-Set_Clashmi_Overwrite.yaml
 ```
 
 * 将上方 **覆写链接** （二选一），复制粘贴到 **核心设置** 〉**覆写** 〉右上角“**+**”  〉**添加配置连接** 〉右上角“**√**”
