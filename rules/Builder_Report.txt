@@ -1,11 +1,12 @@
-Seven1_Direct_Domain v2026.05.08
-========================
+Seven1_Direct_Domain v2026.5.6
+==========================
 
+Source Rules: 115433
 Collapsed Domains: 139
 Removed Conflicts: 1
 
-TOTAL: 689
+TOTAL: 661
 
-DOMAIN: 187
-SUFFIX: 502
+DOMAIN: 181
+SUFFIX: 480
 KEYWORD: 0
