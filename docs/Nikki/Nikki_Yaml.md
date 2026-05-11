@@ -67,9 +67,11 @@ wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/un
 请编辑下载的 Yaml 文件：
 * 🔑 填写 **订阅链接** ，修改 **机场名称**
 * 🌐 修改 **nameserver**（可选） !!建议替换为运营商 DNS（不修改也可正常使用）
-<img width="600" height="96" alt="订阅链接" src="https://github.com/user-attachments/assets/c344e832-bdcd-4ab0-9948-e7dd9c50f44f" />
+<img width="600" height="96" alt="585427163-c344e832-bdcd-4ab0-9948-e7dd9c50f44f" src="https://github.com/user-attachments/assets/24e70e8c-9b3b-4cb8-86ee-4c0cf6e07611" />
+
 <br>
-<img width="600" height="172" alt="BaiduShurufa_2026-4-29_20-54-11" src="https://github.com/user-attachments/assets/45dd19cd-b782-4474-9faf-bb1b497ce55f" />
+<img width="600" height="172" alt="585427221-45dd19cd-b782-4474-9faf-bb1b497ce55f" src="https://github.com/user-attachments/assets/07834dd5-383f-4b14-9bb5-09323c61b022" />
+
 
 ### 🛠 Windows辅助工具
 如果你使用 Windows，可直接使用自动生成工具：
