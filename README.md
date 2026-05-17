@@ -101,6 +101,7 @@
 ---
 
 ## 三、Zashboard 界面
-<img width="1536" height="1780" alt="FireShot Capture 024 - zashboard - 代理 -  10 0 0 1" src="https://github.com/user-attachments/assets/e28f08cd-155e-44f9-b0fc-443c9060d74c" />
+<img width="1536" height="2588" alt="zashboard" src="https://github.com/user-attachments/assets/5e3f479c-92d8-4c0b-8760-2548196fb3da" />
+
 
 
