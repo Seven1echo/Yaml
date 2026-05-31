@@ -93,9 +93,9 @@ dns:
   fake-ip-filter-mode: blacklist                                        # 过滤模式  Fake-IP 过滤模式（命中规则则返回真实 IP）
   respect-rules: false                                                  # 遵循规则  不强制遵循规则顺序
   fake-ip-filter:
-    - '+.lan'                                                           # 真实解析  常见局域网域名后缀
-    - 'rule-set:add_direct_domain'                                      # 真实解析  大陆冷门域名
-    - 'rule-set:cn_domain'                                              # 真实解析  大陆域名数据
+    - "+.lan"                                                           # 真实解析  常见局域网域名后缀
+    - "rule-set:add_direct_domain"                                      # 真实解析  大陆冷门域名
+    - "rule-set:cn_domain"                                              # 真实解析  大陆域名数据
   nameserver:                                                           # 解析服务  请使用运营商提供的 DNS
     - 114.114.114.114
     - 223.5.5.5
