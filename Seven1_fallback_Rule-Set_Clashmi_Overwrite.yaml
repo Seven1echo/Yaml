@@ -1,5 +1,5 @@
 # 名称： Seven1_fallback_Rule-Set _Clashmi_Overwrite.yaml
-# 版本： V2026.5.18
+# 版本： V2026.5.31
 # 频道： https://t.me/Seven1gogogo
 # 地址： https://github.com/Seven1echo/Yaml
 # 说明： ①本文件适用于Clashmi覆写； ②已隐藏“故障转移”、“延迟自选”这两个策略组，使用时手动选取对应地区节点即可。
@@ -94,8 +94,8 @@ dns:
   respect-rules: false                                                  # 遵循规则  不强制遵循规则顺序
   fake-ip-filter:
     - '+.lan'                                                           # 真实解析  常见局域网域名后缀
-    - "rule-set:add_direct_domain"                                      # 真实解析  大陆冷门域名
-    - "rule-set:cn_domain"                                              # 真实解析  大陆域名数据
+    - 'rule-set:add_direct_domain'                                      # 真实解析  大陆冷门域名
+    - 'rule-set:cn_domain'                                              # 真实解析  大陆域名数据
   nameserver:                                                           # 解析服务  请使用运营商提供的 DNS
     - 114.114.114.114
     - 223.5.5.5
