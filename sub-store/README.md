@@ -3,6 +3,7 @@
 在SSH终端，执行如下命令，全程交互式执行，安装docker全家桶。
 
 ```
+apt-get update
 apt-get install -y curl
 bash <(curl -sSL https://linuxmirrors.cn/docker.sh)
 ```
