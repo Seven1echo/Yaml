@@ -58,10 +58,10 @@ geo-auto-update: true                                                   # 自动
 geo-update-interval: 24                                                 # 更新间隔  单位：小时
 geodata-mode: true                                                      # 数据分流  使用数据集进行规则与分流匹配
 geox-url:
-  geosite: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat
-  geoip:   https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat
-  mmdb:    https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb
-  asn:     https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/GeoLite2-ASN.mmdb
+  geosite: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat
+  geoip:   https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat
+  mmdb:    https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb
+  asn:     https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/GeoLite2-ASN.mmdb
 # ══ 管理面板 ══
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 external-controller: 0.0.0.0:9090                                       # 面板地址
