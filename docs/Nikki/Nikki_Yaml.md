@@ -94,4 +94,5 @@ wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/un
 <img width="600" height="193" alt="image" src="https://github.com/user-attachments/assets/1d9f4dae-c973-477b-8ebd-37b1c752277b" />
 
 * 进入 **面板** ，在 **策略组** 中选择合适节点（按需切换） `一般策略组有图标出现，即代表节点是通的，可分流上网`
-<img width="600" height="671" alt="zashboard" src="https://github.com/user-attachments/assets/cd5c4d3a-92e5-4253-a8f1-0eae41e0dca7" />
+<img width="600" height="1011" alt="photo_2026-05-17_23-49-25" src="https://github.com/user-attachments/assets/c9fec238-e1c8-47c0-a2f5-2c56171c52b3" />
+
