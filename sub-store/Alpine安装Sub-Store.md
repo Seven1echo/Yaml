@@ -3,6 +3,16 @@
 在终端，执行如下命令，安装docker。
 
 ```
+vi /etc/apk/repositories
+```
+
+```3.**```换成你的版本号  i编辑 Esc退出 :wq保存
+```
+http://mirrors.ustc.edu.cn/alpine/v3.**/main
+http://mirrors.ustc.edu.cn/alpine/v3.**/community
+```
+
+```
 apk update
 apk add docker
 service docker start
