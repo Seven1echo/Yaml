@@ -21,6 +21,7 @@
 ### 📝 配置随笔
 - 本项目的配置文件适用于 **Mihomo 核心** 的工具使用，如：**OpenWrt（Clash / Nikki 插件）、Clashmi、FlClash、Clash Meta ……**。
 - 使用需完善 **订阅链接** 与 **机场名**，并将 **nameserver** 修改为运营商提供的 DNS 地址，以提升解析速度。
+- 配置文件默认开启 **绕过中国大陆模式**，匹配大陆IP-CIDR（流量不进入代理）。
 
 ### 🛠️ 配套工具
 - Windows端一键生成工具 **（推荐使用）**：[Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)
