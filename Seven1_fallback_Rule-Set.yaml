@@ -1,5 +1,5 @@
 # 名称： Seven1_fallback_Rule-Set
-# 版本： V2026.7.18
+# 版本： V2026.7.26
 # 频道： https://t.me/Seven1gogogo
 # 地址： https://github.com/Seven1echo/Yaml
 # 说明： ①本文件适用于Mihomo核心的工具使用，如：OpenWrt（Clash/Nikki 插件）、Clashmi、FlClash、Clash Meta ……（支持仅内核使用）； ②使用前需补充完整 “订阅链接” 与 “机场名”，并将 “nameserver” 修改为运营商提供的 DNS 地址; ③已隐藏“区域-故转”、“区域-自动”这两个策略组，使用时手动选取对应地区策略组即可。
@@ -69,6 +69,7 @@ tun:
   auto-redirect: true                                                   # 自动定向  自动将流量重定向至 TUN  （仅内核模式有效）
   strict-route: false                                                   # 路由模式  严格路由模式
   endpoint-independent-nat: true                                        # 端点无关  NAT（提高 NAT 类型兼容性，适用于 P2P 和游戏）
+  route-exclude-address-set: [cn_ip]                                    # 绕过大陆  匹配大陆IP-CIDR（流量不进入代理） 
 # ══ 嗅探功能 ══
 sniffer:
   enable: true                                                          # 启用嗅探  提升分流准确性
@@ -91,6 +92,9 @@ sniffer:
     - "+.oray.com"                                                      # 跳过嗅探  花生壳服务
     - "+.sunlogin.net"                                                  # 跳过嗅探  向日葵远程控制
     - "+.push.apple.com"                                                # 跳过嗅探  苹果推送服务
+# ══ hosts配置 ══
+hosts:
+  'services.googleapis.cn': ['services.googleapis.com']                 # 谷歌商店  解决无法下载的问题
 # ══ DNS配置 ══
 dns:
   enable: true                                                          # 解析服务  启用 Clash 内置 DNS 服务
