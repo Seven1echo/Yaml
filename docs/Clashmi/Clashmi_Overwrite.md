@@ -48,11 +48,6 @@
 
 ## 🧩 三、添加覆写配置
 
-【数据库】分流方案（内存占用较“**高**”）
-```bash
-https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallback_Geo_Clashmi_Overwrite.yaml
-```
-【规则集】分流方案（内存占用较“**低**”）
 ```bash
 https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallback_Rule-Set_Clashmi_Overwrite.yaml
 ```
@@ -83,8 +78,6 @@ https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallbac
 <br>
 
 ## 💡 五、使用建议
-
-* 📌 优先使用 Rule-Set（更省资源）
 * 🧪 遇到问题先检查配置文件与日志
 * ✔️ ios苹果用户，若配置覆写后，策略组无图标（即代理不通），可去 **核心设置** 打开 **TUN** 或灵活开关下 **DNS劫持** 或 **附加HTTP代理到VPN**
 <img width="600" height="1298" alt="苹果" src="https://github.com/user-attachments/assets/2892fd95-e0c6-4b1d-8d91-ff5ef830582e" />
