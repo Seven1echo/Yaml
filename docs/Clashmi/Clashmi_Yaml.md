@@ -51,10 +51,6 @@
 
 ### 📥 下载模板
 
-* 【数据库】分流方案（内存占用较“**高**”）
-  👉 [Geo【数据库分流】](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Geo.yaml)
-
-* 【规则集】分流方案（内存占用较“**低**”）
   👉 [Rule-Set【规则集分流】](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set.yaml)
 
 
@@ -93,6 +89,4 @@
 <br>
 
 ## 💡 五、使用建议
-
-* 📌 优先使用 Rule-Set（更省资源）
 * 🧪 遇到问题先检查配置文件与日志
