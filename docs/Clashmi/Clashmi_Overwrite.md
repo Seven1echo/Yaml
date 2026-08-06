@@ -52,7 +52,7 @@
 https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallback_Rule-Set_Clashmi_Overwrite.yaml
 ```
 
-* 将上方 **覆写链接** （二选一），复制粘贴到 **核心设置** 〉**覆写** 〉右上角“**+**”  〉**添加配置连接** 〉右上角“**√**”
+* 将上方 **覆写链接** ，复制粘贴到 **核心设置** 〉**覆写** 〉右上角“**+**”  〉**添加配置连接** 〉右上角“**√**”
 * **覆写**  〉 选中刚刚添加的 **覆写文件**
 <img width="600" height="320" alt="Overwrite" src="https://github.com/user-attachments/assets/6ad0d141-07d0-4fc3-b222-bcc9622ef256" />
 
