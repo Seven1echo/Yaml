@@ -97,12 +97,12 @@
 - **高可用性**：单节点失效不影响整体连接  
 - **避免跳区**：始终在同一地区内进行节点切换  
 
-<img width="1376" height="2064" alt="Zashboard" src="https://github.com/user-attachments/assets/a06e5160-c8ff-4967-8794-b66e3a4a12b8" />
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/3acbba42-0211-4f58-b28b-8d9297a7a7b2" />
 
 ---
 
 ## 三、Zashboard 界面
-<img width="1536" height="2588" alt="zashboard" src="https://github.com/user-attachments/assets/5e3f479c-92d8-4c0b-8760-2548196fb3da" />
+<img width="1376" height="2064" alt="Zashboard" src="https://github.com/user-attachments/assets/954ce76d-4270-4b4b-a052-e28d49dca596" />
 
 
 
