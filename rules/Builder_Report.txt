@@ -1,11 +1,11 @@
-Seven1_Direct_Domain v2026.08.04
+Seven1_Direct_Domain v2026.08.13
 ========================
 
 Collapsed Domains: 131
 Removed Conflicts: 2
 
-TOTAL: 1381
+TOTAL: 1400
 
-DOMAIN: 192
-SUFFIX: 1189
+DOMAIN: 193
+SUFFIX: 1207
 KEYWORD: 0
