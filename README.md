@@ -19,13 +19,13 @@
 ## 一、项目介绍
 
 ### 📝 配置随笔
-- 本项目的配置文件适用于 **Mihomo 核心** 的工具使用，如：**OpenWrt（Clash / Nikki 插件）、Clashmi、FlClash、Clash Meta ……**。
-- 使用需完善 **订阅链接** 与 **机场名**，并将 **nameserver** 修改为运营商提供的 DNS 地址，以提升解析速度。
+- 本项目的配置文件适用于 **[Mihomo](https://github.com/MetaCubeX/mihomo) 核心** 的工具使用，如：**[OpenWrt](https://firmware-selector.immortalwrt.org/)插件（ [OpenClash](https://github.com/vernesong/openclash) / [Nikki](https://github.com/nikkinikki-org/OpenWrt-nikki) ）、[Clashmi](https://github.com/KaringX/clashmi)、[FlClash](https://github.com/chen08209/FlClash)、[Bettbox](https://github.com/appshubcc/Bettbox)  ……**
+- 使用需完善 **订阅链接** 与 **机场名**，可将 **nameserver** 修改为运营商提供的 DNS 地址，以提升解析速度。
 - 配置文件默认开启 **绕过中国大陆模式**，匹配大陆IP-CIDR（流量不进入代理）。
 
 ### 🛠️ 配套工具
-- Windows端一键生成工具 **（推荐使用）**：[Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)
-- 流程：模板下载 → 用户输入 → YAML结构替换 → 输出文件
+- Windows端一键生成工具 **（推荐使用）**：**[Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)**
+- 流程：用户输入 → 模板下载 → YAML结构替换 → 输出文件
 
 ### 🗂️ 配置区分
 | 类型 | **Geo** | **Rule-Set** | **Overwrite** |
@@ -72,32 +72,12 @@
 
 ---
 
-## 二、运行模式
+## 二、策略组简介 （以日本为例）
 
-### 📌 出站策略建议
-日常使用建议优先选择 **「故障转移」**，其核心原则为：**稳定优先**。  
-在当前区域节点可用时保持连接；当节点不可用或连接失败时，系统会自动切换至同一策略组内的其他可用节点，在保证连接连续性的同时，避免跨区域切换（跳区）。
-
-### 🔁 故障转移机制说明
-故障转移策略通常由「手动」与「自动」两类节点构成：
-- **手动节点**：用户手动指定的优先节点（最高优先级）  
-- **自动节点**：系统基于延迟自动筛选的最优节点（作为备用）  
-
-### 🌟 示例：日本故障转移（日本故转）
-以「日本故转」为例，其结构如下：
-- 日本手动  
-- 日本自动  
-
-### 🚀 **实际运行逻辑：**
-- 默认使用 **「日本手动」** 中的节点  
-- 当该节点不可用时，自动切换至 **「日本自动」** 中延迟最低的节点  
-
-### ✅ 优势
-- **高稳定性**：节点异常时自动切换，减少人工干预  
-- **高可用性**：单节点失效不影响整体连接  
-- **避免跳区**：始终在同一地区内进行节点切换  
-
-<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/3acbba42-0211-4f58-b28b-8d9297a7a7b2" />
+### 
+- **日本-故转**：手动选择的节点不可用时，自动切换至日本-自动，以保证连接可用性。
+- **日本-自动**：自动从日本节点中选择延迟较低、连接较优的节点，适合日常使用。
+- **日本-手动**：手动指定具体日本节点，适合需要固定 IP、节点或线路的场景。
 
 ---
 
