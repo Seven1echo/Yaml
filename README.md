@@ -70,7 +70,7 @@
   </tr>
 </table>
 
----
+
 
 ## 二、策略组简介 （以日本为例）
 
@@ -79,10 +79,7 @@
 - **日本-自动**：自动从日本节点中选择延迟较低、连接较优的节点，适合日常使用。
 - **日本-手动**：手动指定具体日本节点，适合需要固定 IP、节点或线路的场景。
 
----
+
 
 ## 三、Zashboard 界面
 <img width="1000" height="1418" alt="zashboard" src="https://github.com/user-attachments/assets/707fd6f4-0e76-4a0e-99e2-ce049d00221e" />
-
-
-
