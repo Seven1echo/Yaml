@@ -82,7 +82,7 @@
 ---
 
 ## 三、Zashboard 界面
-<img width="1376" height="2064" alt="Zashboard" src="https://github.com/user-attachments/assets/954ce76d-4270-4b4b-a052-e28d49dca596" />
+<img width="1000" height="1418" alt="zashboard" src="https://github.com/user-attachments/assets/707fd6f4-0e76-4a0e-99e2-ce049d00221e" />
 
 
 
