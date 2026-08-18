@@ -19,9 +19,14 @@
 ## 一、项目介绍
 
 ### 📝 配置随笔
-- 本项目的配置文件适用于 **[Mihomo](https://github.com/MetaCubeX/mihomo) 核心** 的工具使用，如：**[OpenWrt](https://firmware-selector.immortalwrt.org/)插件（ [OpenClash](https://github.com/vernesong/openclash) / [Nikki](https://github.com/nikkinikki-org/OpenWrt-nikki) ）、[Clashmi](https://github.com/KaringX/clashmi)、[FlClash](https://github.com/chen08209/FlClash)、[Bettbox](https://github.com/appshubcc/Bettbox)  ……**
-- 使用需完善 **订阅链接** 与 **机场名**，可将 **nameserver** 修改为运营商提供的 DNS 地址，以提升解析速度。
-- 配置文件默认开启 **绕过中国大陆模式**，匹配大陆IP-CIDR（流量不进入代理）。
+> [!TIP]
+>
+>  本项目的配置文件适用于 **[Mihomo](https://github.com/MetaCubeX/mihomo) 核心** 的工具使用，如：**[OpenWrt](https://firmware-selector.immortalwrt.org/)插件（ [OpenClash](https://github.com/vernesong/openclash) / [Nikki](https://github.com/nikkinikki-org/OpenWrt-nikki) ）、[Clashmi](https://github.com/KaringX/clashmi)、[FlClash](https://github.com/chen08209/FlClash)、[Bettbox](https://github.com/appshubcc/Bettbox)  ……**
+>
+>  使用需完善 **订阅链接** 与 **机场名**，可将 **nameserver** 修改为运营商提供的 DNS 地址，以提升解析速度。
+>
+>  配置文件默认开启 **绕过中国大陆模式**，匹配大陆IP-CIDR（流量不进入代理）。
+> 
 
 ### 🛠️ 配套工具
 - Windows端一键生成工具 **（推荐使用）**：**[Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)**
@@ -77,8 +82,10 @@
 > [!IMPORTANT]
 >
 > **日本-故转**：手动选择的节点不可用时，自动切换至日本-自动，以保证连接可用性。  
-> **日本-自动**：自动从日本节点中选择延迟较低、连接较优的节点，适合日常使用。  
-> **日本-手动**：手动指定具体日本节点，适合需要固定 IP、节点或线路的场景。 
+>
+>  **日本-自动**：自动从日本节点中选择延迟较低、连接较优的节点，适合日常使用。  
+>
+>  **日本-手动**：手动指定具体日本节点，适合需要固定 IP、节点或线路的场景。 
 >
 
 
