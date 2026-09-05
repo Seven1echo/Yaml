@@ -1,94 +1,56 @@
-
-<!-- 官方徽标 -->
-<p align="center">
-  <a href="https://t.me/Seven1gogogo" target="_blank">
-    <img src="https://img.shields.io/badge/Telegram-Channel-26A5E4?logo=telegram&logoColor=white" />
-  </a>
-  &nbsp;
-  <a href="https://youtube.com/@seven1echo?si=jcyS94OnTAqYKuiy" target="_blank">
-    <img src="https://img.shields.io/badge/YouTube-@seven1echo-FF0000?logo=youtube&logoColor=white" />
-  </a>
-  &nbsp;
-  <a href="https://github.com/Seven1echo/Yaml" target="_blank">
-    <img src="https://img.shields.io/badge/GitHub-Yaml-181717?logo=github&logoColor=white" />
-  </a>
-</p>
-
----
-
-## 一、项目介绍
-
-### 📝 配置随笔
-> [!TIP]
->
->  本项目的配置文件适用于 **[Mihomo](https://github.com/MetaCubeX/mihomo) 核心** 的工具使用，如：**[OpenWrt](https://firmware-selector.immortalwrt.org/)插件（ [OpenClash](https://github.com/vernesong/openclash) / [Nikki](https://github.com/nikkinikki-org/OpenWrt-nikki) ）、[Clashmi](https://github.com/KaringX/clashmi)、[FlClash](https://github.com/chen08209/FlClash)、[Bettbox](https://github.com/appshubcc/Bettbox)  ……**
->
->  使用需完善 **订阅链接** 与 **机场名**，可将 **nameserver** 修改为运营商提供的 DNS 地址，以提升解析速度。
->
->  配置文件默认开启 **绕过中国大陆模式**，匹配大陆IP-CIDR（流量不进入代理）。
-> 
-
-### 🛠️ 配套工具
-- Windows端一键生成工具 **（推荐使用）**：**[Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)**
-- 流程：用户输入 → 模板下载 → YAML结构替换 → 输出文件
-
-### 🗂️ 配置区分
-| 类型 | **Geo** | **Rule-Set** | **Overwrite** |
-|:--:|:--:|:--:|:--:|
-| 说明 | 使用**GeoSite / GeoIP** 数据库分流 | 使用**Rule-Set** 规则集分流 | 软件覆写文件 |
-| 文件 | [Seven1_fallback_Geo.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Geo.yaml) | [Seven1_fallback_Rule-Set.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set.yaml) | ***_Overwrite.yaml |
-
-### 📚 图文教程
-<p>
-  👉 <a href="https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/Nikki_Yaml.md">Nikki_Yaml 使用教程</a>
-  &nbsp;&nbsp;&nbsp;｜&nbsp;&nbsp;&nbsp;
-  👉 <a href="https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/Clashmi_Yaml.md">Clashmi_Yaml 使用教程</a>
-  &nbsp;&nbsp;&nbsp;｜&nbsp;&nbsp;&nbsp;
-  👉 <a href="https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/Clashmi_Overwrite.md">Clashmi_Overwrite 使用教程</a>
-</p>
-
-### 🎬 视频教程
-<!-- 缩略图 + 精简标题（横向展示） -->
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://youtu.be/5yD_q382YSQ" target="_blank" rel="noopener">
-        <img src="https://img.youtube.com/vi/5yD_q382YSQ/hqdefault.jpg" width="235" />
-      </a>
-      <br/>
-      <sub><b>OpenWrt · Nikki 插件配置</b></sub>
-    </td>
-    <td align="center">
-      <a href="https://youtu.be/qINXLkfVJck" target="_blank" rel="noopener">
-        <img src="https://img.youtube.com/vi/qINXLkfVJck/hqdefault.jpg" width="235" />
-      </a>
-      <br/>
-      <sub><b>Clash Mi · YAML文件&多端同步</b></sub>
-    </td>
-    <td align="center">
-      <a href="https://youtu.be/YLYXv1xryA0" target="_blank" rel="noopener">
-        <img src="https://img.youtube.com/vi/YLYXv1xryA0/hqdefault.jpg" width="235" />
-      </a>
-      <br/>
-      <sub><b>Clash Mi · 自定义覆写技巧</b></sub>
-    </td>
-  </tr>
-</table>
+# OpenWrt-Nikki替换Smart核心
+本教程用于将 OpenWrt 上已安装的 **Nikki** 插件，其 Mihomo 核心替换为 **Mihomo Alpha with Smart Group** 版本。
+> **前提条件：** OpenWrt 已正常安装并运行 Nikki 插件。
 
 
 
-## 二、策略组简介 （以日本为例）
-
-> [!IMPORTANT]
->
-> **日本-故转**：手动选择的节点不可用时，自动切换至日本-自动，以保证连接可用性。  
->
->  **日本-自动**：自动从日本节点中选择延迟较低、连接较优的节点，适合日常使用。  
->
->  **日本-手动**：手动指定具体日本节点，适合需要固定 IP、节点或线路的场景。 
->
+## 一、确认 Nikki 已正常安装
+确认 OpenWrt 已成功安装 **Nikki** 插件，并能够正常进入 Nikki 管理界面。
+**示例：**
+<img width="1525" height="392" alt="image" src="https://github.com/user-attachments/assets/6c3e41c6-39d7-4a9b-aee2-e4eef4e5ff6f" />
 
 
 
-## 三、Zashboard 界面
-<img width="1000" height="1418" alt="zashboard" src="https://github.com/user-attachments/assets/707fd6f4-0e76-4a0e-99e2-ce049d00221e" />
+## 二、替换 Mihomo Smart 核心  
+前往 [**Mihomo_Smart**](https://github.com/vernesong/mihomo/releases/)  Release 页面，根据当前 OpenWrt 的 CPU 架构下载对应的核心。
+
+### 1. 确认 OpenWrt 系统架构
+在 OpenWrt 终端中执行以下命令：
+
+```
+uname -m
+```
+
+例如：**x86_64** ,表示当前系统架构为 **x86_64** ,可下载通用的核心文件为： **mihomo-linux-amd64-compatible-alpha-smart-*******.gz**  
+<img width="1097" height="698" alt="image" src="https://github.com/user-attachments/assets/e8371da9-52ac-4aaa-9076-3d4658b63c02" />
+
+
+### 2. 解压并重命名核心文件，上传 Mihomo 核心至 OpenWrt
+下载完成后，解压 `.gz` 文件，得到核心文件： **mihomo-linux-amd64-xxxx**
+将其重命名为：**mihomo**，然后上传至 OpenWrt：**/usr/bin/** ,修改文件权限为：**755**
+<img width="1212" height="526" alt="image" src="https://github.com/user-attachments/assets/f8c3205b-1a66-45ad-8c2a-1005e826ceef" />
+
+
+### 3. 在 Nikki 中确认核心是否替换成功
+完成以上操作后，返回 **Nikki 插件管理界面**，查看当前使用的 Mihomo 核心。  
+确认核心版本已经变更为刚刚上传的 **Mihomo Alpha Smart** 版本。  
+<img width="1537" height="317" alt="image" src="https://github.com/user-attachments/assets/cd6ce5f0-e8c7-4a20-b156-2454595ee8f9" />
+
+
+
+## 三、LightGBM Model （Ai模型）
+1.当前 Release 页面，下载 LightGBM Model  
+<img width="1160" height="611" alt="image" src="https://github.com/user-attachments/assets/fbfce0e4-856b-40b4-9158-dd01bbf4c3f6" />
+
+2.上传 Model.bin 至 OpenWrt：**/etc/nikki/run/**  
+<img width="317" height="348" alt="image" src="https://github.com/user-attachments/assets/4234cfe3-fe56-47f6-a8dc-bb5270a647d4" />
+
+
+
+## 四、OpenWrt / Nikki Smart核心、LightGBM Model一键更新脚本
+
+
+
+
+
+
