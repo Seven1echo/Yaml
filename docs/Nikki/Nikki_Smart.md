@@ -1,4 +1,4 @@
-# OpenWrt-Nikki替换Smart核心
+# OpenWrt-Nikki替换Smart核心及安装LightGBM 模型
 本教程用于将 OpenWrt 上已安装的 **Nikki** 插件，其 Mihomo 核心替换为 **Mihomo Alpha with Smart Group** 版本。
 > **前提条件：** OpenWrt 已正常安装并运行 Nikki 插件。
 
@@ -77,11 +77,11 @@ wget -O - https://raw.githubusercontent.com/Seven1echo/Yaml/main/config/smart/ni
 <img width="600" height="391" alt="image" src="https://github.com/user-attachments/assets/77ed2168-8bbb-4f56-bfd8-f5ef0c14f08a" />
 
 2. 点击 **插件配置** ，勾选 **启用** ，选中上传的 **配置文件** ， 勾选 **仅核心** ，点击右下角 **保存并应用** 
-<img width="600" height="508" alt="image" src="https://github.com/user-attachments/assets/2e40065f-0b37-4e76-a3db-31640f82a9e8" />
+<img width="1654" height="965" alt="image" src="https://github.com/user-attachments/assets/5eed383a-966d-4670-ae13-ebc5aa91a622" />
 
 ### ▶️ 开始使用
 * 在 **插件配置** ，点击 **打开面板**
-<img width="600" height="193" alt="image" src="https://github.com/user-attachments/assets/1d9f4dae-c973-477b-8ebd-37b1c752277b" />
+<img width="1615" height="422" alt="image" src="https://github.com/user-attachments/assets/5ff4b11c-e5b7-4803-a22f-b4c913fe6b93" />
 
 * 进入 **面板** ，在 **策略组** 中选择合适节点（按需切换） `一般策略组有图标出现，即代表节点是通的，可分流上网`
-<img width="600" height="1011" alt="photo_2026-05-17_23-49-25" src="https://github.com/user-attachments/assets/c9fec238-e1c8-47c0-a2f5-2c56171c52b3" />
+<img width="1000" height="1418" alt="zashboard" src="https://github.com/user-attachments/assets/707fd6f4-0e76-4a0e-99e2-ce049d00221e" />
