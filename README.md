@@ -33,19 +33,23 @@
 - 流程：用户输入 → 模板下载 → YAML结构替换 → 输出文件
 
 ### 🗂️ 配置区分
-| 类型 | **Geo** | **Rule-Set** | **Overwrite** |
-|:--:|:--:|:--:|:--:|
-| 说明 | 使用**GeoSite / GeoIP** 数据库分流 | 使用**Rule-Set** 规则集分流 | 软件覆写文件 |
-| 文件 | [Seven1_fallback_Geo.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Geo.yaml) | [Seven1_fallback_Rule-Set.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set.yaml) | ***_Overwrite.yaml |
+| 类型 | **Geo** | **Rule-Set** | **Overwrite** | **Smart** |
+|:--:|:--:|:--:|:--:|:--:|
+| 说明 | 使用**数据库**分流 | 使用**规则集**分流 | 软件覆写文件 | Smart核心 |
+| 文件 | [***_Geo.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Geo.yaml) | [***_Rule-Set.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set.yaml) | [***_Overwrite.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set_Clashmi_Overwrite.yaml) | [***_Smart.yam](https://github.com/Seven1echo/Yaml/tree/main/config/smart) |
 
 ### 📚 图文教程
-<p>
-  👉 <a href="https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/Nikki_Yaml.md">Nikki_Yaml 使用教程</a>
-  &nbsp;&nbsp;&nbsp;｜&nbsp;&nbsp;&nbsp;
-  👉 <a href="https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/Clashmi_Yaml.md">Clashmi_Yaml 使用教程</a>
-  &nbsp;&nbsp;&nbsp;｜&nbsp;&nbsp;&nbsp;
-  👉 <a href="https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/Clashmi_Overwrite.md">Clashmi_Overwrite 使用教程</a>
-</p>
+
+**OpenWrt**
+- [Nikki_Yaml “仅核心”使用教程](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/Nikki_Yaml.md)   
+- [Nikki_Yaml “Smart核心”使用教程](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/Nikki_Smart.md)
+
+**ClashMi**（全平台）
+- [Yaml 使用教程](https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/Clashmi_Yaml.md) 
+- [Overwrite 覆写使用教程](https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/Clashmi_Overwrite.md)
+
+**Flclash**（无IOS端）
+- [Yaml 使用教程（示例：windows端）](https://github.com/Seven1echo/Yaml/blob/main/docs/Flclash/Flclash_Windows_Yaml.md)
 
 ### 🎬 视频教程
 <!-- 缩略图 + 精简标题（横向展示） -->

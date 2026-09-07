@@ -25,13 +25,13 @@
 - firewall4
 
 ### 📌 安装更新：[视频演示](https://youtu.be/5yD_q382YSQ)
-1. 使用ssh工具添加源
+1. 从软件源安装（推荐）
+使用ssh工具添加源
 ```
 # 只需运行一次
 wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
 ```
 
-2. 安装
 你可以从 `shell` 执行命令安装（需区分系统底层管理体系）或者从 LuCI 的`软件包`菜单安装 
 ```
 # OpenWrt≤24.10 可执行下方命令
@@ -46,15 +46,20 @@ apk add nikki
 apk add luci-app-nikki
 apk add luci-i18n-nikki-zh-cn
 ```
+
+2. 从发行版安装
+```
+wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/install.sh | ash
+```
+
 3. 卸载并重置
 ```
 wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh | ash
 ```
 
-<br>
+
 
 ## 🧩 二、制作配置文件（Yaml）
-
 ### 📥 下载模板
 
 * 【数据库】分流方案（内存占用较“**高**”）
@@ -67,9 +72,8 @@ wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/un
 请编辑下载的 Yaml 文件：
 * 🔑 填写 **订阅链接** ，修改 **机场名称**
 * 🌐 修改 **nameserver**（可选） !!建议替换为运营商 DNS（不修改也可正常使用）
-<img width="600" height="96" alt="585427163-c344e832-bdcd-4ab0-9948-e7dd9c50f44f" src="https://github.com/user-attachments/assets/24e70e8c-9b3b-4cb8-86ee-4c0cf6e07611" />
+<img width="600" height="96" alt="585427163-c344e832-bdcd-4ab0-9948-e7dd9c50f44f" src="https://github.com/user-attachments/assets/24e70e8c-9b3b-4cb8-86ee-4c0cf6e07611" />  
 
-<br>
 <img width="600" height="172" alt="585427221-45dd19cd-b782-4474-9faf-bb1b497ce55f" src="https://github.com/user-attachments/assets/07834dd5-383f-4b14-9bb5-09323c61b022" />
 
 
@@ -78,10 +82,9 @@ wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/un
 👉 [Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)
 <img width="600" height="457" alt="image" src="https://github.com/user-attachments/assets/6926f761-ae0a-444b-9036-9dcd2ae8cc9e" />
 
-<br>
+
 
 ## 📚 三、导入并使用
-
 ### 📂 导入配置
 1. 进入Nikki插件，点击**配置文件** ，上传修改好的Yaml文件
 <img width="600" height="391" alt="image" src="https://github.com/user-attachments/assets/77ed2168-8bbb-4f56-bfd8-f5ef0c14f08a" />
@@ -95,4 +98,3 @@ wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/un
 
 * 进入 **面板** ，在 **策略组** 中选择合适节点（按需切换） `一般策略组有图标出现，即代表节点是通的，可分流上网`
 <img width="600" height="1011" alt="photo_2026-05-17_23-49-25" src="https://github.com/user-attachments/assets/c9fec238-e1c8-47c0-a2f5-2c56171c52b3" />
-

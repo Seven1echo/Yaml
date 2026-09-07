@@ -30,7 +30,7 @@
   2. 下载并安装
   3. 启动软件，进入主界面
 
-<br>
+
 
 ## ⚙️ 二、简单配置（核心设置）
 
@@ -44,7 +44,7 @@
 | TUN    | ❌ 关闭     | 无需开启，Yaml已有参数                |
 <img width="600" height="640" alt="Core_Settings2" src="https://github.com/user-attachments/assets/47fc3c5d-a546-48fe-901d-1f627bde93a6" />
 
-<br>
+
 
 ## 🧩 三、添加覆写配置
 
@@ -57,7 +57,6 @@ https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallbac
 <img width="600" height="320" alt="Overwrite" src="https://github.com/user-attachments/assets/6ad0d141-07d0-4fc3-b222-bcc9622ef256" />
 
 
-<br>
 
 ## 📚 四、添加机场订阅
 ### 📂 添加订阅
@@ -75,7 +74,7 @@ https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallbac
 * 进入 **面板** ，在 **策略组** 中选择合适节点（按需切换） `一般策略组有图标出现，即代表节点是通的，可分流上网`
 <img width="600" height="638" alt="覆写启动代理" src="https://github.com/user-attachments/assets/2f747868-b11b-4e2a-be25-ee9a6ff2e2dd" />
 
-<br>
+
 
 ## 💡 五、使用建议
 * 🧪 遇到问题先检查配置文件与日志

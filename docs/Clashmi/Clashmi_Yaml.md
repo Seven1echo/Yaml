@@ -30,7 +30,7 @@
   2. 下载并安装
   3. 启动软件，进入主界面
 
-<br>
+
 
 ## ⚙️ 二、简单配置（核心设置）
 
@@ -45,7 +45,7 @@
 | 覆写     | 内置-不覆写   | 避免配置冲突                |
 <img width="600" height="640" alt="Core_Settings" src="https://github.com/user-attachments/assets/ec0bd01d-8d7f-4d7f-a966-cdbef5d440c7" />
 
-<br>
+
 
 ## 🧩 三、制作配置文件（Yaml）
 
@@ -69,7 +69,7 @@
 👉 [Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)
 <img width="600" height="457" alt="image" src="https://github.com/user-attachments/assets/6926f761-ae0a-444b-9036-9dcd2ae8cc9e" />
 
-<br>
+
 
 ## 📚 四、导入并使用
 ### 📂 导入配置
@@ -86,7 +86,7 @@
 * 进入 **面板** ，在 **策略组** 中选择合适节点（按需切换） `一般策略组有图标出现，即代表节点是通的，可分流上网`
 <img width="600" height="638" alt="启动代理" src="https://github.com/user-attachments/assets/3a55ea83-ab8e-4704-b3ba-91134cba4e35" />
 
-<br>
+
 
 ## 💡 五、使用建议
 * 🧪 遇到问题先检查配置文件与日志

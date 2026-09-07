@@ -30,7 +30,7 @@
   2. 下载并安装
   3. 启动软件，进入主界面
 
-<br>
+
 
 ## 🧩 二、制作配置文件（Yaml）
 
@@ -58,7 +58,7 @@
 👉 [Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)
 <img width="600" height="457" alt="image" src="https://github.com/user-attachments/assets/6926f761-ae0a-444b-9036-9dcd2ae8cc9e" />
 
-<br>
+
 
 ## 📚 三、导入并使用
 1. 进入 **配置** ，点击 **添加配置** - **文件**（直接上传配置文件） ，选中刚刚制作的 Yaml 文件
@@ -68,7 +68,6 @@
 <img width="3309" height="1483" alt="Flclash_Windows_Yaml" src="https://github.com/user-attachments/assets/935b7d06-e9d8-44e6-a31b-4d1d559f1290" />
 
 
-<br>
 
 ## 💡 四、配置建议
 * 🧪 基本配置、进阶配置、应用程序，可按需选择，注意：若修改了相应内容，需要回到 **仪表盘** ，点击右下角 **开始按钮**，重新启动下。
