@@ -1,4 +1,4 @@
-# 🚀 Nikki_Yaml 使用教程（仅内核）
+# 🚀 Nikki_Yaml 使用教程（仅核心）
 
 <!-- 官方徽标 -->
 <p align="center">

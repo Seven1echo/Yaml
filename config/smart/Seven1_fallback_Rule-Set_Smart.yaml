@@ -1,5 +1,5 @@
 # 名称： Seven1_fallback_Rule-Set_Smart
-# 版本： V2026.8.28
+# 版本： V2026.9.7
 # 频道： https://t.me/Seven1gogogo
 # 地址： https://github.com/Seven1echo/Yaml
 # 说明： ①使用前需补充完整 “订阅链接” 与 “机场名”，可将 “nameserver” 修改为运营商提供的 DNS 地址; ②已隐藏“区域-故转”、“区域-智选”这两个策略组，使用时按需手动选取对应地区策略组即可。
@@ -54,6 +54,10 @@ unified-delay: true                                                     # 统一
 tcp-concurrent: true                                                    # 并发连接  提升多任务性能
 global-ua: clash.meta                                                   # 用户代理  全局默认UA
 profile: { store-selected: true, store-fake-ip: true }                  # 保存选择  记住选择的节点和策略组、Fake-IP 映射
+# ══ 模型数据 ══
+lgbm-url: "https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model-large.bin"
+lgbm-auto-update: true                                                  # 自动更新  LightGBM 模型
+lgbm-update-interval: 24                                                # 更新间隔  单位：小时
 # ══ 管理面板 ══
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 external-controller: 0.0.0.0:9090                                       # 面板地址
