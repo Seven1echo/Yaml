@@ -23,6 +23,20 @@
 
 
 
+## 三、使用提示
+1. 使用自己的 **Model.bin** ，需要注意Yaml里的模型相关参数，是否删除或者注释掉，不然会自动更新为官方模型
+2. 当感觉自己的 **Model.bin** ，已经成熟了，记得设置Smart策略组的 **collectdata** 参数为 **False** ,不然会一直收集使用数据
+<img width="1024" height="121" alt="image" src="https://github.com/user-attachments/assets/dc917a14-80f4-4945-9513-f62cc724f0a8" />  
+
+```
+# ══ 模型数据 ══
+lgbm-url: "https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model-large.bin"
+lgbm-auto-update: true                                                  # 自动更新  LightGBM 模型
+lgbm-update-interval: 24                                                # 更新间隔  单位：小时
+```
+
+
+
 
 
 
