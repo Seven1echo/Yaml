@@ -28,15 +28,15 @@
 >  配置文件默认开启 **绕过中国大陆模式**，匹配大陆IP-CIDR（流量不进入代理）
 > 
 
-### 🛠️ 配套工具
-> - Windows端一键生成工具 **（推荐使用）**：**[Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)**
-> - 流程：用户输入 → 模板下载 → YAML结构替换 → 输出文件
-
 ### 🗂️ 配置区分
 | 类型 | **Geo** | **Rule-Set** | **Overwrite** | **Smart** |
 |:--:|:--:|:--:|:--:|:--:|
 | 说明 | 使用**数据库**分流 | 使用**规则集**分流 | 软件覆写文件 | Smart核心 |
 | 文件 | [***_Geo.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Geo.yaml) | [***_Rule-Set.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set.yaml) | [***_Overwrite.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set_Clashmi_Overwrite.yaml) | [***_Smart.yam](https://github.com/Seven1echo/Yaml/tree/main/config/smart) |
+
+### 🛠️ 配套工具
+> - Windows端一键生成工具 **（推荐使用）**：**[Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)**
+> - 流程：用户输入 → 模板下载 → YAML结构替换 → 输出文件
 
 ### 📚 图文教程
 > 
