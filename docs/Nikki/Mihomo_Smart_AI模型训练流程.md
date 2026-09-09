@@ -8,7 +8,7 @@
 
 2. 提取 smart_weight_data.csv 至生产环境  
 终端登录 Openwrt: **/etc/nikki/run/** ,下载 smart_weight_data.csv 文件到本地
-<img width="807" height="400" alt="image" src="https://github.com/user-attachments/assets/376c96a4-98ed-4bf1-9151-7e8a2490c8a4" />  
+<img width="450" height="400" alt="647739174-376c96a4-98ed-4bf1-9151-7e8a2490c8a4_看图王_看图王" src="https://github.com/user-attachments/assets/b6ca9f94-8f1d-403e-8937-ce92fa148831" />
 
 
 
@@ -26,11 +26,11 @@
 ## 三、使用提示
 1. 使用自己的 **Model.bin** ，需要注意Yaml里的模型相关参数，是否删除或者注释掉，不然会自动更新为官方模型
 2. 当感觉自己的 **Model.bin** ，已经成熟了，记得设置Smart策略组的 **collectdata** 参数为 **False** ,不然会一直收集使用数据
-<img width="1024" height="121" alt="image" src="https://github.com/user-attachments/assets/dc917a14-80f4-4945-9513-f62cc724f0a8" />  
+<img width="980" height="105" alt="image" src="https://github.com/user-attachments/assets/1962c688-7dea-4b3c-a27a-b1c985456f64" />
 
 ```
 # ══ 模型数据 ══
-lgbm-url: "https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model-large.bin"
+lgbm-url: "https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin"
 lgbm-auto-update: true                                                  # 自动更新  LightGBM 模型
 lgbm-update-interval: 24                                                # 更新间隔  单位：小时
 ```
