@@ -42,7 +42,7 @@
 
 **OpenWrt**
 - [Nikki_Yaml “仅核心”使用教程](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/Nikki_Yaml.md)   
-- [Nikki_Yaml “Smart核心”使用教程](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/Nikki_Smart.md)
+- [Nikki_Yaml “Smart核心”使用教程](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/Nikki_Smart.md) | [Mihomo_Smart_AI模型训练流程](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/Mihomo_Smart_AI%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B.md)
 
 **ClashMi**（全平台）
 - [Yaml 使用教程](https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/Clashmi_Yaml.md) 
