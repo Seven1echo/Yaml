@@ -1,27 +1,28 @@
 ## 一、PVE宿主机LXC容器部署Debian
 ### 1. 下载 Debian 的 LXC 容器模板到本地（版本看个人喜欢，一般选最新的）
-<img width="1919" height="817" alt="image" src="https://github.com/user-attachments/assets/f2908ff5-e9a1-4d90-b326-e715bfb18523" />  
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/1.%E4%B8%8B%E8%BD%BDDebian%E6%A8%A1%E6%9D%BF.jpg)
+
 
 ### 2. 创建 LXC 容器  
 2.1 点击 “创建 CT” 按钮，开始创建新的 LXC 容器 (**CTID**可以不改、**主机名**随意、设置好**密码**、建议取消勾选**无特权的容器**)  
-<img width="1917" height="438" alt="image" src="https://github.com/user-attachments/assets/28c645ee-d6f4-4744-b0b6-c916d5f0acb3" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/2.1%E5%88%9B%E5%BB%BACT.jpg)
 2.2 模板选取刚下载的 Debian  
-<img width="1919" height="316" alt="image" src="https://github.com/user-attachments/assets/03d7b0e8-4012-428b-a2f5-de11b68d8cea" />  
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/2.2%E9%80%89%E5%8F%96%E6%A8%A1%E6%9D%BF.jpg)
 2.3 磁盘、CPU、内存大小根据自己的实际需要给就行  
-<img width="1906" height="307" alt="image" src="https://github.com/user-attachments/assets/ec0a1b61-8408-4ca9-bc86-0f79095e7899" />  
-<img width="1917" height="232" alt="image" src="https://github.com/user-attachments/assets/91f0598f-fa4a-4deb-a96b-68c9c4bef470" />  
-<img width="1919" height="291" alt="image" src="https://github.com/user-attachments/assets/c52e0da9-f759-4747-8700-3194a8c3a7c1" />  
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/2.3.1%E7%A3%81%E7%9B%98.jpg)
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/2.3.2CPU.jpg)
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/2.3.3%E5%86%85%E5%AD%98.jpg)
 2.4 网络建议ipv4手动指定ip（根据自己的局域网段来分配）、ipv6可dhcp自动分配ip、建议取消勾选**防火墙**
-<img width="1919" height="452" alt="image" src="https://github.com/user-attachments/assets/efb984af-2c44-4bc1-9839-a42491f5e8ae" />  
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/2.4%E7%BD%91%E7%BB%9C.jpg)
 2.5 DNS 默认即可
-<img width="1918" height="305" alt="image" src="https://github.com/user-attachments/assets/7059d5e6-f20d-461d-b2a3-4b73967a7a83" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/2.5NDS.jpg)
 2.6 配置完整后，点击完成即可创建容器
-<img width="1915" height="805" alt="image" src="https://github.com/user-attachments/assets/30587d84-f5dc-42e8-b23a-4a7a134ff7bc" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/2.6%E7%A1%AE%E8%AE%A4.jpg)
 
 
 ## 二、开机部署服务
 选中创建的容器，点击启动，输入用户名：root 及密码，开始部署服务
-<img width="1914" height="361" alt="image" src="https://github.com/user-attachments/assets/8b86c7dd-8755-4390-a492-498ef008f961" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/3.%E5%BC%80%E6%9C%BA%E9%83%A8%E7%BD%B2.jpg)
 
 
 ### （一）一键开启 SSH 服务 （不开启三方SSH工具无法连接）
@@ -74,4 +75,4 @@ docker run -it -d --restart=always \
 
 # 三、使用提示
 当你全部配置完成、正常使用了，记得将 Debian 设置为开机自启
-<img width="1919" height="393" alt="image" src="https://github.com/user-attachments/assets/00d422c9-65cf-4330-ad4e-dc1339d6c265" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/pics/4.%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF.jpg)
