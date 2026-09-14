@@ -49,14 +49,13 @@
 
 * 🔑 填写 **订阅链接** ，修改 **机场名称**
 * 🌐 修改 **nameserver**（可选） !!建议替换为运营商 DNS（不修改也可正常使用）
-<img width="600" height="96" alt="订阅链接" src="https://github.com/user-attachments/assets/c344e832-bdcd-4ab0-9948-e7dd9c50f44f" />
-<br>
-<img width="600" height="172" alt="BaiduShurufa_2026-4-29_20-54-11" src="https://github.com/user-attachments/assets/45dd19cd-b782-4474-9faf-bb1b497ce55f" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Flclash/pics/Flclash_Windows_Yaml/1.%E8%AE%A2%E9%98%85.jpg)  
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Flclash/pics/Flclash_Windows_Yaml/2.DNS.jpg)
 
 ### 🛠 Windows辅助工具
 如果你使用 Windows，可直接使用自动生成工具：
 👉 [Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)
-<img width="600" height="457" alt="image" src="https://github.com/user-attachments/assets/6926f761-ae0a-444b-9036-9dcd2ae8cc9e" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Flclash/pics/Flclash_Windows_Yaml/3.%E5%B7%A5%E5%85%B7.jpg)
 
 
 
@@ -64,8 +63,7 @@
 1. 进入 **配置** ，点击 **添加配置** - **文件**（直接上传配置文件） ，选中刚刚制作的 Yaml 文件
 2. 选中需要使用的 **配置文件** ，回到 **仪表盘** ，点击右下角 **开始按钮**
 3. 确认启动后，切换到 **代理** ，按需选择策略组出口即可
-
-<img width="3309" height="1483" alt="Flclash_Windows_Yaml" src="https://github.com/user-attachments/assets/935b7d06-e9d8-44e6-a31b-4d1d559f1290" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Flclash/pics/Flclash_Windows_Yaml/4.%E4%BD%BF%E7%94%A8.jpg)
 
 
 
