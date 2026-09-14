@@ -42,7 +42,8 @@
 | 进程匹配模式 | `always` | 移动设备推荐                |
 | IPv6   | 不覆写      | 保持默认更稳定               |
 | TUN    | ❌ 关闭     | 无需开启，Yaml已有参数                |
-<img width="600" height="640" alt="Core_Settings2" src="https://github.com/user-attachments/assets/47fc3c5d-a546-48fe-901d-1f627bde93a6" />
+
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/pics/Clashmi_Overwrite/1.%E8%AE%BE%E7%BD%AE.jpg)
 
 
 
@@ -54,7 +55,7 @@ https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallbac
 
 * 将上方 **覆写链接** ，复制粘贴到 **核心设置** 〉**覆写** 〉右上角“**+**”  〉**添加配置连接** 〉右上角“**√**”
 * **覆写**  〉 选中刚刚添加的 **覆写文件**
-<img width="600" height="320" alt="Overwrite" src="https://github.com/user-attachments/assets/6ad0d141-07d0-4fc3-b222-bcc9622ef256" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/pics/Clashmi_Overwrite/2.%E6%B7%BB%E5%8A%A0.jpg)
 
 
 
@@ -66,17 +67,17 @@ https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_fallbac
 3. 选择 **添加配置连接**
 4. 添加 **机场订阅信息** 
 5. 点击右上角 **“√” 保存**
-<img width="600" height="430" alt="添加机场订阅" src="https://github.com/user-attachments/assets/79631f84-8587-4d06-ac94-6789bc333fb9" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/pics/Clashmi_Overwrite/3.%E5%AF%BC%E5%85%A5.jpg)
 
 
 ### ▶️ 启动代理
 * 选中刚刚添加的 **机场** ，将状态从 **未连接** → 打开开关 → **已连接**
 * 进入 **面板** ，在 **策略组** 中选择合适节点（按需切换） `一般策略组有图标出现，即代表节点是通的，可分流上网`
-<img width="600" height="638" alt="覆写启动代理" src="https://github.com/user-attachments/assets/2f747868-b11b-4e2a-be25-ee9a6ff2e2dd" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/pics/Clashmi_Overwrite/4.%E5%90%AF%E5%8A%A8.jpg)
 
 
 
 ## 💡 五、使用建议
 * 🧪 遇到问题先检查配置文件与日志
 * ✔️ ios苹果用户，若配置覆写后，策略组无图标（即代理不通），可去 **核心设置** 打开 **TUN** 或灵活开关下 **DNS劫持** 或 **附加HTTP代理到VPN**
-<img width="600" height="1298" alt="苹果" src="https://github.com/user-attachments/assets/2892fd95-e0c6-4b1d-8d91-ff5ef830582e" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Clashmi/pics/Clashmi_Overwrite/5.%E5%BB%BA%E8%AE%AE.jpg)
