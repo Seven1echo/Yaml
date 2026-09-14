@@ -4,11 +4,11 @@
 
 ## 一、 数据收集及提取
 1. 修改 Yaml Smart 策略组的 **collectdata** 参数为 **True** ，开启数据收集。建议持续收集数据 **一周以上**，也可阶段性数据收集，基于使用数据更新模型  
-<img width="1382" height="167" alt="image" src="https://github.com/user-attachments/assets/b2ee0077-a54c-4285-b04a-e437b2cd21d2" />  
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Mihomo_Smart_AI%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B/1.%E5%8F%82%E6%95%B0.jpg)
 
 2. 提取 smart_weight_data.csv 至生产环境  
 终端登录 Openwrt: **/etc/nikki/run/** ,下载 smart_weight_data.csv 文件到本地
-<img width="450" height="400" alt="647739174-376c96a4-98ed-4bf1-9151-7e8a2490c8a4_看图王_看图王" src="https://github.com/user-attachments/assets/b6ca9f94-8f1d-403e-8937-ce92fa148831" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Mihomo_Smart_AI%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B/2.%E6%8F%90%E5%8F%96.jpg)
 
 
 
@@ -16,17 +16,17 @@
 1. 打开训练工具后，点击 **浏览** ，选取 smart_weight_data.csv 文件   
 
 2. 点击 **开始训练** ，静待程序跑批完毕，Model.bin 将会生成在桌面  
-<img width="948" height="470" alt="image" src="https://github.com/user-attachments/assets/ef8c1213-4c45-4c94-bd88-1571dca55306" />  
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Mihomo_Smart_AI%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B/3.%E8%AE%AD%E7%BB%83.jpg)  
 
-3. 上传 Model.bin 至 OpenWrt：**/etc/nikki/run/** ，正常使用即可
-<img width="317" height="348" alt="image" src="https://github.com/user-attachments/assets/4234cfe3-fe56-47f6-a8dc-bb5270a647d4" />
+3. 上传 Model.bin 至 OpenWrt：**/etc/nikki/run/** ，正常使用即可  
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Mihomo_Smart_AI%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B/4.%E6%9B%BF%E6%8D%A2.jpg)  
 
 
 
 ## 三、使用提示
 1. 使用自己的 **Model.bin** ，需要注意Yaml里的模型相关参数，是否删除或者注释掉，不然会自动更新为官方模型
 2. 当感觉自己的 **Model.bin** ，已经成熟了，记得设置Smart策略组的 **collectdata** 参数为 **False** ,不然会一直收集使用数据
-<img width="980" height="105" alt="image" src="https://github.com/user-attachments/assets/1962c688-7dea-4b3c-a27a-b1c985456f64" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Mihomo_Smart_AI%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B/5.%E6%8F%90%E7%A4%BA.jpg)
 
 ```
 # ══ 模型数据 ══
