@@ -101,4 +101,5 @@
 
 
 ## 三、Zashboard 界面
-<img width="1000" height="1418" alt="zashboard" src="https://github.com/user-attachments/assets/707fd6f4-0e76-4a0e-99e2-ce049d00221e" />  
+<img width="1179" height="2012" alt="7 Zashboard" src="https://github.com/user-attachments/assets/45c9e5e9-1a08-4d54-ab43-cf123e86b55b" />
+
