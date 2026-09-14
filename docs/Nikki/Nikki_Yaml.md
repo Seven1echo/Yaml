@@ -72,29 +72,28 @@ wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/un
 请编辑下载的 Yaml 文件：
 * 🔑 填写 **订阅链接** ，修改 **机场名称**
 * 🌐 修改 **nameserver**（可选） !!建议替换为运营商 DNS（不修改也可正常使用）
-<img width="600" height="96" alt="585427163-c344e832-bdcd-4ab0-9948-e7dd9c50f44f" src="https://github.com/user-attachments/assets/24e70e8c-9b3b-4cb8-86ee-4c0cf6e07611" />  
-
-<img width="600" height="172" alt="585427221-45dd19cd-b782-4474-9faf-bb1b497ce55f" src="https://github.com/user-attachments/assets/07834dd5-383f-4b14-9bb5-09323c61b022" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Yaml/1.%E8%AE%A2%E9%98%85.jpg)  
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Yaml/2.DNS.jpg)
 
 
 ### 🛠 Windows辅助工具
 如果你使用 Windows，可直接使用自动生成工具：
 👉 [Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)
-<img width="600" height="457" alt="image" src="https://github.com/user-attachments/assets/6926f761-ae0a-444b-9036-9dcd2ae8cc9e" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Yaml/3.%E5%B7%A5%E5%85%B7.jpg)
 
 
 
 ## 📚 三、导入并使用
 ### 📂 导入配置
 1. 进入Nikki插件，点击**配置文件** ，上传修改好的Yaml文件
-<img width="600" height="391" alt="image" src="https://github.com/user-attachments/assets/77ed2168-8bbb-4f56-bfd8-f5ef0c14f08a" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Yaml/4.%E4%B8%8A%E4%BC%A0.jpg)
 
 2. 点击 **插件配置** ，勾选 **启用** ，选中上传的 **配置文件** ， 勾选 **仅核心** ，点击右下角 **保存并应用** 
-<img width="600" height="508" alt="image" src="https://github.com/user-attachments/assets/2e40065f-0b37-4e76-a3db-31640f82a9e8" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Yaml/5.%E5%90%AF%E7%94%A8.jpg)
 
 ### ▶️ 开始使用
 * 在 **插件配置** ，点击 **打开面板**
-<img width="600" height="193" alt="image" src="https://github.com/user-attachments/assets/1d9f4dae-c973-477b-8ebd-37b1c752277b" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Yaml/6.%20%E6%89%93%E5%BC%80%E9%9D%A2%E6%9D%BF.jpg)
 
 * 进入 **面板** ，在 **策略组** 中选择合适节点（按需切换） `一般策略组有图标出现，即代表节点是通的，可分流上网`
-<img width="600" height="1011" alt="photo_2026-05-17_23-49-25" src="https://github.com/user-attachments/assets/c9fec238-e1c8-47c0-a2f5-2c56171c52b3" />
+![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Yaml/7.Zashboard.jpg)
