@@ -34,25 +34,21 @@ uname -m
 确认核心版本已经变更为刚刚上传的 **Mihomo Alpha Smart** 版本    
 ![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Smart/2.3%E6%A3%80%E6%9F%A5.jpg)  
 
-
-
-## 三、LightGBM Model （Ai模型）
+### 4. LightGBM Model （Ai模型）
 1.当前 Release 页面，下载 LightGBM Model  
 ![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Smart/3.1%E4%B8%8B%E8%BD%BD.jpg)  
 
 2.上传 Model.bin 至 OpenWrt：**/etc/nikki/run/**  
 ![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Smart/3.2%E4%B8%8A%E4%BC%A0.jpg)
 
-
-
-## 四、 一键更新Smart核心、LightGBM Model 脚本（x86_64）
-```
-wget -O - https://raw.githubusercontent.com/Seven1echo/Yaml/main/config/smart/nikki-update-smart-model_x86_64.sh | ash
-```
+> 提供一键更新Smart核心、LightGBM Model 脚本（仅支持x86_64）**，若以上步骤已做完，可忽略下方脚本**
+> ```
+> wget -O - https://raw.githubusercontent.com/Seven1echo/Yaml/main/config/smart/nikki-update-smart-model_x86_64.sh | ash
+> ```
 
 
 
-## 五、 制作配置文件（Yaml）
+## 三、 制作配置文件（Yaml）
 ### 📥 下载模板
 
 * 【数据库】分流方案（内存占用较“**高**”）
@@ -70,7 +66,7 @@ wget -O - https://raw.githubusercontent.com/Seven1echo/Yaml/main/config/smart/ni
 
 
 
-## 六、 导入并使用
+## 四、 导入并使用
 ### 📂 导入配置
 1. 进入Nikki插件，点击**配置文件** ，上传修改好的Yaml文件
 ![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Smart/6.%E4%B8%8A%E4%BC%A0.jpg) 
