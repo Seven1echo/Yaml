@@ -41,9 +41,9 @@ uname -m
 2.上传 Model.bin 至 OpenWrt：**/etc/nikki/run/**  
 ![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/pics/Nikki_Smart/3.2%E4%B8%8A%E4%BC%A0.jpg)
 
-> 提供一键更新Smart核心、LightGBM Model 脚本（仅支持x86_64）**，若以上步骤已做完，可忽略下方脚本**
+> 下方为 Nikki-Tools 脚本（支持安装、更新、卸载Nikki插件，更新替换MetaCubeX：Alpha、Stable 及 Vernesong：Smart核心）**，若以上步骤已手动做完，可跳过下方脚本**
 > ```
-> wget -O - https://raw.githubusercontent.com/Seven1echo/Yaml/main/config/smart/nikki-update-smart-model_x86_64.sh | ash
+> wget -O - https://raw.githubusercontent.com/Seven1echo/Yaml/main/config/smart/nikki-tools.sh | ash
 > ```
 
 

@@ -57,6 +57,11 @@ wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/in
 wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh | ash
 ```
 
+> 下方为 Nikki-Tools 脚本（支持安装、更新、卸载Nikki插件，更新替换MetaCubeX：Alpha、Stable 及 Vernesong：Smart核心）**，若以上步骤已手动做完，可跳过下方脚本**
+> ```
+> wget -O - https://raw.githubusercontent.com/Seven1echo/Yaml/main/config/smart/nikki-tools.sh | ash
+>
+
 
 
 ## 🧩 二、制作配置文件（Yaml）
