@@ -1,14 +1,14 @@
 Seven1_Direct_Domain v2026.09.20
 ========================
 
-Collapsed Domains: 200
-Collapse Threshold: 2
-Removed Conflicts: 9
+Collapsed Domains: 99
+Collapse Threshold: 3
+Removed Conflicts: 37
 Delete List: 0
 Removed By Delete List: 0
 
-TOTAL: 1504
+TOTAL: 1510
 
-DOMAIN: 174
-SUFFIX: 1330
+DOMAIN: 181
+SUFFIX: 1329
 KEYWORD: 0
