@@ -43,7 +43,7 @@ uname -m
 
 > 下方为 Nikki-Tools 脚本（支持安装、更新、卸载Nikki插件，更新替换MetaCubeX：Alpha、Stable 及 Vernesong：Smart核心）**，若以上步骤已手动做完，可跳过下方脚本**
 > ```
-> wget -q -O /tmp/nikki-tools.sh https://raw.githubusercontent.com/Seven1echo/Yaml/main/config/smart/nikki-tools.sh && ash /tmp/nikki-tools.sh
+> wget -q -O /tmp/nikki-tools.sh https://raw.githubusercontent.com/Seven1echo/Yaml/main/smart/nikki-tools.sh && ash /tmp/nikki-tools.sh
 > ```
 
 
@@ -52,10 +52,10 @@ uname -m
 ### 📥 下载模板
 
 * 【数据库】分流方案（内存占用较“**高**”）
-  👉 [Geo_Smart【数据库分流】](https://github.com/Seven1echo/Yaml/blob/main/config/smart/Seven1_fallback_Geo_Smart.yaml)
+  👉 [Geo_Smart【数据库分流】](https://github.com/Seven1echo/Yaml/blob/main/smart/Seven1_fallback_Geo_Smart.yaml)
 
 * 【规则集】分流方案（内存占用较“**低**”）
-  👉 [Rule-Set_Smart【规则集分流】](https://github.com/Seven1echo/Yaml/blob/main/config/smart/Seven1_fallback_Rule-Set_Smart.yaml)
+  👉 [Rule-Set_Smart【规则集分流】](https://github.com/Seven1echo/Yaml/blob/main/smart/Seven1_fallback_Rule-Set_Smart.yaml)
 
 ### ✏️ 修改内容
 请编辑下载的 Yaml 文件：

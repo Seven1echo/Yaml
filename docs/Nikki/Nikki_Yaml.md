@@ -59,7 +59,7 @@ wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/un
 
 > 下方为 Nikki-Tools 脚本（支持安装、更新、卸载Nikki插件，更新替换MetaCubeX：Alpha、Stable 及 Vernesong：Smart核心）**，若以上步骤已手动做完，可跳过下方脚本**
 > ```
-> wget -q -O /tmp/nikki-tools.sh https://raw.githubusercontent.com/Seven1echo/Yaml/main/config/smart/nikki-tools.sh && ash /tmp/nikki-tools.sh
+> wget -q -O /tmp/nikki-tools.sh https://raw.githubusercontent.com/Seven1echo/Yaml/main/smart/nikki-tools.sh && ash /tmp/nikki-tools.sh
 >
 
 
