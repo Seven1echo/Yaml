@@ -37,8 +37,8 @@
 | Clashmi覆写 | / |  [***_Rule-Set_Clashmi_Overwrite.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set_Clashmi_Overwrite.yaml) |
 
 ### 🛠️ 配套工具
-> - Windows端一键生成工具 **（推荐使用）**：**[Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)**
-> - 流程：用户输入 → 模板下载 → YAML结构替换 → 输出文件
+> - 一键生成YAML配置文件 **（Windows端）**：**[Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)**
+> - 找出掉入漏网之鱼的直连，**（Docker 部署）**：**[RouteCheck](https://github.com/Seven1echo/RouteCheck)**
 
 ### 📚 图文教程
 > 
