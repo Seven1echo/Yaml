@@ -12,7 +12,7 @@
 
 
 
-## 二、 使用 [**Mihomo_Smart_AI模型训练工具.exe**](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/config/smart/Mihomo_Smart_AI%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E5%B7%A5%E5%85%B7.exe) 制作 **Model.bin**
+## 二、 使用 [**Mihomo_Smart_AI模型训练工具.exe**](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/smart/Mihomo_Smart_AI%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E5%B7%A5%E5%85%B7.exe) 制作 **Model.bin**
 1. 打开训练工具后，点击 **浏览** ，选取 smart_weight_data.csv 文件   
 
 2. 点击 **开始训练** ，静待程序跑批完毕，Model.bin 将会生成在桌面  
