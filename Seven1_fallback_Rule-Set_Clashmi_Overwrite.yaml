@@ -21,7 +21,7 @@ Anchor_UT: &Anchor_UT {type: url-test, empty-fallback: REJECT, interval: 300, la
 # ══ 规则锚点 ══
 Anchor_DN: &Anchor_DN {type: http, interval: 86400, behavior: domain, format: mrs}
 Anchor_IP: &Anchor_IP {type: http, interval: 86400, behavior: ipcidr, format: mrs}
-Anchor_CL: &Anchor_CL {type: http, interval: 86400, behavior: classical, format: text}
+Anchor_CL: &Anchor_CL {type: http, interval: 86400, behavior: classical, format: yaml}
 # ══ 区域锚点 ══
 Anchor_HK: &Anchor_HK '(?i)^(?=.*(香港|(?<![a-zA-Z])(hk|hkg)(?![a-zA-Z])|hongkong|hong kong|🇭🇰)).*$'
 Anchor_TW: &Anchor_TW '(?i)^(?=.*(台湾|(?<![a-zA-Z])(tw|tpe|khh|tsa)(?![a-zA-Z])|taiwan|taipei|🇹🇼)).*$'
