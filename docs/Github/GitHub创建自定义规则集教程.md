@@ -39,7 +39,7 @@ https://github.com/Seven1echo/my-rules/raw/refs/heads/main/test.yaml
 
 对于锚点应用方式有疑问可见：[关于Anchor_DN、Anchor_IP、Anchor_CL锚点的区别.md](https://github.com/Seven1echo/Yaml/blob/main/docs/Config/关于Anchor_DN、Anchor_IP、Anchor_CL锚点的区别.md)
 
-**2.2 在 `rules:` 添加上规则路由走向  **
+**2.2 在 `rules:` 添加上规则路由走向**  
     **注意：规则读取顺序自上而下，越靠前优先级越高，匹配到即停止**，后方 `一键代理` ，为路由出口，可填 `策略组名称` 或 `节点名称`  
 ![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Github/pics/GitHub创建自定义规则集流程/2.2rules.png)
 > `add_rules` 可根据个人喜好命名，但在 `rule-providers: ` 、  `rules:` 需保持一致
