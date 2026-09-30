@@ -45,6 +45,9 @@
 > **‌Proxmox VE** (PVE)
 > > - 📂 [SubStore 部署教程](https://github.com/Seven1echo/Yaml/blob/main/docs/PVE/PVE-LXC_Debian-Docker_SubStore.md)
 > 
+> **Github**
+> > - 📂 [创建自定义规则集教程](https://github.com/Seven1echo/Yaml/blob/main/docs/Github/GitHub创建自定义规则集流程.md)
+> 
 > **OpenWrt**
 > > - 【常规核心】
 > > - 📂 [Nikki_Yaml “仅核心”使用教程](https://github.com/Seven1echo/Yaml/blob/main/docs/Nikki/Nikki_Yaml.md)   
