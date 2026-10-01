@@ -1,0 +1,485 @@
+name: update-Bypass_China
+
+on:
+  schedule:
+    - cron: '18 22 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-Bypass_China
+  cancel-in-progress: true
+
+jobs:
+  update-rules:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      # ============================================================
+      # 安装 Mihomo
+      # 每次运行自动获取 GitHub Latest Release
+      # ============================================================
+      - name: Install Mihomo
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "获取 Mihomo 最新版本..."
+
+          RELEASE_JSON="$(
+            curl -fsSL --retry 5 --retry-all-errors \
+              --connect-timeout 20 --max-time 120 \
+              "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest"
+          )"
+
+          # 获取最新版本号，例如：
+          # v1.19.31
+          MIHOMO_VERSION="$(
+            printf '%s' "$RELEASE_JSON" |
+              python3 -c '
+          import json
+          import sys
+
+          data = json.load(sys.stdin)
+          tag = data.get("tag_name")
+
+          if not tag:
+              raise SystemExit("GitHub API 返回中没有 tag_name")
+
+          print(tag)
+          '
+          )"
+
+          # 自动寻找 Linux AMD64 gzip 文件
+          # 例如：
+          # mihomo-linux-amd64-v1.19.31.gz
+          MIHOMO_ASSET="$(
+            printf '%s' "$RELEASE_JSON" |
+              python3 -c '
+          import json
+          import sys
+
+          data = json.load(sys.stdin)
+
+          candidates = []
+
+          for asset in data.get("assets", []):
+              name = asset.get("name", "")
+
+              if (
+                  name.startswith("mihomo-linux-amd64-")
+                  and name.endswith(".gz")
+              ):
+                  candidates.append(name)
+
+          if not candidates:
+              raise SystemExit(
+                  "找不到 mihomo-linux-amd64-*.gz，请检查 Mihomo 最新 Release 的资产名称。"
+              )
+
+          # 正常情况下只有一个符合条件的文件
+          print(candidates[0])
+          '
+          )"
+
+          DOWNLOAD_URL="https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_VERSION}/${MIHOMO_ASSET}"
+
+          echo "========================================"
+          echo "Mihomo 最新版本：${MIHOMO_VERSION}"
+          echo "下载文件：${MIHOMO_ASSET}"
+          echo "下载地址：${DOWNLOAD_URL}"
+          echo "========================================"
+
+          echo "下载 Mihomo..."
+
+          curl -fL --retry 5 --retry-all-errors \
+            --connect-timeout 20 --max-time 120 \
+            -o /tmp/mihomo.gz \
+            "$DOWNLOAD_URL"
+
+          echo "检查下载文件..."
+
+          test -s /tmp/mihomo.gz
+
+          echo "校验 gzip..."
+
+          gzip -t /tmp/mihomo.gz
+
+          echo "解压 Mihomo..."
+
+          gzip -dc /tmp/mihomo.gz > /tmp/mihomo
+
+          chmod 755 /tmp/mihomo
+
+          echo "检查 Mihomo 文件类型..."
+
+          file /tmp/mihomo
+
+          echo "检查 Mihomo 是否可以运行..."
+
+          /tmp/mihomo -v || true
+
+          echo "Mihomo 安装完成：${MIHOMO_VERSION}"
+
+      # ============================================================
+      # 下载、合并、去重、聚合并生成 YAML
+      # ============================================================
+      - name: Download, merge, deduplicate, aggregate and generate YAML
+        shell: bash
+        env:
+          SOURCE_URLS: |
+            https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.yaml
+            https://ispip.clang.cn/all_cn_ipv46.txt
+
+        run: |
+          set -euo pipefail
+
+          MERGED_RAW="/tmp/merged_raw_cidrs.txt"
+          STATS="/tmp/cidr_stats.txt"
+          SOURCE_FILES="/tmp/source_files.txt"
+
+          : > "$SOURCE_FILES"
+
+          # 从每个 URL 自动提取文件名。
+          # 后续新增来源时，只需在 SOURCE_URLS 中新增一行 URL。
+          while IFS= read -r url; do
+            [[ -z "$url" ]] && continue
+
+            filename="${url##*/}"
+            filename="${filename%%\?*}"
+            filename="${filename%%#*}"
+
+            if [[ -z "$filename" || "$filename" == "." || "$filename" == ".." ]]; then
+              echo "无法从 URL 提取下载文件名：$url"
+              exit 1
+            fi
+
+            if [[ -e "$filename" ]]; then
+              echo "文件名冲突，多个下载链接解析出相同文件名：$filename"
+              exit 1
+            fi
+
+            echo "下载：${filename}"
+
+            curl -fsSL --retry 3 --retry-all-errors \
+              --connect-timeout 20 --max-time 120 \
+              -o "$filename" \
+              "$url"
+
+            printf '%s\n' "$filename" >> "$SOURCE_FILES"
+
+          done <<< "$SOURCE_URLS"
+
+          source_count="$(wc -l < "$SOURCE_FILES" | tr -d ' ')"
+
+          if [[ "$source_count" -lt 1 ]]; then
+            echo "SOURCE_URLS 没有可下载的 URL。"
+            exit 1
+          fi
+
+          python3 - <<'PY'
+          import ipaddress
+          import re
+          from pathlib import Path
+
+          source_files = Path("/tmp/source_files.txt").read_text(
+              encoding="utf-8"
+          ).splitlines()
+
+          files = [Path(name) for name in source_files if name.strip()]
+
+          if not files:
+              raise SystemExit("没有可处理的下载文件。")
+
+          token_re = re.compile(
+              r"(?:\d{1,3}(?:\.\d{1,3}){3}|[0-9A-Fa-f:]+)/(?:\d{1,3})"
+          )
+
+          raw_networks = []
+          per_file_counts = []
+
+          for path in files:
+              text = path.read_text(
+                  encoding="utf-8",
+                  errors="ignore"
+              )
+
+              count = 0
+
+              for token in token_re.findall(text):
+                  try:
+                      net = ipaddress.ip_network(
+                          token,
+                          strict=False
+                      )
+                  except ValueError:
+                      continue
+
+                  raw_networks.append(net)
+                  count += 1
+
+              per_file_counts.append(count)
+
+          if not raw_networks:
+              raise SystemExit("未提取到任何有效 CIDR，停止生成。")
+
+          Path("/tmp/merged_raw_cidrs.txt").write_text(
+              "\n".join(str(net) for net in raw_networks) + "\n",
+              encoding="utf-8",
+          )
+
+          v4 = sorted(
+              ipaddress.collapse_addresses(
+                  net
+                  for net in raw_networks
+                  if net.version == 4
+              ),
+              key=lambda n: (
+                  int(n.network_address),
+                  n.prefixlen
+              ),
+          )
+
+          v6 = sorted(
+              ipaddress.collapse_addresses(
+                  net
+                  for net in raw_networks
+                  if net.version == 6
+              ),
+              key=lambda n: (
+                  int(n.network_address),
+                  n.prefixlen
+              ),
+          )
+
+          aggregated = v4 + v6
+
+          with open(
+              "Seven1_Bypass_China.yaml",
+              "w",
+              encoding="utf-8",
+              newline="\n",
+          ) as f:
+              f.write("payload:\n")
+
+              for net in aggregated:
+                  f.write(f"  - {net}\n")
+
+          stats_parts = [
+              str(count)
+              for count in per_file_counts
+          ] + [
+              str(len(raw_networks)),
+              str(len(v4)),
+              str(len(v6)),
+              str(len(aggregated)),
+          ]
+
+          Path("/tmp/cidr_stats.txt").write_text(
+              " ".join(stats_parts) + "\n",
+              encoding="utf-8",
+          )
+
+          for index, count in enumerate(
+              per_file_counts,
+              start=1
+          ):
+              print(
+                  f"CIDR_COUNT_FILE{index}={count}"
+              )
+
+          print(
+              f"CIDR_COUNT_MERGED={len(raw_networks)}"
+          )
+
+          print(
+              f"IPV4_COUNT={len(v4)}"
+          )
+
+          print(
+              f"IPV6_COUNT={len(v6)}"
+          )
+
+          print(
+              f"TOTAL_COUNT={len(aggregated)}"
+          )
+          PY
+
+          read -r -a stats < "$STATS"
+
+          expected_stats_count="$((source_count + 4))"
+
+          if [[ "${#stats[@]}" -ne "$expected_stats_count" ]]; then
+            echo "统计数据格式异常：${stats[*]}"
+            exit 1
+          fi
+
+          merged_index="$source_count"
+          ipv4_index="$((source_count + 1))"
+          ipv6_index="$((source_count + 2))"
+          total_index="$((source_count + 3))"
+
+          download_summary=""
+
+          for ((i=0; i<source_count; i++)); do
+            filename="$(sed -n "$((i + 1))p" "$SOURCE_FILES")"
+            count="${stats[$i]}"
+
+            if [[ -n "$download_summary" ]]; then
+              download_summary+="；"
+            fi
+
+            download_summary+="文件名$((i + 1))：${filename}，CIDR=${count}"
+          done
+
+          echo "下载结果：${download_summary}；合并后：${stats[$merged_index]}"
+
+          echo "聚合结果：IPv4=${stats[$ipv4_index]}，IPv6=${stats[$ipv6_index]}，总计=${stats[$total_index]}"
+
+          test "${stats[$total_index]}" -gt 0
+
+          test -s Seven1_Bypass_China.yaml
+
+      # ============================================================
+      # YAML 转换为 MRS
+      # ============================================================
+      - name: Convert YAML to MRS
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "开始转换 Seven1_Bypass_China.yaml -> Seven1_Bypass_China.mrs"
+
+          echo "YAML 前 10 行："
+
+          head -n 10 Seven1_Bypass_China.yaml
+
+          echo "YAML 总行数：$(wc -l < Seven1_Bypass_China.yaml)"
+
+          echo "YAML 文件大小：$(stat -c '%s' Seven1_Bypass_China.yaml) bytes"
+
+          set +e
+
+          timeout 180s /tmp/mihomo convert-ruleset ipcidr yaml \
+            Seven1_Bypass_China.yaml \
+            Seven1_Bypass_China.mrs \
+            > /tmp/mihomo-convert.log 2>&1
+
+          status=$?
+
+          set -e
+
+          cat /tmp/mihomo-convert.log
+
+          if [[ "$status" -ne 0 ]]; then
+            echo "Mihomo convert-ruleset 失败，exit code=${status}"
+            exit "$status"
+          fi
+
+          test -s Seven1_Bypass_China.mrs
+
+          echo "MRS 生成完成：$(stat -c '%s' Seven1_Bypass_China.mrs) bytes"
+
+      # ============================================================
+      # 比较 SHA256 并更新规则
+      # ============================================================
+      - name: Compare SHA256 and update rules
+        shell: bash
+        env:
+          YAML_FILE: Seven1_Bypass_China.yaml
+          MRS_FILE: Seven1_Bypass_China.mrs
+          RULES_DIR: rules
+          COMMIT_MESSAGE: 更新 绕过大陆IP规则集
+
+        run: |
+          set -euo pipefail
+
+          new_yaml_sha="$(
+            sha256sum "$YAML_FILE" |
+              awk '{print $1}'
+          )"
+
+          new_mrs_sha="$(
+            sha256sum "$MRS_FILE" |
+              awk '{print $1}'
+          )"
+
+          old_yaml_sha="MISSING"
+          old_mrs_sha="MISSING"
+
+          if git cat-file -e \
+            "HEAD:${RULES_DIR}/${YAML_FILE}" \
+            2>/dev/null; then
+
+            old_yaml_sha="$(
+              git show "HEAD:${RULES_DIR}/${YAML_FILE}" |
+                sha256sum |
+                awk '{print $1}'
+            )"
+
+          fi
+
+          if git cat-file -e \
+            "HEAD:${RULES_DIR}/${MRS_FILE}" \
+            2>/dev/null; then
+
+            old_mrs_sha="$(
+              git show "HEAD:${RULES_DIR}/${MRS_FILE}" |
+                sha256sum |
+                awk '{print $1}'
+            )"
+
+          fi
+
+          echo "SHA256 对比："
+
+          echo "  YAML 新：${new_yaml_sha}"
+          echo "  YAML 旧：${old_yaml_sha}"
+
+          echo "  MRS  新：${new_mrs_sha}"
+          echo "  MRS  旧：${old_mrs_sha}"
+
+          if [[ \
+            "$new_yaml_sha" == "$old_yaml_sha" &&
+            "$new_mrs_sha" == "$old_mrs_sha"
+          ]]; then
+
+            echo "YAML 与 MRS 的 SHA256 均未变化，无需推送。"
+
+            exit 0
+          fi
+
+          mkdir -p "$RULES_DIR"
+
+          cp "$YAML_FILE" \
+            "$RULES_DIR/$YAML_FILE"
+
+          cp "$MRS_FILE" \
+            "$RULES_DIR/$MRS_FILE"
+
+          git config user.name \
+            "github-actions[bot]"
+
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            "$RULES_DIR/$YAML_FILE" \
+            "$RULES_DIR/$MRS_FILE"
+
+          if git diff --cached --quiet; then
+            echo "SHA256 判断发生变化，但 Git 内容无变化，跳过提交。"
+
+            exit 0
+          fi
+
+          git commit -m "$COMMIT_MESSAGE"
+
+          git push
