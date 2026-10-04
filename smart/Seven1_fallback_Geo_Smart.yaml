@@ -59,10 +59,10 @@ geo-auto-update: true                                                   # 自动
 geo-update-interval: 24                                                 # 更新间隔  单位：小时
 geodata-mode: true                                                      # 数据分流  使用数据集进行规则与分流匹配
 geox-url:
-  geosite: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat
-  geoip:   https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat
-  mmdb:    https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb
-  asn:     https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/GeoLite2-ASN.mmdb
+  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  geoip:   "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  mmdb:    "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb"
+  asn:     "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 # ══ 模型数据 ══
 lgbm-url: "https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin"
 lgbm-auto-update: true                                                  # 自动更新  LightGBM 模型
