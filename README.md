@@ -36,6 +36,8 @@
 | Smart核心（Vernesong） | [***_Geo_Smart.yaml](https://github.com/Seven1echo/Yaml/blob/main/smart/Seven1_fallback_Geo_Smart.yaml) |[***_Rule-Set_Smart.yaml](https://github.com/Seven1echo/Yaml/blob/main/smart/Seven1_fallback_Rule-Set_Smart.yaml) |
 | Clashmi覆写 | / |  [***_Rule-Set_Clashmi_Overwrite.yaml](https://github.com/Seven1echo/Yaml/blob/main/Seven1_fallback_Rule-Set_Clashmi_Overwrite.yaml) |
 
+☝️提示：建议优先使用 **规则集分流** 内存占用小且易配置； **Geo数据库分流** 大概率会卡在数据库下载（如未配置代理）
+
 ### 🛠️ 配套工具
 > - 一键生成YAML配置文件 **（Windows端）**：**[Seven1_Yaml_生成工具.exe](https://raw.githubusercontent.com/Seven1echo/Yaml/refs/heads/main/Seven1_Yaml_%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7.exe)**
 > - 找出掉入漏网之鱼的直连，**（Docker 部署）**：**[RouteCheck](https://github.com/Seven1echo/RouteCheck)**
