@@ -1,8 +1,8 @@
 name: update-Bypass_China
 
 on:
-#  schedule:
-#    - cron: '18 22 * * *'
+  schedule:
+    - cron: '18 22 * * *'
   workflow_dispatch:
 
 permissions:
