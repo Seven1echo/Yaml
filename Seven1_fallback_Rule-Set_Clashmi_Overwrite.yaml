@@ -108,9 +108,12 @@ dns:
     - "+.local"                                                         # 真实解析  常见局域网域名后缀
     - "rule-set:add_cn_domain"                                          # 真实解析  大陆冷门域名
     - "rule-set:cn_domain"                                              # 真实解析  大陆域名数据
-  nameserver:                                                           # 解析服务  请使用运营商提供的 DNS
+  default-nameserver:
     - 114.114.114.114
-    - 223.5.5.5
+    - 223.5.5.5  
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
 
 
 
