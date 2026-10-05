@@ -2,7 +2,7 @@
 // 版本： V2026.10.4
 // 频道： https://t.me/Seven1gogogo
 // 地址： https://github.com/Seven1echo/Yaml
-// 说明： 此脚本对标 Seven1_fallback_Rule-Set.yaml 转换，添加 default-nameserver 为 nameserver 加密 DNS 提供解析外, 未添加更多其余附加功能。
+// 说明： 本脚本对标 Seven1_fallback_Rule-Set.yaml 进行转换，并额外添加 default-nameserver，用于为 nameserver 加密 DNS 提供解析。
 
 
 
