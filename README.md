@@ -64,6 +64,7 @@
 > 
 > **Flclash**（Android ｜ ~iOS~ ｜ Windows ｜ macOS ｜ Linux）
 > > - 📂 [Yaml 使用教程（示例：windows端）](https://github.com/Seven1echo/Yaml/blob/main/docs/Flclash/Flclash_Windows_Yaml.md)
+> > - 📂 [Overwrite 覆写使用教程（示例：Android端）](https://github.com/Seven1echo/Yaml/blob/main/docs/Flclash/Flclash_Android_Overwriter.md)
 
 ### 🎬 视频教程
 <!-- 缩略图 + 精简标题（横向展示） -->
