@@ -48,7 +48,7 @@ https://github.com/Seven1echo/Yaml/raw/refs/heads/main/Seven1_fallback_Rule-Set_
 
 
 
-## ▶️ 四、勾选覆写
+## ✔️ 四、勾选覆写
 在 **配置** 页面，点击 `订阅链接名称 - 更多 - 覆写 - 脚本` ,选中刚下载的 `覆写配置` 即可 （也可点击预览，查看配置参数）
 ![image](https://github.com/Seven1echo/Yaml/blob/main/docs/Flclash/pics/Flclash_Android_Overwriter/3.勾选覆写.jpg)
 
