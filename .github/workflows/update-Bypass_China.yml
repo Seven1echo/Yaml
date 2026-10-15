@@ -2,7 +2,7 @@ name: update-Bypass_China
 
 on:
   schedule:
-    - cron: '18 22 * * *'
+    - cron: '18 22 */3 * *'
   workflow_dispatch:
 
 permissions:
