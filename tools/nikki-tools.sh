@@ -1,10 +1,26 @@
 #!/bin/sh
 
-# 名称： Nikki-Tools
-# 版本： V2026.9.18
-# 频道： https://t.me/Seven1gogogo
-# 地址： https://github.com/Seven1echo/Yaml
-
+# ============================================================
+# Nikki Mihomo Core Updater
+#
+# ImmortalWrt / OpenWrt / BusyBox ash
+#
+# 主菜单包含 Nikki 安装/卸载、核心更新、Zashboard 与 Geo 数据下载。
+# 核心更新子菜单：MetaCubeX Alpha / Stable / Vernesong Smart。
+#
+# Core:
+#   /usr/bin/mihomo
+#
+# Nikki:
+#   /etc/init.d/nikki
+#
+# Smart Model:
+#   /etc/nikki/run/Model.bin
+#
+# 备份：
+#   Core      → 只保留 1 个最新备份
+#   Model.bin → 只保留 1 个最新备份
+# ============================================================
 
 
 # ============================================================
@@ -24,8 +40,6 @@ SERVICE="/etc/init.d/nikki"
 BACKUP_DIR="/usr/bin"
 
 BACKUP_PREFIX="mihomo.backup"
-
-MODEL_URL="https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin"
 
 MODEL_PATH="/etc/nikki/run/Model.bin"
 
@@ -48,13 +62,6 @@ KEEP_LOG_DAYS=15
 # Nikki 官方安装/卸载
 # ============================================================
 
-NIKKI_FEED_SCRIPT="https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh"
-
-NIKKI_INSTALL_SCRIPT="https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/install.sh"
-
-NIKKI_UNINSTALL_SCRIPT="https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh"
-
-
 # ============================================================
 # 初始化
 # ============================================================
@@ -67,7 +74,45 @@ mkdir -p "$LOG_DIR"
 
 mkdir -p "/etc/nikki/run"
 
+active_download_pid_file=''
+active_download_monitor_pid=''
+
+interrupt_download() {
+    if [ -n "$active_download_pid_file" ] && [ -f "$active_download_pid_file" ]; then
+        _active_child_pid=$(cat "$active_download_pid_file" 2>/dev/null)
+        case "$_active_child_pid" in
+            ''|*[!0-9]*) ;;
+            *) kill -KILL "$_active_child_pid" 2>/dev/null ;;
+        esac
+    fi
+    if [ -n "$active_download_monitor_pid" ]; then
+        wait "$active_download_monitor_pid" 2>/dev/null
+    fi
+    printf '\n%s下载已被 Ctrl+C 中断。%s\n' "$C_YELLOW" "$C_RESET"
+    exit 130
+}
+
 trap 'rm -rf "$TMP_DIR"' EXIT
+trap 'interrupt_download' INT TERM
+
+# 仅在交互式终端启用颜色；NO_COLOR 可关闭颜色输出。
+if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
+    C_RESET=$(printf '\033[0m')
+    C_CYAN=$(printf '\033[36m')
+    C_BLUE=$(printf '\033[34m')
+    C_GREEN=$(printf '\033[32m')
+    C_YELLOW=$(printf '\033[33m')
+    C_RED=$(printf '\033[31m')
+    C_BOLD=$(printf '\033[1m')
+else
+    C_RESET=''
+    C_CYAN=''
+    C_BLUE=''
+    C_GREEN=''
+    C_YELLOW=''
+    C_RED=''
+    C_BOLD=''
+fi
 
 
 # ============================================================
@@ -91,6 +136,8 @@ download_file() {
 
     rm -f "$OUTPUT"
 
+    printf '下载链接：%s\n' "$URL"
+
 
     # --------------------------------------------------------
     # uclient-fetch
@@ -98,7 +145,7 @@ download_file() {
 
     if command -v uclient-fetch >/dev/null 2>&1; then
 
-        if uclient-fetch -O "$OUTPUT" "$URL" >/dev/null 2>&1; then
+        if uclient-fetch -O "$OUTPUT" "$URL"; then
 
             if [ -s "$OUTPUT" ]; then
                 return 0
@@ -115,7 +162,7 @@ download_file() {
 
     if command -v wget >/dev/null 2>&1; then
 
-        if wget --no-check-certificate -q \
+        if wget --no-check-certificate \
             -O "$OUTPUT" "$URL"; then
 
             if [ -s "$OUTPUT" ]; then
@@ -128,7 +175,7 @@ download_file() {
         rm -f "$OUTPUT"
 
 
-        if wget -q \
+        if wget \
             -O "$OUTPUT" "$URL"; then
 
             if [ -s "$OUTPUT" ]; then
@@ -146,7 +193,7 @@ download_file() {
 
     if command -v curl >/dev/null 2>&1; then
 
-        if curl -fL \
+        if curl -fL --progress-bar \
             --connect-timeout 20 \
             --retry 2 \
             -o "$OUTPUT" \
@@ -289,19 +336,19 @@ check_nikki_installed() {
 install_nikki() {
 
     echo
-    echo "========================================"
-    echo "          安装 / 更新 Nikki"
-    echo "========================================"
+    printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
+    printf '%s          安装 / 更新 Nikki%s\n' "$C_BOLD$C_CYAN" "$C_RESET"
+    printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
     echo
-    echo "  1. Feed 安装（推荐）"
-    echo "  2. Release 安装"
-    echo "  0. 返回"
+    printf '%s  1. Feed（推荐）%s\n' "$C_BLUE" "$C_RESET"
+    printf '%s  2. Release %s\n' "$C_BLUE" "$C_RESET"
+    printf '%s  0. 返回%s\n' "$C_BLUE" "$C_RESET"
     echo
 
 
     while true; do
 
-        printf "请选择安装方式 [0-2]: "
+        printf '%s请选择安装方式 [0-2]: %s' "$C_BOLD$C_GREEN" "$C_RESET"
 
         read -r INSTALL_METHOD
 
@@ -380,7 +427,7 @@ install_nikki_feed() {
         echo
 
 
-        if ! wget -O - "$NIKKI_FEED_SCRIPT" | ash; then
+        if ! run_nikki_script 'Nikki Feed' "$NIKKI_FEED_URLS" feed.sh; then
 
             echo "❌ Nikki Feed 添加失败"
 
@@ -416,7 +463,7 @@ install_nikki_feed() {
         echo
 
 
-        if ! wget -O - "$NIKKI_FEED_SCRIPT" | ash; then
+        if ! run_nikki_script 'Nikki Feed' "$NIKKI_FEED_URLS" feed.sh; then
 
             echo "❌ Nikki Feed 添加失败"
 
@@ -469,19 +516,11 @@ install_nikki_release() {
     echo
 
 
-    if ! command -v wget >/dev/null 2>&1; then
-
-        echo "❌ 系统没有 wget"
-
-        return 1
-    fi
-
-
     echo "执行官方 install.sh..."
     echo
 
 
-    if wget -O - "$NIKKI_INSTALL_SCRIPT" | ash; then
+    if run_nikki_script 'Nikki install.sh' "$NIKKI_INSTALL_URLS" install.sh; then
 
         echo
         echo "✅ Nikki Release 安装完成"
@@ -527,25 +566,20 @@ uninstall_nikki() {
     echo
 
 
-    printf "确认卸载？输入 YES 继续: "
+    printf "确认卸载？输入 y/Y 继续: "
 
     read -r CONFIRM
 
 
-    if [ "$CONFIRM" != "YES" ]; then
+    case "$CONFIRM" in
+        y|Y) ;;
+        *)
 
         echo "已取消卸载"
 
         return 0
-    fi
-
-
-    if ! command -v wget >/dev/null 2>&1; then
-
-        echo "❌ 系统没有 wget"
-
-        return 1
-    fi
+        ;;
+    esac
 
 
     echo
@@ -553,7 +587,7 @@ uninstall_nikki() {
     echo
 
 
-    if wget -O - "$NIKKI_UNINSTALL_SCRIPT" | ash; then
+    if run_nikki_script 'Nikki uninstall.sh' "$NIKKI_UNINSTALL_URLS" uninstall.sh; then
 
         echo
         echo "✅ Nikki 卸载完成"
@@ -1587,12 +1621,25 @@ backup_model() {
 
 download_model() {
 
+    printf '\n%s注意：下载新的 Smart Model.bin 会覆盖当前模型。请注意备份！！！。%s\n' "$C_BOLD$C_YELLOW" "$C_RESET"
+    printf '如需继续下载请输入 y/Y；直接回车取消：'
+    IFS= read -r _model_download_confirm
+    case "$_model_download_confirm" in
+        y|Y) ;;
+        *)
+            log "已取消 Smart Model.bin 下载"
+            return 2
+            ;;
+    esac
+
     log "下载 Smart Model.bin..."
 
 
-    if ! download_file \
-        "$MODEL_URL" \
-        "$TMP_DIR/Model.bin"; then
+    if ! download_with_fallbacks \
+        'Smart Model.bin' \
+        "$TMP_DIR/Model.bin" \
+        "$MODEL_URLS" \
+        valid_nonempty; then
 
         log "❌ Model.bin 下载失败"
 
@@ -1784,40 +1831,43 @@ install_smart() {
     # Model
     # --------------------------------------------------------
 
-    log "安装 Model.bin..."
+    if [ "$MODEL_UPDATE" = "1" ]; then
+        log "安装 Model.bin..."
+
+        if ! cp -f "$TMP_DIR/Model.bin" "$MODEL_PATH"; then
+
+            log "❌ Model.bin 安装失败"
 
 
-    if ! cp -f "$TMP_DIR/Model.bin" "$MODEL_PATH"; then
+            if [ -f "$OLD_CORE" ]; then
 
-        log "❌ Model.bin 安装失败"
+                cp -f "$OLD_CORE" "$INSTALL_PATH"
+
+                chmod +x "$INSTALL_PATH"
+
+            fi
 
 
-        if [ -f "$OLD_CORE" ]; then
+            if [ -f "$OLD_MODEL" ]; then
 
-            cp -f "$OLD_CORE" "$INSTALL_PATH"
+                cp -f "$OLD_MODEL" "$MODEL_PATH"
 
-            chmod +x "$INSTALL_PATH"
+                chmod 644 "$MODEL_PATH"
 
+            fi
+
+
+            "$SERVICE" start >/dev/null 2>&1 || true
+
+
+            return 1
         fi
 
 
-        if [ -f "$OLD_MODEL" ]; then
-
-            cp -f "$OLD_MODEL" "$MODEL_PATH"
-
-            chmod 644 "$MODEL_PATH"
-
-        fi
-
-
-        "$SERVICE" start >/dev/null 2>&1 || true
-
-
-        return 1
+        chmod 644 "$MODEL_PATH"
+    else
+        log "保留当前 Model.bin，跳过模型覆盖"
     fi
-
-
-    chmod 644 "$MODEL_PATH"
 
 
     # --------------------------------------------------------
@@ -2123,13 +2173,21 @@ update_core() {
     # Smart Model
     # --------------------------------------------------------
 
+    MODEL_UPDATE=0
     if [ "$CHANNEL" = "smart" ]; then
-
-        if ! download_model; then
-
-            return 1
-
-        fi
+        download_model
+        MODEL_DOWNLOAD_STATUS=$?
+        case "$MODEL_DOWNLOAD_STATUS" in
+            0)
+                MODEL_UPDATE=1
+                ;;
+            2)
+                log "跳过 Smart Model.bin 下载，继续更新核心"
+                ;;
+            *)
+                return 1
+                ;;
+        esac
 
     fi
 
@@ -2161,7 +2219,7 @@ update_core() {
     fi
 
 
-    if [ "$CHANNEL" = "smart" ]; then
+    if [ "$CHANNEL" = "smart" ] && [ "$MODEL_UPDATE" = "1" ]; then
 
         if ! backup_model; then
 
@@ -2252,105 +2310,458 @@ update_core() {
 }
 
 
-# ============================================================
-# 主菜单
-# ============================================================
+RUN_DIR="/etc/nikki/run"
+UI_DIR="$RUN_DIR/ui"
 
-main_menu() {
+NIKKI_FEED_URLS='
+https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh
+https://cdn.jsdelivr.net/gh/nikkinikki-org/OpenWrt-nikki@refs/heads/main/feed.sh
+https://gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh
+https://v4.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh
+https://v6.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh
+https://cdn.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh
+https://axisnow.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh
+'
+NIKKI_INSTALL_URLS='
+https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/install.sh
+https://cdn.jsdelivr.net/gh/nikkinikki-org/OpenWrt-nikki@refs/heads/main/install.sh
+https://gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/install.sh
+https://v4.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/install.sh
+https://v6.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/install.sh
+https://cdn.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/install.sh
+https://axisnow.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/install.sh
+'
+NIKKI_UNINSTALL_URLS='
+https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh
+https://cdn.jsdelivr.net/gh/nikkinikki-org/OpenWrt-nikki@refs/heads/main/uninstall.sh
+https://gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh
+https://v4.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh
+https://v6.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh
+https://cdn.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh
+https://axisnow.gh-proxy.org/https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/uninstall.sh
+'
+MODEL_URLS='
+https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin
+https://cdn.jsdelivr.net/gh/vernesong/mihomo@releases/download/LightGBM-Model/Model.bin
+https://gh-proxy.org/https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin
+https://v4.gh-proxy.org/https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin
+https://v6.gh-proxy.org/https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin
+https://cdn.gh-proxy.org/https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin
+https://axisnow.gh-proxy.org/https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin
+'
 
-    while true; do
+GEOSITE_URLS='
+https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat
+https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@releases/download/latest/geosite.dat
+https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat
+https://gh-proxy.org/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+https://v4.gh-proxy.org/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+https://v6.gh-proxy.org/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+https://cdn.gh-proxy.org/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+https://axisnow.gh-proxy.org/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+'
+GEOIP_URLS='
+https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat
+https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@releases/download/latest/geoip.dat
+https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat
+https://gh-proxy.org/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+https://v4.gh-proxy.org/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+https://v6.gh-proxy.org/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+https://cdn.gh-proxy.org/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+https://axisnow.gh-proxy.org/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+'
+UI_URLS='
+https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+https://cdn.jsdelivr.net/gh/Zephyruso/zashboard@releases/latest/download/dist.zip
+https://gh-proxy.org/https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+https://v4.gh-proxy.org/https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+https://v6.gh-proxy.org/https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+https://cdn.gh-proxy.org/https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+https://axisnow.gh-proxy.org/https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+'
 
-        echo
-        echo "========================================"
-        echo "        Nikki Mihomo 管理工具"
-        echo "========================================"
-        echo
-        echo "  1. 更新核心 MetaCubeX Alpha"
-        echo "  2. 更新核心 MetaCubeX Stable"
-        echo "  3. 更新核心 Vernesong Smart"
-        echo "  4. 安装 / 更新 Nikki"
-        echo "  5. 卸载 Nikki"
-        echo "  0. 退出"
-        echo
+cleanup_files=''
+download_serial=0
 
+# 下载运行期间每 1 分钟询问一次。输入 y/Y 终止当前链接并继续备用链接；
+# 直接回车则继续等待当前下载。
+download_with_prompt() {
+	output_file=$2
+	header_file=$3
+	shift 3
+	download_serial=$((download_serial + 1))
+	status_file="$TMP_DIR/download-status-$$-$download_serial"
+	pid_file="$TMP_DIR/download-pid-$$-$download_serial"
+	progress_file="$TMP_DIR/download-progress-$$-$download_serial"
+	active_download_pid_file=$pid_file
+	rm -f "$status_file" "$pid_file" "$progress_file"
+	(
+		"$@" > "$progress_file" 2>&1 &
+		child_pid=$!
+		printf '%s\n' "$child_pid" > "$pid_file"
+		wait "$child_pid"
+		result=$?
+		printf '%s\n' "$result" > "$status_file"
+		exit "$result"
+	) &
+	monitor_pid=$!
+	active_download_monitor_pid=$monitor_pid
+	elapsed=0
+	progress_bar='------------------------------'
+	progress_status='0.00%'
+	printf '%s倒计时：01:00 | 下载进度：%s %s                    %s' "$C_YELLOW" "$progress_bar" "$progress_status" "$C_RESET"
+	while [ ! -f "$status_file" ]; do
+		sleep 1
+		if [ -f "$status_file" ]; then
+			printf '\r下载已结束，倒计时停止。%100s%s\n' '' "$C_RESET"
+			break
+		fi
+		elapsed=$((elapsed + 1))
+		remaining=$((60 - elapsed))
+		if [ "$remaining" -ge 0 ]; then
+			if [ -f "$output_file" ]; then
+				current_bytes=$(wc -c < "$output_file" 2>/dev/null | tr -d '[:space:]')
+			else
+				current_bytes=0
+			fi
+			case "$current_bytes" in ''|*[!0-9]*) current_bytes=0 ;; esac
+			total_bytes=$(awk 'tolower($1) == "content-length:" || tolower($1) == "length:" { gsub(/\r/, "", $2); if ($2 ~ /^[0-9]+$/) total = $2 } END { print total }' "$header_file" "$progress_file" 2>/dev/null)
+			case "$total_bytes" in
+				''|*[!0-9]*|0)
+					progress_status="$current_bytes B"
+					filled=0
+					;;
+				*)
+					progress_status=$(awk -v got="$current_bytes" -v total="$total_bytes" 'BEGIN { p = got * 100 / total; if (p > 100) p = 100; printf "%.2f%%", p }')
+					filled=$(awk -v got="$current_bytes" -v total="$total_bytes" 'BEGIN { n = int(got * 30 / total); if (n > 30) n = 30; printf "%d", n }')
+					;;
+			esac
+			progress_bar=''
+			bar_index=0
+			while [ "$bar_index" -lt "$filled" ]; do
+				progress_bar="${progress_bar}#"
+				bar_index=$((bar_index + 1))
+			done
+			while [ "$bar_index" -lt 30 ]; do
+				progress_bar="${progress_bar}."
+				bar_index=$((bar_index + 1))
+			done
+			printf '\r%s倒计时：%02d:%02d | 下载进度：%s %s                    %s' "$C_YELLOW" "$((remaining / 60))" "$((remaining % 60))" "$progress_bar" "$progress_status" "$C_RESET"
+		fi
+		if [ "$elapsed" -ge 60 ]; then
+			child_pid=$(cat "$pid_file" 2>/dev/null)
+			case "$child_pid" in
+				''|*[!0-9]*) ;;
+				*) kill -STOP "$child_pid" 2>/dev/null ;;
+			esac
+			printf '\n%s当前链接已下载 1 分钟，仍未完成。回车继续等待，输入 y/Y 切换到下一条链接：%s' "$C_YELLOW" "$C_RESET"
+			read -r answer
+			case "$answer" in
+				y|Y)
+					if [ -f "$status_file" ]; then
+						break
+					fi
+					case "$child_pid" in
+						''|*[!0-9]*) ;;
+						*) kill -KILL "$child_pid" 2>/dev/null ;;
+					esac
+					wait "$monitor_pid" 2>/dev/null
+					result=$(cat "$status_file" 2>/dev/null)
+					rm -f "$status_file" "$pid_file" "$progress_file"
+					active_download_pid_file=''
+					active_download_monitor_pid=''
+					[ "$result" = 0 ] && return 0
+					return 2
+					;;
+				*)
+					case "$child_pid" in
+						''|*[!0-9]*) ;;
+						*) kill -CONT "$child_pid" 2>/dev/null ;;
+					esac
+					download_user_continued=1
+					if [ -f "$status_file" ]; then
+						break
+					fi
+					elapsed=0
+					printf '%s继续等待，下一次询问倒计时 01:00%s' "$C_YELLOW" "$C_RESET"
+					;;
+			esac
+		fi
+	done
+	wait "$monitor_pid" 2>/dev/null
+	result=$(cat "$status_file" 2>/dev/null)
+	if [ "$result" != 0 ] && [ -s "$progress_file" ]; then
+		tr '\r' '\n' < "$progress_file" | tail -n 5 >&2
+	fi
+	rm -f "$status_file" "$pid_file" "$progress_file"
+	active_download_pid_file=''
+	active_download_monitor_pid=''
+	[ "$result" = 0 ]
+}
 
-        printf "请选择操作 [0-5]: "
+fetch() {
+	url=$1
+	out=$2
+	header_file="$TMP_DIR/download-headers-$$-$download_serial"
+	rm -f "$out"
+	: > "$header_file"
+	printf '%s当前下载链接：%s%s\n' "$C_CYAN" "$url" "$C_RESET"
+	if command -v curl >/dev/null 2>&1; then
+		download_with_prompt "$url" "$out" "$header_file" curl -fL --progress-bar --connect-timeout 15 --max-time 0 --retry 0 -D "$header_file" -o "$out" "$url"
+		result=$?
+	elif command -v wget >/dev/null 2>&1; then
+		download_with_prompt "$url" "$out" "$header_file" wget -O "$out" "$url"
+		result=$?
+	else
+		echo '错误：需要安装 curl 或 wget。' >&2
+		return 127
+	fi
+	rm -f "$header_file"
+	[ "$result" -eq 0 ] || return "$result"
+	[ -s "$out" ]
+}
 
-        read -r MENU_CHOICE
+test_download_url() {
+	_test_url=$1
+	if command -v curl >/dev/null 2>&1; then
+		_test_elapsed=$(curl -fsSIL --connect-timeout 5 --max-time 8 -o /dev/null -w '%{time_total}' "$_test_url" 2>/dev/null)
+		_test_status=$?
+		[ "$_test_status" -eq 0 ] || return 1
+		awk -v elapsed="$_test_elapsed" 'BEGIN { printf "%.3f", elapsed }'
+	elif command -v wget >/dev/null 2>&1; then
+		_test_started=$(date +%s)
+		wget -q --spider -T 8 "$_test_url" >/dev/null 2>&1
+		_test_status=$?
+		[ "$_test_status" -eq 0 ] || return 1
+		_test_finished=$(date +%s)
+		printf '%s' "$((_test_finished - _test_started))"
+	else
+		return 127
+	fi
+}
 
+download_with_fallbacks() {
+	_fallback_label=$1
+	_fallback_destination=$2
+	_fallback_urls=$3
+	_fallback_validator=$4
+	_fallback_count=0
+	_fallback_primary=''
+	for _fallback_url in $_fallback_urls; do
+		_fallback_count=$((_fallback_count + 1))
+		[ "$_fallback_count" -eq 1 ] && _fallback_primary=$_fallback_url
+	done
+	[ -n "$_fallback_primary" ] || return 1
+	_fallback_tmp="$TMP_DIR/nikki-$(basename "$_fallback_destination").$$.part"
+	cleanup_files="$cleanup_files $_fallback_tmp"
 
-        case "$MENU_CHOICE" in
+	printf '\n%s>>> 正在下载：%s <<<%s\n' "$C_BOLD$C_YELLOW" "$_fallback_label" "$C_RESET"
+	printf '%s主链接下载中。%s\n' "$C_CYAN" "$C_RESET"
+	download_user_continued=0
+	if fetch "$_fallback_primary" "$_fallback_tmp"; then
+		if "$_fallback_validator" "$_fallback_tmp"; then
+			mkdir -p "$(dirname "$_fallback_destination")" || return 1
+			mv -f "$_fallback_tmp" "$_fallback_destination" || return 1
+			printf '%s%s：已保存到 %s%s\n' "$C_GREEN" "$_fallback_label" "$_fallback_destination" "$C_RESET"
+			return 0
+		fi
+		printf '%s主链接下载完成，但文件校验失败。%s\n' "$C_RED" "$C_RESET" >&2
+	else
+		printf '%s主链接下载失败。%s\n' "$C_RED" "$C_RESET" >&2
+	fi
 
-            1)
+	printf '\n%s正在测试 %s 的全部 %s 条链接：%s\n' "$C_BOLD$C_CYAN" "$_fallback_label" "$_fallback_count" "$C_RESET"
+	_fallback_index=0
+	for _fallback_url in $_fallback_urls; do
+		_fallback_index=$((_fallback_index + 1))
+		_fallback_latency=$(test_download_url "$_fallback_url")
+		if [ "$?" -eq 0 ]; then
+			printf '  [%s] %s延迟：%s 秒%s | %s\n' "$_fallback_index" "$C_GREEN" "$_fallback_latency" "$C_RESET" "$_fallback_url"
+		else
+			printf '  [%s] %s不可用（请求失败或超时）%s | %s\n' "$_fallback_index" "$C_RED" "$C_RESET" "$_fallback_url"
+		fi
+	done
 
-                CHANNEL="alpha"
+	while true; do
+		printf '\n输入要使用的链接编号 [1-%s]，输入 0 取消：' "$_fallback_count"
+		read -r _fallback_choice
+		case "$_fallback_choice" in
+			0) return 1 ;;
+			''|*[!0-9]*) printf '%s请输入有效编号。%s\n' "$C_RED" "$C_RESET"; continue ;;
+		esac
+		if [ "$_fallback_choice" -lt 1 ] || [ "$_fallback_choice" -gt "$_fallback_count" ]; then
+			printf '%s编号超出范围。%s\n' "$C_RED" "$C_RESET"
+			continue
+		fi
 
-                CORE_NAME="MetaCubeX Alpha"
+		_fallback_index=0
+		_fallback_selected=''
+		for _fallback_url in $_fallback_urls; do
+			_fallback_index=$((_fallback_index + 1))
+			if [ "$_fallback_index" -eq "$_fallback_choice" ]; then
+				_fallback_selected=$_fallback_url
+				break
+			fi
+		done
+		printf '\n%s选择链接 [%s]：%s%s\n' "$C_CYAN" "$_fallback_choice" "$_fallback_selected" "$C_RESET"
+		download_user_continued=0
+		if fetch "$_fallback_selected" "$_fallback_tmp"; then
+			if "$_fallback_validator" "$_fallback_tmp"; then
+				mkdir -p "$(dirname "$_fallback_destination")" || return 1
+				mv -f "$_fallback_tmp" "$_fallback_destination" || return 1
+				printf '%s%s：已保存到 %s%s\n' "$C_GREEN" "$_fallback_label" "$_fallback_destination" "$C_RESET"
+				return 0
+			fi
+			printf '%s下载完成，但文件校验失败，请选择其他链接。%s\n' "$C_RED" "$C_RESET" >&2
+		else
+			printf '%s该链接下载失败，请选择其他链接。%s\n' "$C_RED" "$C_RESET" >&2
+		fi
+	done
+}
 
-                update_core
+run_nikki_script() {
+	_nikki_script_label=$1
+	_nikki_script_urls=$2
+	_nikki_script_file="$TMP_DIR/$3"
+	if ! download_with_fallbacks "$_nikki_script_label" "$_nikki_script_file" "$_nikki_script_urls" valid_nonempty; then
+		return 1
+	fi
+	ash "$_nikki_script_file"
+}
 
-                ;;
+valid_nonempty() { [ -s "$1" ]; }
 
+extract_zip() {
+	_zip_archive=$1
+	_zip_destination=$2
+	if command -v unzip >/dev/null 2>&1; then
+		unzip -oq "$_zip_archive" -d "$_zip_destination"
+		return $?
+	fi
+	if command -v busybox >/dev/null 2>&1 && busybox --list 2>/dev/null | grep -qx 'unzip'; then
+		# BusyBox's unzip applet extracts into the current directory and may
+		# not support -d, so run it from the staging directory.
+		(cd "$_zip_destination" && busybox unzip -oq "$_zip_archive")
+		return $?
+	fi
+	echo 'Zashboard：系统没有 unzip，且 BusyBox 未提供 unzip applet；请先运行 opkg install unzip / apk add unzip。' >&2
+	return 127
+}
 
-            2)
+download_ui() {
+	archive="$TMP_DIR/zashboard-$$.zip"
+	stage="$TMP_DIR/zashboard-stage-$$"
+	cleanup_files="$cleanup_files $archive $stage"
 
-                CHANNEL="stable"
-
-                CORE_NAME="MetaCubeX Stable"
-
-                update_core
-
-                ;;
-
-
-            3)
-
-                CHANNEL="smart"
-
-                CORE_NAME="Smart"
-
-                update_core
-
-                ;;
-
-
-            4)
-
-                install_nikki
-
-                ;;
-
-
-            5)
-
-                uninstall_nikki
-
-                ;;
-
-
-            0)
-
-                echo "已退出"
-
-                exit 0
-
-                ;;
-
-
-            *)
-
-                echo "❌ 无效选择，请输入 0-5"
-
-                ;;
-
-        esac
-
-    done
+	if ! download_with_fallbacks 'Zashboard 控制面板' "$archive" "$UI_URLS" valid_nonempty; then
+		return 1
+	fi
+	if ! mkdir -p "$stage" "$UI_DIR"; then
+		echo 'Zashboard：无法创建临时解压目录。' >&2
+		return 1
+	fi
+	if ! extract_zip "$archive" "$stage"; then
+		echo 'Zashboard：解压失败。' >&2
+		return 1
+	fi
+	# dist.zip may contain the built site at its root or inside a dist/ directory.
+	if [ -d "$stage/dist" ]; then
+		stage="$stage/dist"
+	fi
+	mkdir -p "$UI_DIR/zashboard" || return 1
+	if cp -a "$stage/." "$UI_DIR/zashboard/"; then
+		printf 'Zashboard：已安装到 %s/zashboard\n' "$UI_DIR"
+	else
+		echo 'Zashboard：安装失败。' >&2
+		return 1
+	fi
 }
 
 
 # ============================================================
-# 启动
+# Nikki Tools menu
 # ============================================================
+
+core_menu() {
+    while true; do
+        echo
+        printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
+        printf '%s             更新核心%s\n' "$C_BOLD$C_CYAN" "$C_RESET"
+        printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
+        printf '%s  1. 更新核心 MetaCubeX Alpha%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  2. 更新核心 MetaCubeX Stable%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  3. 更新核心 Vernesong Smart%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  0. 返回主菜单%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s请选择操作 [0, 1-3]: %s' "$C_BOLD$C_GREEN" "$C_RESET"
+        read -r CORE_CHOICE
+        case "$CORE_CHOICE" in
+            1)
+                CHANNEL="alpha"
+                CORE_NAME="MetaCubeX Alpha"
+                update_core
+                ;;
+            2)
+                CHANNEL="stable"
+                CORE_NAME="MetaCubeX Stable"
+                update_core
+                ;;
+            3)
+                CHANNEL="smart"
+                CORE_NAME="Vernesong Smart"
+                update_core
+                ;;
+            0) return 0 ;;
+            *) printf '%s无效选择，请输入 0、1、2 或 3%s\n' "$C_RED" "$C_RESET" ;;
+        esac
+    done
+}
+
+geo_menu() {
+    while true; do
+        echo
+        printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
+        printf '%s        下载规则 Geo 数据库%s\n' "$C_BOLD$C_CYAN" "$C_RESET"
+        printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
+        printf '%s  1. 下载 GeoSite 数据库%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  2. 下载 GeoIP   数据库%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  0. 返回主菜单%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s请选择操作 [0-2]: %s' "$C_BOLD$C_GREEN" "$C_RESET"
+        read -r GEO_CHOICE
+        case "$GEO_CHOICE" in
+            1) download_with_fallbacks 'GeoSite 数据库' "$RUN_DIR/GeoSite.dat" "$GEOSITE_URLS" valid_nonempty ;;
+            2) download_with_fallbacks 'GeoIP   数据库' "$RUN_DIR/GeoIP.dat" "$GEOIP_URLS" valid_nonempty ;;
+            0) return 0 ;;
+            *) printf '%s无效选择，请输入 0、1 或 2%s\n' "$C_RED" "$C_RESET" ;;
+        esac
+    done
+}
+
+main_menu() {
+    while true; do
+        echo
+        printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
+        printf '%s               Nikki Tools%s\n' "$C_BOLD$C_CYAN" "$C_RESET"
+        printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
+        printf '%s  1. 安装更新 Nikki%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  2. 卸载清空 Nikki%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  3. 更新核心 Mihomo%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  4. 安装面板 Zashboard%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  5. 下载规则 Geo数据库%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  0. 退出%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s请选择操作 [0-5]: %s' "$C_BOLD$C_GREEN" "$C_RESET"
+        read -r MENU_CHOICE
+        case "$MENU_CHOICE" in
+            1) install_nikki ;;
+            2) uninstall_nikki ;;
+            3) core_menu ;;
+            4) download_ui ;;
+            5) geo_menu ;;
+            0) printf '%s已退出%s\n' "$C_YELLOW" "$C_RESET"; exit 0 ;;
+            *) printf '%s无效选择，请输入 0-5%s\n' "$C_RED" "$C_RESET" ;;
+        esac
+    done
+}
 
 main_menu
