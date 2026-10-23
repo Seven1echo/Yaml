@@ -1,6 +1,5 @@
 /**
- * 来源：https://raw.githubusercontent.com/Keywos/rule/main/rename.js
- * 更新日期：2024-04-05 15:30:15
+ * 更新日期：2026-10-23
  * 用法：Sub-Store 脚本操作添加
  * rename.js 以下是此脚本支持的参数，必须以 # 为开头多个参数使用"&"连接，参考上述地址为例使用参数。 禁用缓存url#noCache
  *
@@ -31,6 +30,7 @@
  * [blkey=iplc+gpt+NF+IPLC] 用+号添加多个关键词 保留节点名的自定义字段 需要区分大小写!
  * 如果需要修改 保留的关键词 替换成别的 可以用 > 分割 例如 [#blkey=GPT>新名字+其他关键词] 这将把【GPT】替换成【新名字】
  * 例如      https://raw.githubusercontent.com/Keywos/rule/main/rename.js#flag&blkey=GPT>新名字+NF
+ * blkey 同时命中包含关系时优先保留更具体的词项；与 bl / blgd 产生的相同标签会去重
  * [blgd]   保留: 家宽 IPLC ˣ² 等
  * [bl]     正则匹配保留 [0.1x, x0.2, 6x ,3倍]等标识
  * [nx]     保留1倍率与不显示倍率的
@@ -50,7 +50,6 @@ const nx = inArg.nx || false,
   blpx = inArg.blpx || false,
   blnx = inArg.blnx || false,
   numone = inArg.one || false,
-  debug = inArg.debug || false,
   clear = inArg.clear || false,
   addflag = inArg.flag || false,
   nm = inArg.nm || false;
@@ -84,11 +83,15 @@ const specialRegex = [
   /IPLC|IEPL|Kern|Edge|Pro|Std|Exp|Biz|Fam|Game|Buy|Zx|LB|Game/,
 ];
 const nameclear =
-  /(套餐|到期|有效|剩余|版本|已用|过期|失联|测试|官方|网址|备用|群|TEST|客服|网站|获取|订阅|流量|机场|下次|官址|联系|邮箱|工单|学术|USE|USED|TOTAL|EXPIRE|EMAIL)/i;
+  /(套餐|到期|有效|剩余|版本|已用|过期|失联|测试|官方|网址|备用|群|TEST|客服|网站|官网|获取|订阅|续费|更新订阅|使用前|流量|机场|下次|官址|联系|邮箱|工单|学术|USE|USED|TOTAL|EXPIRE|EMAIL|RENEW)/i;
 // prettier-ignore
-const regexArray=[/ˣ²/, /ˣ³/, /ˣ⁴/, /ˣ⁵/, /ˣ⁶/, /ˣ⁷/, /ˣ⁸/, /ˣ⁹/, /ˣ¹⁰/, /ˣ²⁰/, /ˣ³⁰/, /ˣ⁴⁰/, /ˣ⁵⁰/, /IPLC/i, /IEPL/i, /核心/, /边缘/, /高级/, /标准/, /实验/, /商宽/, /家宽/, /游戏|game/i, /购物/, /专线/, /LB/, /cloudflare/i, /\budp\b/i, /\bgpt\b/i,/udpn\b/];
+const regexArray=[/ˣ²/, /ˣ³/, /ˣ⁴/, /ˣ⁵/, /ˣ⁶/, /ˣ⁷/, /ˣ⁸/, /ˣ⁹/, /ˣ¹⁰/, /ˣ²⁰/, /ˣ³⁰/, /ˣ⁴⁰/, /ˣ⁵⁰/, /IPLC/i, /IEPL/i, /核心/, /边缘/, /高级/, /标准/, /实验/, /商宽/, /家宽/, /游戏|game/i, /购物/, /专线/, /LB/, /cloudflare/i, /\budp\b/i, /\bgpt\b/i,/udpn\b/, /住宅/, /原生/, /中转/, /直连/, /BGP/i, /移动/, /联通/, /IPv6/i];
 // prettier-ignore
-const valueArray= [ "2×","3×","4×","5×","6×","7×","8×","9×","10×","20×","30×","40×","50×","IPLC","IEPL","Kern","Edge","Pro","Std","Exp","Biz","Fam","Game","Buy","Zx","LB","CF","UDP","GPT","UDPN"];
+const valueArray= [ "2×","3×","4×","5×","6×","7×","8×","9×","10×","20×","30×","40×","50×","IPLC","IEPL","Kern","Edge","Pro","Std","Exp","Biz","家宽","Game","Buy","Zx","LB","CF","UDP","GPT","UDPN","住宅","原生","中转","直连","BGP","移动","联通","IPv6"];
+const canonicalLabels = new Map([
+  ["iepl", "IEPL"], ["iplc", "IPLC"], ["gpt", "GPT"], ["chatgpt", "ChatGPT"], ["ipv6", "IPv6"],
+  ["cdn", "CDN"], ["cn2", "CN2"], ["gia", "GIA"], ["bgp", "BGP"], ["idc", "IDC"],
+]);
 const nameblnx = /(高倍|(?!1)2+(x|倍)|ˣ²|ˣ³|ˣ⁴|ˣ⁵|ˣ¹⁰)/i;
 const namenx = /(高倍|(?!1)(0\.|\d)+(x|倍)|ˣ²|ˣ³|ˣ⁴|ˣ⁵|ˣ¹⁰)/i;
 const keya =
@@ -96,7 +99,7 @@ const keya =
 const keyb =
   /(((1|2|3|4)\d)|(香港|Hong|HK) 0[5-9]|((新加坡|SG|Singapore|日本|Japan|JP|美国|United States|US|韩|土耳其|TR|Turkey|Korea|KR) 0[3-9]))/i;
 const rurekey = {
-  GB: /UK/g,
+  GB: /UK/,
   "B-G-P": /BGP/g,
   "Russia Moscow": /Moscow/g,
   "Korea Chuncheon": /Chuncheon|Seoul/g,
@@ -132,29 +135,54 @@ const rurekey = {
   G: /\d\s?GB/gi,
   Esnc: /esnc/gi,
 };
-
-let GetK = false, AMK = []
-function ObjKA(i) {
-  GetK = true
-  AMK = Object.entries(i)
-}
+const rurekeyEntries = Object.entries(rurekey);
 
 function operator(pro) {
-  const Allmap = {};
+  const Allmap = Object.create(null);
   const outList = getList(outputName);
-  let inputList,
-    retainKey = "";
+  let inputList;
   if (inname !== "") {
     inputList = [getList(inname)];
   } else {
     inputList = [ZH, FG, QC, EN];
   }
 
-  inputList.forEach((arr) => {
-    arr.forEach((value, valueIndex) => {
-      Allmap[value] = outList[valueIndex];
-    });
+  inputList.forEach((arr) => arr.forEach((value, valueIndex) => { Allmap[value] = outList[valueIndex]; }));
+  const countryEntries = Object.entries(Allmap);
+  const countryBuckets = new Map();
+  countryEntries.forEach(([country, output], order) => {
+    const firstChar = String.fromCodePoint(country.codePointAt(0));
+    if (!countryBuckets.has(firstChar)) countryBuckets.set(firstChar, []);
+    countryBuckets.get(firstChar).push([country, output, order, /^[A-Z]{2}$/.test(country)]);
   });
+  const outputIndexes = new Map();
+  outList.forEach((name, index) => { if (!outputIndexes.has(name)) outputIndexes.set(name, index); });
+  const findCountry = (name) => {
+    let best = null;
+    let bestOrder = Infinity;
+    for (let position = 0; position < name.length;) {
+      const codePoint = name.codePointAt(position);
+      const firstChar = String.fromCodePoint(codePoint);
+      const candidates = countryBuckets.get(firstChar);
+      if (candidates) {
+        for (let i = 0; i < candidates.length; i++) {
+          const candidate = candidates[i];
+          if (candidate[2] >= bestOrder) break;
+          const isTwoLetterCode = candidate[3];
+          const hasCodeBoundaries = !isTwoLetterCode ||
+            ((!/[A-Za-z]/.test(name[position - 1] || "")) &&
+             (!/[A-Za-z]/.test(name[position + candidate[0].length] || "")));
+          if (hasCodeBoundaries && name.startsWith(candidate[0], position)) {
+            best = candidate;
+            bestOrder = candidate[2];
+            if (bestOrder === 0) return best;
+          }
+        }
+      }
+      position += codePoint > 0xffff ? 2 : 1;
+    }
+    return best;
+  };
 
   if (clear || nx || blnx || key) {
     pro = pro.filter((res) => {
@@ -168,37 +196,37 @@ function operator(pro) {
     });
   }
 
-  const BLKEYS = BLKEY ? BLKEY.split("+") : "";
+  const customKeys = BLKEY ? BLKEY.split("+").filter(Boolean).map((item) => {
+    const splitAt = item.indexOf(">");
+    return splitAt < 0
+      ? { source: item, replacement: item, explicit: false, subsumedBy: [] }
+      : { source: item.slice(0, splitAt), replacement: item.slice(splitAt + 1), explicit: true, subsumedBy: [] };
+  }) : [];
+  customKeys.forEach((key) => {
+    const lowerSource = key.source.toLowerCase();
+    key.subsumedBy = customKeys.filter((other) =>
+      other.source.length > key.source.length && other.source.toLowerCase().includes(lowerSource)
+    );
+  });
 
   pro.forEach((e) => {
-    let bktf = false, ens = e.name
+    const originalName = e.name || "";
     // 预处理 防止预判或遗漏
-    Object.keys(rurekey).forEach((ikey) => {
-      if (rurekey[ikey].test(e.name)) {
-        e.name = e.name.replace(rurekey[ikey], ikey);
-      if (BLKEY) {
-        bktf = true
-        let BLKEY_REPLACE = "",
-        re = false;
-      BLKEYS.forEach((i) => {
-        if (i.includes(">") && ens.includes(i.split(">")[0])) {
-          if (rurekey[ikey].test(i.split(">")[0])) {
-              e.name += " " + i.split(">")[0]
-            }
-          if (i.split(">")[1]) {
-            BLKEY_REPLACE = i.split(">")[1];
-            re = true;
-          }
-        } else {
-          if (ens.includes(i)) {
-             e.name += " " + i
-            }
-        }
-        retainKey = re
-        ? BLKEY_REPLACE
-        : BLKEYS.filter((items) => e.name.includes(items));
-      });}
+    rurekeyEntries.forEach(([alias, regex]) => {
+      regex.lastIndex = 0;
+      if (regex.test(e.name)) {
+        e.name = e.name.replace(regex, alias);
       }
+    });
+    const matchedCustomKeys = [];
+    customKeys.forEach((key) => {
+      if (key.source && originalName.includes(key.source)) matchedCustomKeys.push(key);
+    });
+    const matchedCustomKeySet = new Set(matchedCustomKeys);
+    const retainedKeys = [];
+    matchedCustomKeys.forEach((key) => {
+      if (key.subsumedBy.some((other) => matchedCustomKeySet.has(other))) return;
+      retainedKeys.push(key.explicit ? key.replacement : canonicalizeLabel(key.replacement));
     });
     if (blockquic == "on") {
       e["block-quic"] = "on";
@@ -208,31 +236,12 @@ function operator(pro) {
       delete e["block-quic"];
     }
 
-    // 自定义
-    if (!bktf && BLKEY) {
-      let BLKEY_REPLACE = "",
-        re = false;
-      BLKEYS.forEach((i) => {
-        if (i.includes(">") && e.name.includes(i.split(">")[0])) {
-          if (i.split(">")[1]) {
-            BLKEY_REPLACE = i.split(">")[1];
-            re = true;
-          }
-        }
-      });
-      retainKey = re
-        ? BLKEY_REPLACE
-        : BLKEYS.filter((items) => e.name.includes(items));
-    }
-
-    let ikey = "",
-      ikeys = "";
+    let ikey = "";
+    const ikeys = [];
     // 保留固定格式 倍率
     if (blgd) {
       regexArray.forEach((regex, index) => {
-        if (regex.test(e.name)) {
-          ikeys = valueArray[index];
-        }
+        if (regex.test(e.name) && !ikeys.includes(valueArray[index])) ikeys.push(valueArray[index]);
       });
     }
 
@@ -250,11 +259,16 @@ function operator(pro) {
       }
     }
 
-    !GetK && ObjKA(Allmap)
-    // 匹配 Allkey 地区
-    const findKey = AMK.find(([key]) =>
-      e.name.includes(key)
-    )
+    const featureLabels = dedupeFeatureLabels(retainedKeys.concat(ikey, ikeys));
+
+    let findKey = findCountry(e.name);
+    // Sub-Store's built-in geo aliases cover many city names and regional spellings.
+    // Use them only in auto-detect mode so explicit `in=` remains strict.
+    if (!findKey && !inname) {
+      const geoFlag = getBuiltinFlag(e.name);
+      const geoIndex = FG.indexOf(geoFlag);
+      if (geoIndex !== -1) findKey = [geoFlag, outList[geoIndex], -1];
+    }
     
     let firstName = "",
       nNames = "";
@@ -269,14 +283,14 @@ function operator(pro) {
       let keyover = [],
         usflag = "";
       if (addflag) {
-        const index = outList.indexOf(findKeyValue);
-        if (index !== -1) {
+        const index = outputIndexes.get(findKeyValue);
+        if (index !== undefined) {
           usflag = FG[index];
           usflag = usflag === "🇹🇼" ? "🇨🇳" : usflag;
         }
       }
       keyover = keyover
-        .concat(firstName, usflag, nNames, findKeyValue, retainKey, ikey, ikeys)
+        .concat(firstName, usflag, nNames, findKeyValue, featureLabels)
         .filter((k) => k !== "");
       e.name = keyover.join(FGF);
     } else {
@@ -295,11 +309,74 @@ function operator(pro) {
   return pro;
 }
 
+function getBuiltinFlag(name) {
+  if (typeof ProxyUtils === "undefined" || typeof ProxyUtils.getFlag !== "function") return "";
+  try {
+    return ProxyUtils.getFlag(name || "");
+  } catch (_) {
+    return "";
+  }
+}
+
+function canonicalizeLabel(label) {
+  const value = String(label).trim();
+  const multiplier = value.toLowerCase().match(/^x?(\d+(?:\.\d+)?)(?:x|×|倍)$/);
+  if (multiplier) return `${Number(multiplier[1])}×`;
+  return canonicalLabels.get(value.toLowerCase()) || label;
+}
+
+function dedupeFeatureLabels(labels) {
+  const seen = new Set();
+  const unique = labels.filter((label) => {
+    if (label === "" || label === null || label === undefined) return false;
+    const normalized = String(label).trim().replace(/\s+/g, "").toLowerCase();
+    const multiplier = normalized.match(/^x?(\d+(?:\.\d+)?)(?:x|×|倍)$/);
+    const key = multiplier ? `multiplier:${Number(multiplier[1])}` : normalized;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  return unique.filter((label) => !unique.some((other) =>
+    String(other).length > String(label).length &&
+    String(other).toLowerCase().includes(String(label).toLowerCase())
+  ));
+}
+
 // prettier-ignore
 function getList(arg) { switch (arg) { case 'us': return EN; case 'gq': return FG; case 'quan': return QC; default: return ZH; }}
 // prettier-ignore
-function jxh(e) { const n = e.reduce((e, n) => { const t = e.find((e) => e.name === n.name); if (t) { t.count++; t.items.push({ ...n, name: `${n.name}${XHFGF}${t.count.toString().padStart(2, "0")}`, }); } else { e.push({ name: n.name, count: 1, items: [{ ...n, name: `${n.name}${XHFGF}01` }], }); } return e; }, []);const t=(typeof Array.prototype.flatMap==='function'?n.flatMap((e) => e.items):n.reduce((acc, e) => acc.concat(e.items),[])); e.splice(0, e.length, ...t); return e;}
+function jxh(proxies) {
+  const seen = new Map();
+  proxies.forEach((proxy) => {
+    const baseName = proxy.name;
+    const index = (seen.get(baseName) || 0) + 1;
+    seen.set(baseName, index);
+    proxy.name = `${baseName}${XHFGF}${String(index).padStart(2, "0")}`;
+  });
+  return proxies;
+}
 // prettier-ignore
-function oneP(e) { const t = e.reduce((e, t) => { const n = t.name.replace(/[^A-Za-z0-9\u00C0-\u017F\u4E00-\u9FFF]+\d+$/, ""); if (!e[n]) { e[n] = []; } e[n].push(t); return e; }, {}); for (const e in t) { if (t[e].length === 1 && t[e][0].name.endsWith("01")) {/* const n = t[e][0]; n.name = e;*/ t[e][0].name= t[e][0].name.replace(/[^.]01/, "") } } return e; }
+function oneP(proxies) {
+  const groups = new Map();
+  proxies.forEach((proxy) => {
+    const baseName = proxy.name.replace(/(?:[\s._-]+)\d+$/, "");
+    if (!groups.has(baseName)) groups.set(baseName, []);
+    groups.get(baseName).push(proxy);
+  });
+  groups.forEach((group) => {
+    if (group.length === 1) group[0].name = group[0].name.replace(/[\s._-]+01$/, "");
+  });
+  return proxies;
+}
 // prettier-ignore
-function fampx(pro) { const wis = []; const wnout = []; for (const proxy of pro) { const fan = specialRegex.some((regex) => regex.test(proxy.name)); if (fan) { wis.push(proxy); } else { wnout.push(proxy); } } const sps = wis.map((proxy) => specialRegex.findIndex((regex) => regex.test(proxy.name)) ); wis.sort( (a, b) => sps[wis.indexOf(a)] - sps[wis.indexOf(b)] || a.name.localeCompare(b.name) ); wnout.sort((a, b) => pro.indexOf(a) - pro.indexOf(b)); return wnout.concat(wis);}
+function fampx(proxies) {
+  const ordinary = [];
+  const special = [];
+  proxies.forEach((proxy, index) => {
+    const rank = specialRegex.findIndex((regex) => regex.test(proxy.name));
+    if (rank < 0) ordinary.push(proxy);
+    else special.push({ proxy, rank, index });
+  });
+  special.sort((a, b) => a.rank - b.rank || a.proxy.name.localeCompare(b.proxy.name) || a.index - b.index);
+  return ordinary.concat(special.map(({ proxy }) => proxy));
+}
