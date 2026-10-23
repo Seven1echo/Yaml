@@ -1,4 +1,9 @@
-#!/bin/sh
+# 名称： nikki-tools
+# 版本： V2026.10.23
+# 频道： https://t.me/Seven1gogogo
+# 地址： https://github.com/Seven1echo/Yaml
+
+
 
 # ============================================================
 # Nikki Mihomo Core Updater
@@ -7,6 +12,7 @@
 #
 # 主菜单包含 Nikki 安装/卸载、核心更新、Zashboard 与 Geo 数据下载。
 # 核心更新子菜单：MetaCubeX Alpha / Stable / Vernesong Smart。
+# Nikki 配置子菜单：下载/编辑配置文件、启动/关闭 Nikki、查看/删除配置。
 #
 # Core:
 #   /usr/bin/mihomo
@@ -56,6 +62,14 @@ GITHUB_API="https://api.github.com"
 KEEP_BACKUPS=1
 
 KEEP_LOG_DAYS=15
+
+YAML_PROFILES_DIR="/etc/nikki/profiles"
+YAML_RAW_BASE_URL='https://raw.githubusercontent.com/Seven1echo/Yaml/main'
+YAML_CDN_BASE_URL='https://cdn.jsdelivr.net/gh/Seven1echo/Yaml@main'
+YAML_GEO_FILE='Seven1_fallback_Geo.yaml'
+YAML_RULE_FILE='Seven1_fallback_Rule-Set.yaml'
+YAML_GEO_SMART_FILE='Seven1_fallback_Geo_Smart.yaml'
+YAML_RULE_SMART_FILE='Seven1_fallback_Rule-Set_Smart.yaml'
 
 
 # ============================================================
@@ -342,13 +356,12 @@ install_nikki() {
     echo
     printf '%s  1. Feed（推荐）%s\n' "$C_BLUE" "$C_RESET"
     printf '%s  2. Release %s\n' "$C_BLUE" "$C_RESET"
-    printf '%s  0. 返回%s\n' "$C_BLUE" "$C_RESET"
     echo
 
 
     while true; do
 
-        printf '%s请选择安装方式 [0-2]: %s' "$C_BOLD$C_GREEN" "$C_RESET"
+        printf '%s请选择安装方式 [1-2]（直接回车返回上一级）：%s' "$C_BOLD$C_GREEN" "$C_RESET"
 
         read -r INSTALL_METHOD
 
@@ -371,7 +384,7 @@ install_nikki() {
                 ;;
 
 
-            0)
+            '')
 
                 return 0
                 ;;
@@ -566,7 +579,7 @@ uninstall_nikki() {
     echo
 
 
-    printf "确认卸载？输入 y/Y 继续: "
+    printf "确认卸载？输入 y/Y 继续，直接回车返回上一级: "
 
     read -r CONFIRM
 
@@ -2585,11 +2598,11 @@ download_with_fallbacks() {
 	done
 
 	while true; do
-		printf '\n输入要使用的链接编号 [1-%s]，输入 0 取消：' "$_fallback_count"
+		printf '\n输入要使用的链接编号 [1-%s]，直接回车取消并返回上一级：' "$_fallback_count"
 		read -r _fallback_choice
 		case "$_fallback_choice" in
-			0) return 1 ;;
-			''|*[!0-9]*) printf '%s请输入有效编号。%s\n' "$C_RED" "$C_RESET"; continue ;;
+			'') return 1 ;;
+			*[!0-9]*) printf '%s请输入有效编号，或直接回车返回。%s\n' "$C_RED" "$C_RESET"; continue ;;
 		esac
 		if [ "$_fallback_choice" -lt 1 ] || [ "$_fallback_choice" -gt "$_fallback_count" ]; then
 			printf '%s编号超出范围。%s\n' "$C_RED" "$C_RESET"
@@ -2632,6 +2645,313 @@ run_nikki_script() {
 }
 
 valid_nonempty() { [ -s "$1" ]; }
+
+# Nikki profile management. Reuses this script's download helpers and temp area.
+yaml_quote() {
+	_yaml_quote_value=$(printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/\\t/g')
+	printf '"%s"' "$_yaml_quote_value"
+}
+
+yaml_download_template() {
+	printf '%s请选择要下载的配置模板：%s\n' "$C_CYAN" "$C_RESET"
+	printf '%s  1) 常规核心：%s%s\n' "$C_BLUE" "$YAML_GEO_FILE" "$C_RESET"
+	printf '%s  2) 常规核心：%s%s\n' "$C_BLUE" "$YAML_RULE_FILE" "$C_RESET"
+	printf '%s  3) Smart核心：%s%s\n' "$C_BLUE" "$YAML_GEO_SMART_FILE" "$C_RESET"
+	printf '%s  4) Smart核心：%s%s\n' "$C_BLUE" "$YAML_RULE_SMART_FILE" "$C_RESET"
+	while true; do
+		printf '%s请输入编号 [1-4]（直接回车返回上一级）：%s' "$C_BOLD$C_GREEN" "$C_RESET"
+		read -r yaml_template_choice
+		case "$yaml_template_choice" in
+			1) YAML_TEMPLATE=$YAML_GEO_FILE; YAML_REMOTE_PATH=$YAML_TEMPLATE; break ;;
+			2) YAML_TEMPLATE=$YAML_RULE_FILE; YAML_REMOTE_PATH=$YAML_TEMPLATE; break ;;
+			3) YAML_TEMPLATE=$YAML_GEO_SMART_FILE; YAML_REMOTE_PATH="smart/$YAML_TEMPLATE"; break ;;
+			4) YAML_TEMPLATE=$YAML_RULE_SMART_FILE; YAML_REMOTE_PATH="smart/$YAML_TEMPLATE"; break ;;
+			'') return 0 ;;
+			*) printf '%s无效选择，请输入 1-4，或直接回车返回。%s\n' "$C_RED" "$C_RESET" ;;
+		esac
+	done
+
+	YAML_SOURCE="$YAML_WORK_DIR/$YAML_TEMPLATE"
+	YAML_URLS="$YAML_RAW_BASE_URL/$YAML_REMOTE_PATH
+$YAML_CDN_BASE_URL/$YAML_REMOTE_PATH"
+	if ! download_with_fallbacks "Nikki 配置模板 $YAML_TEMPLATE" "$YAML_SOURCE" "$YAML_URLS" valid_nonempty; then
+		return 1
+	fi
+
+	YAML_PROVIDERS="$YAML_WORK_DIR/providers"
+	YAML_NAMES="$YAML_WORK_DIR/provider_names"
+	: > "$YAML_PROVIDERS"
+	: > "$YAML_NAMES"
+	YAML_PROVIDER_COUNT=0
+	YAML_EXIT_ADD=0
+	while true; do
+		printf '请输入机场名：'
+		read -r YAML_AIRPORT
+		if [ -z "$YAML_AIRPORT" ]; then
+			printf '%s机场名不能为空。%s\n' "$C_RED" "$C_RESET"
+			continue
+		fi
+		if grep -F -x -q -- "$YAML_AIRPORT" "$YAML_NAMES"; then
+			printf '%s机场名重复，请输入一个未使用的名称。%s\n' "$C_RED" "$C_RESET"
+			continue
+		fi
+		printf '请输入订阅链接（http/https）：'
+		read -r YAML_SUBSCRIPTION_URL
+		case "$YAML_SUBSCRIPTION_URL" in
+			https://*|http://*) ;;
+			*) printf '%s订阅链接必须以 http:// 或 https:// 开头。%s\n' "$C_RED" "$C_RESET"; continue ;;
+		esac
+		printf '请输入节点前缀（可选，留空则不添加）：'
+		read -r YAML_NODE_PREFIX
+		YAML_QUOTED_AIRPORT=$(yaml_quote "$YAML_AIRPORT")
+		YAML_QUOTED_URL=$(yaml_quote "$YAML_SUBSCRIPTION_URL")
+		if [ -n "$YAML_NODE_PREFIX" ]; then
+			YAML_QUOTED_PREFIX=$(yaml_quote "[$YAML_NODE_PREFIX] ")
+			printf '  %s: {<<: *Anchor_PR, url: %s, override: {additional-prefix: %s}}\n' \
+				"$YAML_QUOTED_AIRPORT" "$YAML_QUOTED_URL" "$YAML_QUOTED_PREFIX" >> "$YAML_PROVIDERS"
+		else
+			printf '  %s: {<<: *Anchor_PR, url: %s}\n' \
+				"$YAML_QUOTED_AIRPORT" "$YAML_QUOTED_URL" >> "$YAML_PROVIDERS"
+		fi
+		printf '%s\n' "$YAML_AIRPORT" >> "$YAML_NAMES"
+		YAML_PROVIDER_COUNT=$((YAML_PROVIDER_COUNT + 1))
+		while true; do
+			printf '是否继续添加订阅？输入 y/Y 继续，直接回车跳到下一步：'
+			read -r YAML_ADD_MORE
+			case "$YAML_ADD_MORE" in
+				y|Y) break ;;
+				'') YAML_EXIT_ADD=1; break ;;
+				*) printf '请输入 y/Y 继续，或直接回车跳到下一步。\n' ;;
+			esac
+		done
+		[ "$YAML_EXIT_ADD" -eq 1 ] && break
+	done
+
+	YAML_DNS_FILE="$YAML_WORK_DIR/dns"
+	: > "$YAML_DNS_FILE"
+	YAML_DNS_COUNT=0
+	YAML_EXIT_DNS=0
+	printf '请输入 DNS IPv4 地址；直接回车使用推荐地址 114.114.114.114 和 223.5.5.5。\n'
+	while true; do
+		printf 'DNS IPv4：'
+		read -r YAML_DNS
+		if [ -z "$YAML_DNS" ]; then
+			if [ "$YAML_DNS_COUNT" -eq 0 ]; then
+				printf '    - 114.114.114.114\n    - 223.5.5.5\n' > "$YAML_DNS_FILE"
+			else
+				printf '已保留之前输入的 DNS。\n'
+			fi
+			break
+		fi
+		case "$YAML_DNS" in *[!0-9.]*|.*|*.|*..*) printf '格式错误：只能输入数字和点，且须为有效 IPv4。\n'; continue ;; esac
+		YAML_OLD_IFS=$IFS
+		IFS=.
+		set -- $YAML_DNS
+		IFS=$YAML_OLD_IFS
+		YAML_VALID=1
+		[ "$#" -eq 4 ] || YAML_VALID=0
+		if [ "$YAML_VALID" -eq 1 ]; then
+			for YAML_OCTET in "$@"; do
+				[ "${#YAML_OCTET}" -le 3 ] || YAML_VALID=0
+				[ "$YAML_OCTET" -ge 0 ] 2>/dev/null && [ "$YAML_OCTET" -le 255 ] 2>/dev/null || YAML_VALID=0
+			done
+		fi
+		if [ "$YAML_VALID" -ne 1 ]; then printf '格式错误：请输入有效 IPv4 地址，例如 114.114.114.114。\n'; continue; fi
+		printf '    - %s\n' "$YAML_DNS" >> "$YAML_DNS_FILE"
+		YAML_DNS_COUNT=$((YAML_DNS_COUNT + 1))
+		while true; do
+			printf '还要添加一个 DNS？输入 y/Y 继续，直接回车跳到下一步：'
+			read -r YAML_ADD_DNS
+			case "$YAML_ADD_DNS" in
+				y|Y) break ;;
+				'') YAML_EXIT_DNS=1; break ;;
+				*) printf '请输入 y/Y 继续，或直接回车跳到下一步。\n' ;;
+			esac
+		done
+		[ "$YAML_EXIT_DNS" -eq 1 ] && break
+	done
+
+	YAML_OUTPUT="$YAML_WORK_DIR/output.yaml"
+	if ! awk -v providers="$YAML_PROVIDERS" -v dnsfile="$YAML_DNS_FILE" '
+	function emit_file(file, line) { while ((getline line < file) > 0) print line; close(file) }
+	BEGIN { in_providers=0; in_dns=0; providers_done=0; dns_done=0; core_boundary=0; strategy_boundary=0 }
+	{
+		if (in_providers) {
+			if ($0 ~ /核心配置/) { print ""; print ""; print ""; print; in_providers=0; core_boundary=1; next }
+			if ($0 ~ /^[A-Za-z0-9_-]+:/) in_providers=0
+			else next
+		}
+		if (in_dns) {
+			if ($0 ~ /策略分组/) { print ""; print ""; print ""; print; in_dns=0; strategy_boundary=1; next }
+			if ($0 ~ /^  [A-Za-z0-9_-]+:/ || $0 ~ /^[A-Za-z0-9_-]+:/) in_dns=0
+			else next
+		}
+		if ($0 ~ /^proxy-providers:[[:space:]]*$/) { print; emit_file(providers); providers_done=1; in_providers=1; next }
+		if ($0 ~ /^  nameserver:[[:space:]]*(#.*)?$/) { print; emit_file(dnsfile); dns_done=1; in_dns=1; next }
+		print
+	}
+	END { if (!providers_done || !dns_done || !core_boundary || !strategy_boundary) exit 2 }
+	' "$YAML_SOURCE" > "$YAML_OUTPUT"; then
+		printf '%s未找到预期的订阅、DNS 或分隔标题，未保存配置。%s\n' "$C_RED" "$C_RESET" >&2
+		return 1
+	fi
+
+	if ! mkdir -p "$YAML_PROFILES_DIR"; then
+		printf '%s无法创建配置目录：%s%s\n' "$C_RED" "$YAML_PROFILES_DIR" "$C_RESET" >&2
+		return 1
+	fi
+	YAML_DEST="$YAML_PROFILES_DIR/$YAML_TEMPLATE"
+	if [ -e "$YAML_DEST" ]; then
+		while true; do
+			printf '%s 已存在，覆盖吗？输入 y/Y 覆盖，直接回车取消：' "$YAML_DEST"
+			read -r YAML_OVERWRITE
+			case "$YAML_OVERWRITE" in
+				y|Y) break ;;
+				'') printf '已取消，原文件未修改。\n'; return 0 ;;
+				*) printf '请输入 y/Y 覆盖，或直接回车取消。\n' ;;
+			esac
+		done
+	fi
+	if ! cp "$YAML_OUTPUT" "$YAML_DEST.tmp.$$" || ! mv -f "$YAML_DEST.tmp.$$" "$YAML_DEST"; then
+		rm -f "$YAML_DEST.tmp.$$"
+		printf '%s保存配置失败：%s%s\n' "$C_RED" "$YAML_DEST" "$C_RESET" >&2
+		return 1
+	fi
+	printf '%s配置已保存：%s（添加 %s 个订阅）%s\n' "$C_GREEN" "$YAML_DEST" "$YAML_PROVIDER_COUNT" "$C_RESET"
+}
+
+yaml_start_nikki() {
+	YAML_PROFILE_LIST="$YAML_WORK_DIR/profile_files"
+	find "$YAML_PROFILES_DIR" -maxdepth 1 -type f \( -name '*.yaml' -o -name '*.yml' \) -print 2>/dev/null | sort > "$YAML_PROFILE_LIST"
+	if [ ! -s "$YAML_PROFILE_LIST" ]; then
+		printf '%s配置目录中没有 YAML 配置文件。%s\n' "$C_RED" "$C_RESET" >&2
+		return 1
+	fi
+	printf '%sNikki 插件当前可选的配置文件：%s\n' "$C_CYAN" "$C_RESET"
+	YAML_INDEX=0
+	while IFS= read -r YAML_PATH; do
+		YAML_INDEX=$((YAML_INDEX + 1))
+		printf '  %s) %s\n' "$YAML_INDEX" "${YAML_PATH##*/}"
+	done < "$YAML_PROFILE_LIST"
+	while true; do
+		printf '请输入要使用的配置文件编号（直接回车返回上一级）：'
+		read -r YAML_SELECTION
+		case "$YAML_SELECTION" in '') return 0 ;; *[!0-9]*) printf '请输入列表中的数字编号，或直接回车返回。\n'; continue ;; esac
+		if [ "$YAML_SELECTION" -ge 1 ] 2>/dev/null && [ "$YAML_SELECTION" -le "$YAML_INDEX" ] 2>/dev/null; then break; fi
+		printf '编号超出范围，请重试。\n'
+	done
+	YAML_SELECTED_FILE=$(sed -n "${YAML_SELECTION}p" "$YAML_PROFILE_LIST")
+	YAML_SELECTED_NAME=${YAML_SELECTED_FILE##*/}
+	while true; do
+		printf '启用并启动 Nikki？直接回车启动，输入 n/N 返回上一级：'
+		read -r YAML_START_CHOICE
+		case "$YAML_START_CHOICE" in
+			'') YAML_ENABLED=1; break ;;
+			n|N) printf '已取消启动。\n'; return 0 ;;
+			*) printf '请输入 n/N 返回上一级，或直接回车启动。\n' ;;
+		esac
+	done
+	printf '“仅核心”模式默认启用。\n'
+	uci set "nikki.config.profile=file:$YAML_SELECTED_NAME" || return 1
+	uci set "nikki.config.enabled=$YAML_ENABLED" || return 1
+	uci set 'nikki.config.core_only=1' || return 1
+	uci commit nikki || return 1
+	if "$SERVICE" start; then
+		printf '%sNikki 已启动，当前配置：%s（仅核心）%s\n' "$C_GREEN" "$YAML_SELECTED_NAME" "$C_RESET"
+	else
+		printf '%sNikki 启动失败，请检查 Nikki 日志和配置文件。%s\n' "$C_RED" "$C_RESET" >&2
+		return 1
+	fi
+}
+
+yaml_stop_nikki() {
+	while true; do
+		printf '确认关闭 Nikki？输入 y/Y 确认，直接回车返回上一级：'
+		read -r YAML_STOP_CHOICE
+		case "$YAML_STOP_CHOICE" in
+			y|Y) break ;;
+			'') printf '已取消关闭。\n'; return 0 ;;
+			*) printf '请输入 y/Y 确认，或直接回车返回上一级。\n' ;;
+		esac
+	done
+	uci set 'nikki.config.enabled=0' || return 1
+	uci commit nikki || return 1
+	if "$SERVICE" stop; then
+		printf '%sNikki 已关闭，并已设为禁用。%s\n' "$C_GREEN" "$C_RESET"
+	else
+		printf '%s已设为禁用，但停止服务命令失败；请检查 Nikki 状态。%s\n' "$C_RED" "$C_RESET" >&2
+		return 1
+	fi
+}
+
+yaml_view_profiles() {
+	YAML_PROFILE_LIST="$YAML_WORK_DIR/view_profile_list"
+	find "$YAML_PROFILES_DIR" -maxdepth 1 -type f \( -name '*.yaml' -o -name '*.yml' \) -print 2>/dev/null | sort > "$YAML_PROFILE_LIST"
+	if [ ! -s "$YAML_PROFILE_LIST" ]; then
+		printf '%s配置目录中没有 YAML 配置文件。%s\n' "$C_RED" "$C_RESET" >&2
+		return 1
+	fi
+	printf '%s当前已有配置文件：%s\n' "$C_CYAN" "$C_RESET"
+	YAML_INDEX=0
+	while IFS= read -r YAML_PATH; do
+		YAML_INDEX=$((YAML_INDEX + 1))
+		printf '  %s) %s\n' "$YAML_INDEX" "${YAML_PATH##*/}"
+	done < "$YAML_PROFILE_LIST"
+	while true; do
+		printf '请输入要删除的配置编号（直接回车返回上一级）：'
+		read -r YAML_SELECTION
+		case "$YAML_SELECTION" in '') return 0 ;; esac
+		case "$YAML_SELECTION" in *[!0-9]*) printf '请输入列表中的数字编号。\n'; continue ;; esac
+		if [ "$YAML_SELECTION" -ge 1 ] 2>/dev/null && [ "$YAML_SELECTION" -le "$YAML_INDEX" ] 2>/dev/null; then break; fi
+		printf '编号超出范围，请重试。\n'
+	done
+	YAML_SELECTED_FILE=$(sed -n "${YAML_SELECTION}p" "$YAML_PROFILE_LIST")
+	YAML_SELECTED_NAME=${YAML_SELECTED_FILE##*/}
+	while true; do
+		printf '确定删除 %s？输入 y/Y 确认，直接回车返回上一级：' "$YAML_SELECTED_NAME"
+		read -r YAML_CONFIRM
+		case "$YAML_CONFIRM" in
+			y|Y) break ;;
+			'') printf '已取消删除。\n'; return 0 ;;
+			*) printf '请输入 y/Y 确认，或直接回车返回上一级。\n' ;;
+		esac
+	done
+	if rm -f "$YAML_SELECTED_FILE"; then
+		printf '%s已删除配置：%s%s\n' "$C_GREEN" "$YAML_SELECTED_NAME" "$C_RESET"
+	else
+		printf '%s删除失败：%s%s\n' "$C_RED" "$YAML_SELECTED_NAME" "$C_RESET" >&2
+		return 1
+	fi
+}
+
+profile_management_menu() {
+	if ! command -v uci >/dev/null 2>&1 || [ ! -x "$SERVICE" ]; then
+		printf '%s未找到 Nikki 插件（需要 uci 和 %s）。%s\n' "$C_RED" "$SERVICE" "$C_RESET" >&2
+		return 1
+	fi
+	YAML_WORK_DIR="$TMP_DIR/yaml-profile-$$"
+	(umask 077; mkdir -p "$YAML_WORK_DIR") || { printf '无法创建临时目录。\n' >&2; return 1; }
+	while true; do
+		echo
+		printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
+		printf '%s          Nikki 配置管理%s\n' "$C_BOLD$C_CYAN" "$C_RESET"
+		printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
+		printf '%s  1. 下载模板%s\n' "$C_BLUE" "$C_RESET"
+		printf '%s  2. 启动 Nikki%s\n' "$C_BLUE" "$C_RESET"
+		printf '%s  3. 关闭 Nikki%s\n' "$C_BLUE" "$C_RESET"
+		printf '%s  4. 查看配置%s\n' "$C_BLUE" "$C_RESET"
+		printf '%s请选择操作 [1-4]（直接回车返回上一级）：%s' "$C_BOLD$C_GREEN" "$C_RESET"
+		read -r YAML_MENU_CHOICE
+		case "$YAML_MENU_CHOICE" in
+			1) yaml_download_template ;;
+			2) yaml_start_nikki ;;
+			3) yaml_stop_nikki ;;
+			4) yaml_view_profiles ;;
+			'') rm -rf "$YAML_WORK_DIR"; return 0 ;;
+			*) printf '%s无效选择，请输入 1-4，或直接回车返回上一级。%s\n' "$C_RED" "$C_RESET" ;;
+		esac
+	done
+}
 
 extract_zip() {
 	_zip_archive=$1
@@ -2693,8 +3013,7 @@ core_menu() {
         printf '%s  1. 更新核心 MetaCubeX Alpha%s\n' "$C_BLUE" "$C_RESET"
         printf '%s  2. 更新核心 MetaCubeX Stable%s\n' "$C_BLUE" "$C_RESET"
         printf '%s  3. 更新核心 Vernesong Smart%s\n' "$C_BLUE" "$C_RESET"
-        printf '%s  0. 返回主菜单%s\n' "$C_BLUE" "$C_RESET"
-        printf '%s请选择操作 [0, 1-3]: %s' "$C_BOLD$C_GREEN" "$C_RESET"
+        printf '%s请选择操作 [1-3]（直接回车返回上一级）：%s' "$C_BOLD$C_GREEN" "$C_RESET"
         read -r CORE_CHOICE
         case "$CORE_CHOICE" in
             1)
@@ -2712,8 +3031,8 @@ core_menu() {
                 CORE_NAME="Vernesong Smart"
                 update_core
                 ;;
-            0) return 0 ;;
-            *) printf '%s无效选择，请输入 0、1、2 或 3%s\n' "$C_RED" "$C_RESET" ;;
+            '') return 0 ;;
+            *) printf '%s无效选择，请输入 1、2 或 3，或直接回车返回上一级%s\n' "$C_RED" "$C_RESET" ;;
         esac
     done
 }
@@ -2726,14 +3045,13 @@ geo_menu() {
         printf '%s========================================%s\n' "$C_CYAN" "$C_RESET"
         printf '%s  1. 下载 GeoSite 数据库%s\n' "$C_BLUE" "$C_RESET"
         printf '%s  2. 下载 GeoIP   数据库%s\n' "$C_BLUE" "$C_RESET"
-        printf '%s  0. 返回主菜单%s\n' "$C_BLUE" "$C_RESET"
-        printf '%s请选择操作 [0-2]: %s' "$C_BOLD$C_GREEN" "$C_RESET"
+        printf '%s请选择操作 [1-2]（直接回车返回上一级）：%s' "$C_BOLD$C_GREEN" "$C_RESET"
         read -r GEO_CHOICE
         case "$GEO_CHOICE" in
             1) download_with_fallbacks 'GeoSite 数据库' "$RUN_DIR/GeoSite.dat" "$GEOSITE_URLS" valid_nonempty ;;
             2) download_with_fallbacks 'GeoIP   数据库' "$RUN_DIR/GeoIP.dat" "$GEOIP_URLS" valid_nonempty ;;
-            0) return 0 ;;
-            *) printf '%s无效选择，请输入 0、1 或 2%s\n' "$C_RED" "$C_RESET" ;;
+            '') return 0 ;;
+            *) printf '%s无效选择，请输入 1 或 2，或直接回车返回上一级%s\n' "$C_RED" "$C_RESET" ;;
         esac
     done
 }
@@ -2749,8 +3067,9 @@ main_menu() {
         printf '%s  3. 更新核心 Mihomo%s\n' "$C_BLUE" "$C_RESET"
         printf '%s  4. 安装面板 Zashboard%s\n' "$C_BLUE" "$C_RESET"
         printf '%s  5. 下载规则 Geo数据库%s\n' "$C_BLUE" "$C_RESET"
+        printf '%s  6. 运行插件 管理配置%s\n' "$C_BLUE" "$C_RESET"
         printf '%s  0. 退出%s\n' "$C_BLUE" "$C_RESET"
-        printf '%s请选择操作 [0-5]: %s' "$C_BOLD$C_GREEN" "$C_RESET"
+        printf '%s请选择操作 [0-6]: %s' "$C_BOLD$C_GREEN" "$C_RESET"
         read -r MENU_CHOICE
         case "$MENU_CHOICE" in
             1) install_nikki ;;
@@ -2758,8 +3077,9 @@ main_menu() {
             3) core_menu ;;
             4) download_ui ;;
             5) geo_menu ;;
+            6) profile_management_menu ;;
             0) printf '%s已退出%s\n' "$C_YELLOW" "$C_RESET"; exit 0 ;;
-            *) printf '%s无效选择，请输入 0-5%s\n' "$C_RED" "$C_RESET" ;;
+            *) printf '%s无效选择，请输入 0-6%s\n' "$C_RED" "$C_RESET" ;;
         esac
     done
 }
